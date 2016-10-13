@@ -10,4 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "private/builtins.h"
 
+void	builtin_unsetenv(int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		ft_printf("Too few arguments\n");
+		return ;
+	}
+	delete_var(argv[1]);
+}

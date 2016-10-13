@@ -18,14 +18,13 @@ OBJS       = ft_atoi.o        ft_bzero.o      ft_isalnum.o      ft_isalpha.o   \
              ft_itoa_base.o   ft_isblank.o    ft_chrrep.o       ft_strrev.o    \
              ft_putnbr_base.o ft_printmem.o   ft_nbrlen.o       ft_realloc.o   \
              ft_abs.o         ft_strndup.o    ft_itoa_base64.o  ft_strlowcase.o\
-             ft_strcmpcase.o  ft_seekstr.o    ft_expect.o       ft_wstrlen.o   \
+             ft_strcmpcase.o  ft_seekstr.o    ft_expect.o       ft_lstdup.o    \
              ft_uitoa64.o     ft_uitoa_base.o ft_uitoa_base64.o ft_itoa64.o    \
-             ft_arraycount.o  ft_memdup.o     ft_parseint.o     ft_lstlen.o    \
+             ft_arraylen.o    ft_memdup.o     ft_parseint.o     ft_lstlen.o    \
              ft_isascii.o     ft_lstdel.o     ft_memalloc.o     ft_memdel.o    \
              ft_putendl.o     ft_putstr_fd.o  ft_strcpy.o       ft_striteri.o  \
              ft_strmapi.o     ft_strnew.o     ft_strsub.o       ft_max.o       \
-             ft_rot13.o       ft_arraydel.o   ft_strupcase.o    ft_uitoa.o     \
-             ft_arrayfind.o   ft_lstdup.o
+             ft_rot13.o       ft_arraydel.o   ft_strupcase.o    ft_uitoa.o
 OBJSDIR    = objs
 INCLUDE    = include
 

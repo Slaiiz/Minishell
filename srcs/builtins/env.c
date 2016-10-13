@@ -10,4 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "private/builtins.h"
 
+void	builtin_env(void)
+{
+	const t_entry	*env;
+
+	env = get_vars();
+	while (env != NULL)
+	{
+		ft_printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
+}

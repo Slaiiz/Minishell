@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "private/libft.h"
 
 static char	nextrep(char **str, char c)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <private/libflag.h>
+#include "private/libflag.h"
 
 static int	evaluate_flag(t_flaglist *list, char *arg)
 {
@@ -65,7 +65,7 @@ static int	parse_fast(t_flaglist *list, char *arg)
 	return (FLAG_ERROR_OK);
 }
 
-int			flag_parse(t_flaglist *list, int argc, char **argv)
+int			libflag_parse(t_flaglist *list, int argc, char **argv)
 {
 	int		error;
 	char	*arg;

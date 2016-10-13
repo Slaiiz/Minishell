@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wstrlen.c                                       :+:      :+:    :+:   */
+/*   ft_arraylen.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/03 13:02:07 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/01/03 13:02:07 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/10 18:00:26 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/10 18:00:27 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "private/libft.h"
 
-size_t	ft_wstrlen(const wchar_t *s)
+int	ft_arraylen(void **array)
 {
-	const wchar_t	*tmp;
+	int	len;
 
-	tmp = s;
-	while (*s != L'\0')
-		s += sizeof(wchar_t);
-	return (s - tmp);
+	len = 0;
+	while (*array++ != NULL)
+		++len;
+	return (len);
 }

@@ -20,8 +20,8 @@ static void	handle_signal(int sig)
 
 static int	run_interactive_mode(void)
 {
-	const char	**args;
-	const char	*line;
+	char const	**args;
+	char const	*line;
 	ssize_t		bytes;
 
 	while (1)
@@ -30,6 +30,8 @@ static int	run_interactive_mode(void)
 		bytes = read_input(&line);
 		if (bytes < 1)
 			break ;
+		if (process_input(line))
+			ft_printf("#!fd=2^%s\n", get_error());
 	}
 	if (bytes < 0)
 		return (-1);
@@ -39,16 +41,15 @@ static int	run_interactive_mode(void)
 static int	parse_flags(t_flaglist **out, int argc, char **argv)
 {
 	int	error;
-	int	port;
 
-	if (flag_add(out, 'h', "help", FLAG_TYPE_HOOK, help))
+	if (libflag_add(out, 'h', "help", FLAG_TYPE_HOOK, print_help))
 		return (set_error("memory allocation failed"));
-	error = flag_parse(*out, argc, argv);
+	error = libflag_parse(*out, argc, argv);
 	if (error == FLAG_ERROR_NOMATCH)
 		return (set_error("unrecognized flag"));
 	if (error == FLAG_ERROR_BADSYNTAX)
 		return (set_error("bad flag syntax"));
-	flag_free(out);
+	libflag_free(out);
 	return (0);
 }
 
@@ -59,16 +60,16 @@ static int	setup_session(char **envp)
 
 	if (signal(SIGINT, handle_signal))
 		return (set_error("could not setup signals"));
-	if (set_var("PS1", DEFAULT_PROMPT))
-		return (-1);
 	while (*envp != NULL)
 	{
-		if (ft_expect((const char**)envp, "$*=$*", &key, &value))
+		if (ft_expect((char const**)envp, "$*=$*", &key, &value))
 			return (set_error("malformed key/value pair"));
 		if (set_var(key, value))
 			return (-1);
 		++envp;
 	}
+	if (set_var("PS1", DEFAULT_PROMPT))
+		return (-1);
 	return (0);
 }
 
@@ -86,10 +87,7 @@ int			main(int argc, char **argv, char **envp)
 		ft_printf("#!fd=2^%s\n", get_error());
 		return (EXIT_FAILURE);
 	}
-	if (run_interactive_mode())
-	{
-		ft_printf("#!fd=2^%s\n", get_error());
-		return (EXIT_FAILURE);
-	}
+	run_interactive_mode();
+	ft_printf("Bye!\n");
 	return (EXIT_SUCCESS);
 }

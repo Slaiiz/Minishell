@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arraycount.c                                    :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/20 12:14:00 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/03/20 12:14:02 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/10 18:35:52 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/10 18:35:53 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-int	ft_arraycount(void *a, int bytesize, int len, size_t n)
-{
-	int	i;
-	int	hits;
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/param.h>
+# include "libft.h"
 
-	hits = 0;
-	while (1)
-	{
-		if ((i = ft_arrayfind(a, bytesize, len, n)) != -1)
-			hits++;
-		else
-			break ;
-		a += bytesize * (i + 1);
-		len -= i + 1;
-	}
-	return (hits);
-}
+# include "../error.h"
+# include "../vars.h"
+
+#endif

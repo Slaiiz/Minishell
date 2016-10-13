@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "private/printf.h"
 
 static void	format_argument(t_buffer *in, const char **s, va_list argp)
 {

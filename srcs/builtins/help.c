@@ -10,13 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "private/builtins.h"
 
-#include "builtins.h"
-
-void	help(void)
+void	builtin_help(void)
 {
 	ft_printf("Usage: ./minishell [-h] [--help]\n");
-	exit(EXIT_SUCCESS);
 }

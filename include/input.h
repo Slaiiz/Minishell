@@ -13,7 +13,7 @@
 #ifndef INPUT_H
 # define INPUT_H
 
-int	read_input(const char **out);
-int	process_input(const char *line);
+int	read_input(char const **out);
+int	process_input(char const *line);
 
 #endif

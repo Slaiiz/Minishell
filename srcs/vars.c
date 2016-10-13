@@ -12,86 +12,128 @@
 
 #include "private/vars.h"
 
-static t_list	*g_variables;
+static t_entry	*g_variables;
 
-int		get_var(const char *key, const char **out)
+/*
+** Puts the value of environment variable named *key into address **out.
+** In the event the key does not exists, an empty string is returned.
+**  Returns 0 on success or NONZERO on failure. On failure an error is set.
+*/
+
+int				get_var(char const *key, char const **out)
 {
-	t_list	*ptr;
+	t_entry	*ptr;
 
 	ptr = g_variables;
 	while (ptr != NULL)
 	{
-		if (((t_entry*)ptr->content)->key == key)
+		if (!ft_strcmp(ptr->key, key))
 			break ;
 		ptr = ptr->next;
 	}
 	if (ptr == NULL)
 	{
 		*out = "";
-		return (0);
+		return (-1);
 	}
-	*out = ((t_entry*)ptr->content)->value;
+	*out = ptr->value;
 	return (0);
 }
 
-int		set_var(const char *key, const char *value)
-{
-	t_list	**ptr;
-	t_entry	*new;
-	t_list	*lst;
+/*
+** Sets the environment variable named *key with the argument *value.
+**  Returns 0 on success or NONZERO on failure. On failure an error is set.
+*/
 
+int				set_var(char const *key, char const *value)
+{
+	t_entry	*ptr;
+	t_entry	*new;
+
+	ptr = g_variables;
+	while (ptr != NULL)
+	{
+		if (!ft_strcmp(ptr->key, key))
+		{
+			free(ptr->value);
+			ptr->value = ft_strdup(value);
+			return (0);
+		}
+		ptr = ptr->next;
+	}
 	new = malloc(sizeof(*new));
 	if (new == NULL)
 		return (set_error("memory allocation failed"));
-	new->key = key;
-	new->value = value;
-	lst = ft_lstnew(new, sizeof(*new));
-	if (lst == NULL)
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	if (new->key == NULL || new->value == NULL)
 		return (set_error("memory allocation failed"));
-	ptr = &g_variables;
-	while (*ptr != NULL && ((t_entry*)(*ptr)->content)->key != key)
-		ptr = &(*ptr)->next;
-	if (*ptr != NULL)
-	{
-		((t_entry*)(*ptr)->content)->value = value;
-		free(new);
-		return (0);
-	}
-	lst->next = *ptr;
-	*ptr = lst;
+	new->next = g_variables;
+	g_variables = new;
 	return (0);
 }
 
-int		delete_var(const char *key)
+/*
+** Deletes the environment variable named *key.
+**  Returns 0 on success or NONZERO on failure. On failure an error is set.
+*/
+
+int				delete_var(char const *key)
 {
-	t_list	**curr;
-	t_list	*prev;
-	t_list	*next;
+	t_entry	**prev;
+	t_entry	**curr;
 
 	prev = NULL;
 	curr = &g_variables;
 	while (*curr != NULL)
 	{
-		if (((t_entry*)(*curr)->content)->key == key)
+		if (!ft_strcmp((*curr)->value, key))
 			break ;
-		prev = *curr;
+		prev = curr;
 		curr = &(*curr)->next;
 	}
-	if (curr == NULL)
+	if (*curr == NULL)
 		return (set_error("no such variable"));
-	if (prev != NULL)
-	{
-		next = (*curr)->next;
-		free(prev->next);
-		prev->next = next;
-		return (0);
-	}
+	ft_printf("Deleting...\n");
+	free((*curr)->value);
+	free((*curr)->key);
+	if (*prev != NULL)
+		(*prev)->next = (*curr)->next;
 	free(*curr);
-	*curr = NULL;
+	if (*prev == NULL)
+		*curr = NULL;
 	return (0);
 }
 
-void	free_vars(void)
+/*
+** Returns a pointer to the environment variable list.
+** Direct modification on it is not advised.
+** For that purpose, use the set_var function.
+*/
+
+const t_entry	*get_vars(void)
 {
-	ft_lstdel(&g_variables, NULL);
+	return (g_variables);
+}
+
+/*
+** Frees the entire environment variable list and its contents.
+** Use free_vars whenever you finish execution.
+*/
+
+void			free_vars(void)
+{
+	t_entry	*curr;
+	t_entry	*next;
+
+	curr = g_variables;
+	while (curr != NULL)
+	{
+		next = curr->next;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	g_variables = NULL;
 }

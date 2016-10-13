@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "private/libft.h"
 
 int	ft_arrayfind(void *a, int bytesize, int len, size_t n)
 {

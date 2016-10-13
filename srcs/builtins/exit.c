@@ -10,4 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "private/builtins.h"
 
+void	builtin_exit(void)
+{
+	exit(EXIT_SUCCESS);
+}

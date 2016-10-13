@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "private/printf.h"
 
 static void		prepad_prefix(t_buffer *buf, t_format *in, int skip, char *pre)
 {

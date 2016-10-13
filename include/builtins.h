@@ -13,6 +13,12 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-void	help(void);
+void	builtin_help(void);
+void	builtin_pwd(void);
+void	builtin_env(void);
+void	builtin_setenv(int argc, char **argv);
+void	builtin_unsetenv(int argc, char **argv);
+void	builtin_cd(void);
+void	builtin_exit(void);
 
 #endif

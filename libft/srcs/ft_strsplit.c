@@ -5,57 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 10:21:46 by vchesnea          #+#    #+#             */
-/*   Updated: 2015/11/27 14:55:21 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/10 14:45:30 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/10 14:50:20 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "private/libft.h"
 
-static unsigned int	locatenext(char const **src, char c)
+static void	free_table(char ***table)
 {
-	char const	*tmp;
-	char const	*adr;
+	char	***tmp;
 
-	adr = *src;
-	while (*adr == c)
-		adr++;
-	if (*adr == '\0')
-	{
-		*src = (char const*)NULL;
-		return (0);
-	}
-	tmp = adr;
-	while (*adr != c && *adr != '\0')
-		adr++;
-	*src = adr;
-	return ((unsigned int)(adr - tmp));
+	tmp = table;
+	while (**tmp != NULL)
+		free(*(*tmp++));
+	free(*table);
+	*table = NULL;
 }
 
-char				**ft_strsplit(char const *s, char c)
+static int	next_word(char const **s, char c)
 {
-	unsigned int	index;
-	unsigned int	cells;
-	unsigned int	size;
-	char			**out;
-	char const		*tmp;
+	ssize_t		len;
+	char const	*tmp;
 
-	cells = 0;
-	tmp = s;
-	while (locatenext(&s, c) != 0)
-		cells++;
-	if ((out = malloc((cells + 1) * sizeof(char*))) == NULL)
-		return (NULL);
-	out[cells] = NULL;
-	index = 0;
-	s = tmp;
-	while (cells--)
+	len = 0;
+	while (**s != '\0')
 	{
-		size = locatenext(&s, c);
-		if ((out[index] = malloc(sizeof(char) * (size + 1))) == NULL)
-			return (NULL);
-		ft_memcpy(out[index], s - size, size);
-		out[index++][size] = '\0';
+		if (**s != c)
+		{
+			tmp = *s;
+			while (**s != c)
+			{
+				if (**s == '\0')
+					break ;
+				++*s;
+			}
+			len = *s - tmp;
+			break ;
+		}
+		++*s;
 	}
-	return ((char**)out);
+	return (len);
+}
+
+char		**ft_strsplit(char const *s, char c)
+{
+	char const	*ptr;
+	char		**tmp;
+	char		**new;
+	int			count;
+
+	ptr = s;
+	count = 0;
+	while (next_word(&s, c))
+		++count;
+	new = ft_memalloc(sizeof(*new) * (count + 1));
+	if (new == NULL)
+		return (NULL);
+	tmp = new;
+	while ((count = next_word(&ptr, c)))
+	{
+		*tmp = ft_strsub(ptr - count, 0, count);
+		if (*tmp == NULL)
+		{
+			free_table(&new);
+			return (NULL);
+		}
+		++tmp;
+	}
+	*tmp = NULL;
+	return (new);
 }

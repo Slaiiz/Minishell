@@ -10,4 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "private/builtins.h"
 
+void	builtin_setenv(int argc, char **argv)
+{
+	const t_entry	*env;
+
+	if (argc < 2)
+	{
+		env = get_vars();
+		while (env != NULL)
+		{
+			ft_printf("%s=%s\n", env->key, env->value);
+			env = env->next;
+		}
+		return ;
+	}
+	ft_printf("%s\n%s\n", argv[1], argv[2]);
+	set_var(argv[1], argc < 3 ? "" : argv[2]);
+}

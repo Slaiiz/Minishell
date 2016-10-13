@@ -32,11 +32,12 @@ typedef enum				e_flagtype
 	FLAG_TYPE_HOOK
 }							t_flagtype;
 
-int							flag_add(t_flaglist **out, const char fast,
+int							libflag_add(t_flaglist **out, const char fast,
 							const char *slow, t_flagtype type, void *data);
 
-void						flag_free(t_flaglist **list);
+void						libflag_free(t_flaglist **list);
 
-int							flag_parse(t_flaglist *list, int argc, char **argv);
+int							libflag_parse(t_flaglist *list, int argc,
+							char **argv);
 
 #endif

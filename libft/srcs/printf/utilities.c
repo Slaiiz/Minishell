@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "private/printf.h"
 
 void		get_flags(t_format *out, const char **s)
 {

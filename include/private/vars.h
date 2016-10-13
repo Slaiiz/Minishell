@@ -20,10 +20,14 @@
 
 typedef struct s_entry	t_entry;
 
+/*
+** Structure of an environment variable.
+*/
+
 typedef struct			s_entry
 {
-	const char			*key;
-	const char			*value;
+	char				*key;
+	char				*value;
 	t_entry				*next;
 }						t_entry;
 

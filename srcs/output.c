@@ -12,9 +12,15 @@
 
 #include "private/output.h"
 
+void	print_help(void)
+{
+	ft_printf("Usage: ./minishell [-h] [--help]\n");
+	exit(EXIT_SUCCESS);
+}
+
 void	print_prompt(void)
 {
-	const char	*string;
+	char const	*string;
 
 	if (get_var("PS1", &string))
 	{

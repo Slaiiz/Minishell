@@ -10,14 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "private/libft.h"
 
-void	ft_arraydel(void **array)
+void	ft_arraydel(void ***array)
 {
 	void	**tmp;
 
 	tmp = *array;
-	while (*array != NULL)
-		free(*array++);
+	while (**array != NULL)
+		free(*(*array)++);
+	*array = NULL;
 	free(tmp);
 }

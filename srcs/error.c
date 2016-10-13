@@ -46,7 +46,7 @@ static void		copy_decimal(int *len, int arg)
 ** Returns the last error in the form on a string.
 */
 
-const char		*get_error(void)
+char const		*get_error(void)
 {
 	if (g_error.active == 0)
 		return ("Success");
@@ -58,13 +58,13 @@ const char		*get_error(void)
 ** Sets the error active flag accompanied with a description string.
 */
 
-int				set_error(const char *string, ...)
+int				set_error(char const *string, ...)
 {
 	int			len;
 	va_list		argp;
 
 	va_start(argp, string);
-	ft_strcpy(g_error.buffer, "error: ");
+	ft_strcpy(g_error.buffer, "Error: ");
 	len = ft_strlen(g_error.buffer);
 	while (*string != '\0')
 	{

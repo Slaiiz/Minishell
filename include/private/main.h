@@ -13,13 +13,11 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-# include <errno.h>
-# include <string.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include "libflag.h"
 # include "libft.h"
 
-# include "../builtins.h"
 # include "../constants.h"
 # include "../error.h"
 # include "../input.h"

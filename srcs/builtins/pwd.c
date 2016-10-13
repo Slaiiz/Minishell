@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 16:42:18 by vchesnea          #+#    #+#             */
-/*   Updated: 2015/11/24 17:01:32 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/10 13:21:17 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/10 13:21:18 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/libft.h"
+#include "private/builtins.h"
 
-int	ft_tolower(int c)
+void	builtin_pwd(void)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c | 32);
-	else
-		return (c);
+	char	path[MAXPATHLEN];
+
+	if (getcwd(path, MAXPATHLEN))
+	{
+		ft_printf("#!fd=2^getcwd() failed\n");
+		return ;
+	}
+	ft_printf("%s\n", path);
 }
