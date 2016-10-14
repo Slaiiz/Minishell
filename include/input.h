@@ -14,6 +14,7 @@
 # define INPUT_H
 
 int	read_input(char const **out);
+
 int	process_input(char const *line);
 
 #endif

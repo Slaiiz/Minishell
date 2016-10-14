@@ -58,6 +58,7 @@ static int	setup_session(char **envp)
 	char	*value;
 	char	*key;
 
+	REGISTER_BUILTINS();
 	if (signal(SIGINT, handle_signal))
 		return (set_error("could not setup signals"));
 	while (*envp != NULL)

@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 18:00:11 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/09 18:01:06 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/14 16:56:27 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "private/builtins.h"
 
-static t_builtin	g_builtins[NUMBUILTINS + 1];
-
-static int			register_builtin(char const *name, void(*func)(void))
+void	initialize_builtins(char const *name, void(*func)(void))
 {
 
 }
-
-int					initialize_builtins(void)
-{
-	g_builtins[NUMBUILTINS] = NULL;
-	REGISTER_BUILTINS();
-	return (0);
-}
-
-#endif

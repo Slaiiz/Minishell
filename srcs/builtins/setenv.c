@@ -12,6 +12,13 @@
 
 #include "private/builtins.h"
 
+/*
+** Builtin command : setenv
+** Sets variable argv[1] with value argv[2].
+** If no argument given :
+** Prints the list of environment variables on the standard output.
+*/
+
 void	builtin_setenv(int argc, char **argv)
 {
 	const t_entry	*env;

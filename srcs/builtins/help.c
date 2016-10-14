@@ -12,6 +12,11 @@
 
 #include "private/builtins.h"
 
+/*
+** Builtin command : help
+** Prints shell help on the standard output.
+*/
+
 void	builtin_help(void)
 {
 	ft_printf("Usage: ./minishell [-h] [--help]\n");

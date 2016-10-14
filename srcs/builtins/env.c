@@ -12,6 +12,11 @@
 
 #include "private/builtins.h"
 
+/*
+** Builtin command : env
+** Prints the list of environment variables on the standard output.
+*/
+
 void	builtin_env(void)
 {
 	const t_entry	*env;

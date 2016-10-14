@@ -12,6 +12,11 @@
 
 #include "private/builtins.h"
 
+/*
+** Builtin command : cd
+** Changes the current directory.
+*/
+
 void	builtin_cd(void)
 {
 

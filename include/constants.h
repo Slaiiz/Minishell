@@ -13,6 +13,10 @@
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
+/*
+** Default command line prompt.
+*/
+
 # define DEFAULT_PROMPT "$> "
 
 #endif

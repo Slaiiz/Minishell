@@ -12,6 +12,11 @@
 
 #include "private/builtins.h"
 
+/*
+** Builtin command : exit
+** Terminate the shell session.
+*/
+
 void	builtin_exit(void)
 {
 	exit(EXIT_SUCCESS);

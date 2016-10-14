@@ -14,6 +14,7 @@
 # define OUTPUT_H
 
 void	print_help(void);
+
 void	print_prompt(void);
 
 #endif

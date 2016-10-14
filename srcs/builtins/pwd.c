@@ -12,6 +12,11 @@
 
 #include "private/builtins.h"
 
+/*
+** Builtin command : pwd
+** Prints the working directory on the standard output.
+*/
+
 void	builtin_pwd(void)
 {
 	char	path[MAXPATHLEN];

@@ -5,36 +5,47 @@
 NAME	 = minishell
 GCC	 = gcc
 GCCFLAGS	 = #-Wall -Wextra -Werror
-OBJS	 = main.o error.o input.o output.o vars.o
+OBJS	 = main.o error.o input.o output.o builtins.o vars.o
 BUILTINS	 = cd pwd help env setenv unsetenv exit
 OBJSDIR	 = objs
 INCLUDE	 = include
 LIBFT	 = libft/libft.a
 LIBFLAG	 = libflag/libflag.a
 
+PROLOGUE	 = register_builtin(
+EPILOGUE	 = );
+COMMA	 = ,
+DEFBUILT	:= $(foreach _,$(BUILTINS),$(_)$(COMMA)builtin_$(_))
+DEFBUILT	:= $(addprefix $(PROLOGUE),$(DEFBUILT))
+DEFBUILT	:= $(addsuffix $(EPILOGUE),$(DEFBUILT))
+DEFBUILT	:= REGISTER_BUILTINS="$(DEFBUILT)"
 INCLUDE	:= $(INCLUDE) $(dir $(LIBFT)) $(dir $(LIBFLAG))
-OBJS_	 = $(addprefix $(OBJSDIR)/,$(OBJS))
-BUILTINS_	 = $(addsuffix .o,$(BUILTINS))
-OBJS_	:= $(OBJS_) $(addprefix objs/,$(BUILTINS_))
-INCLUDE_	 = $(addprefix -I,$(INCLUDE))
+DOBJS	 = $(addprefix $(OBJSDIR)/,$(OBJS))
+BUILTINSO	 = $(addsuffix .o,$(BUILTINS))
+DOBJS	:= $(DOBJS) $(addprefix objs/,$(BUILTINSO))
+IINCLUDE	 = $(addprefix -I,$(INCLUDE))
+DEFINES	 = -D$(DEFBUILT) -DNUMBUILTINS=$(words $(BUILTINS))
 .PHONY:	 all mostlyclean clean fclean re help
 VPATH	 = srcs:srcs/builtins
 
 ifneq	 ($(GCCFLAGS),-Wall -Wextra -Werror)
 all:	 $(NAME)
 	 $(warning Compilation flags disabled!)
+	 $(warning $(RBUILTINS))
 else
 all:	 $(NAME)
 
 endif
 
-$(NAME):	 $(OBJS_) $(LIBFT) $(LIBFLAG)
+$(NAME):	 $(DOBJS) $(LIBFT) $(LIBFLAG)
 	 @echo "Linking $@..."
 	 @$(GCC) $(GCCFLAGS) -o$@ $^
 
+$(MAINO)
+
 $(OBJSDIR)/%.o:	 %.c $(LIBFT) $(LIBFLAG) | $(OBJSDIR)
 	 @echo "Compiling $@..."
-	 @$(GCC) $(GCCFLAGS) -o$@ -c $(INCLUDE_) $<
+	 @$(GCC) $(GCCFLAGS) -o$@ -c $(IINCLUDE) $(DEFBUILT) $<
 
 srcs/%.c:
 	 $(error File $@ is missing!)
