@@ -12,7 +12,9 @@
 
 #include "private/builtins.h"
 
-void	initialize_builtins(char const *name, void(*func)(void))
+static t_builtin	g_builtins[NUMBUILTINS];
+
+void				initialize_builtins(void)
 {
 
 }

@@ -13,18 +13,6 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-static t_builtin	g_builtins[NUMBUILTINS + 1];
-
-static int			register_builtin(char const *name, void(*func)(void))
-{
-
-}
-
-int					initialize_builtins(void)
-{
-	g_builtins[NUMBUILTINS] = NULL;
-	REGISTER_BUILTINS();
-	return (0);
-}
+void	initialize_builtins(void);
 
 #endif
