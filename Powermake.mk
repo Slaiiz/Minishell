@@ -20,7 +20,7 @@
 # @brief Sets the compiler to use in producing objects.
 define set-compiler
 $(strip
-$(eval compiler_ = ${1}))
+$(eval compiler_ := ${1}))
 endef
 
 # @name set-compiler-flags
@@ -28,7 +28,7 @@ endef
 # @brief Sets the compiler flags to use in producing objects.
 define set-compiler-flags
 $(strip
-$(eval compiler-flags_ = ${1}))
+$(eval compiler-flags_ := ${1}))
 endef
 
 # @name add-target
@@ -38,7 +38,7 @@ endef
 # will be bound to this target.
 define add-target
 $(strip
-$(eval current-target_ = ${1})
+$(eval current-target_ := ${1})
 $(eval targets_ += ${1}))
 endef
 
@@ -75,7 +75,7 @@ endef
 # be bound to this folder.
 define add-object-folder
 $(strip
-$(eval current-object-folder_ = ${1})
+$(eval current-object-folder_ := ${1})
 $(eval ${current-target_}-object-folders_ += ${1}))
 endef
 
@@ -150,6 +150,8 @@ endef
 # @output token
 # @brief Returns the next token in variable, without popping it off the stack.
 define peek-token
+$(strip
+$(firstword ${${1}}))
 endef
 
 # @name get-token
@@ -157,12 +159,17 @@ endef
 # @output token
 # @brief Returns the next token in variable, popping it off the stack.
 define get-token
+$(strip
+$(firstword ${${1}})
+$(call consume-token,${1}))
 endef
 
 # @name consume-token
 # @input variable
 # @brief Pops the next token in variable off the stack.
-define get-token
+define consume-token
+$(strip
+$(eval ${1} = $(shell echo "${${1}}" | cut -f1 -d" ")))
 endef
 
 # ---------------------------------------------------------------------------- #
