@@ -14,13 +14,13 @@
 
 static void	handle_signal(int sig)
 {
+	sig = 2;
 	ft_printf("\n");
 	print_prompt();
 }
 
-static int	run_interactive_mode(void)
+static int	run_interactive_mode(char **envp)
 {
-	char const	**args;
 	char const	*line;
 	ssize_t		bytes;
 
@@ -30,7 +30,7 @@ static int	run_interactive_mode(void)
 		bytes = read_input(&line);
 		if (bytes < 1)
 			break ;
-		if (process_input(line))
+		if (process_input(line, envp))
 			ft_printf("#!fd=2^%s\n", get_error());
 	}
 	if (bytes < 0)
@@ -88,7 +88,11 @@ int			main(int argc, char **argv, char **envp)
 		ft_printf("#!fd=2^%s\n", get_error());
 		return (EXIT_FAILURE);
 	}
-	run_interactive_mode();
+	if (run_interactive_mode(envp))
+	{
+		ft_printf("#!fd=2^%s\n", get_error());
+		return (EXIT_FAILURE);
+	}
 	ft_printf("Bye!\n");
 	return (EXIT_SUCCESS);
 }

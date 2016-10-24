@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/10 13:21:17 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/10 13:21:18 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/09 17:11:37 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/09 17:11:38 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/builtins.h"
+#include "private/execute.h"
 
 /*
-** Builtin command : pwd
-** Prints the working directory on the standard output.
+** Builtin command : exit
+** Terminate the shell session.
 */
 
-void	builtin_pwd(void)
+void	builtin_exit(int argc, char **argv)
 {
-	char	path[MAXPATHLEN];
+	int	n;
 
-	if (getcwd(path, MAXPATHLEN))
-	{
-		ft_printf("#!fd=2^getcwd() failed\n");
-		return ;
-	}
-	ft_printf("%s\n", path);
+	if (argc > 1)
+		n = ft_atoi(argv[1]);
+	exit(argc < 2 ? EXIT_SUCCESS : n);
 }

@@ -28,22 +28,22 @@ typedef struct			s_entry
 
 /*
 ** Puts the value of environment variable named *key into address **out.
-** In the event the key does not exists, an empty string is returned.
-**  Returns 0 on success or NONZERO on failure. On failure an error is set.
+** In the event the key does not exist, an empty string is returned.
+**  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
 int						get_var(char const *key, char const **out);
 
 /*
 ** Sets the environment variable named *key with the argument *value.
-**  Returns 0 on success or NONZERO on failure. On failure an error is set.
+**  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
 int						set_var(char const *key, char const *value);
 
 /*
 ** Deletes the environment variable named *key.
-**  Returns 0 on success or NONZERO on failure. On failure an error is set.
+**  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
 int						delete_var(char const *key);

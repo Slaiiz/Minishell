@@ -1,74 +1,31 @@
-#                   #
-#    TABSTOP: 16    #
-#                   #
-
 include Powermake.mk
 
-NAME = minishell
-GCC = gcc
-GCCFLAGS = #-Wall -Wextra -Werror
-OBJS = main.o error.o input.o output.o builtins.o vars.o
-BUILTINS = cd pwd help env setenv unsetenv exit
-OBJSDIR = objs
-INCLUDE = include
-LIBFT = libft/libft.a
-LIBFLAG = libflag/libflag.a
+$(call enable-verbose)
 
-INCLUDE += $(dir $(LIBFT)) $(dir $(LIBFLAG))
-DOBJS = $(addprefix $(OBJSDIR)/,$(OBJS))
-BUILTINSO = $(addsuffix .o,$(BUILTINS))
-DOBJS += $(addprefix objs/,$(BUILTINSO))
-IINCLUDE = $(addprefix -I,$(INCLUDE))
-VPATH = srcs:srcs/builtins
+$(call set-compiler,gcc)
+$(call set-compiler-flags,-Wall -Wextra -Werror)
 
-.PHONY: all mostlyclean clean fclean re help
+$(call add-hook,on-add-object-folder-recipe,add-folder)
 
-all: $(NAME)
-	$(info $(DEFBUILT))
+$(call add-target,minishell)
+ $(call add-object-folder,obj/builtins/)
+  $(call add-object,cd.o)
+  $(call add-object,env.o)
+  $(call add-object,exit.o)
+  $(call add-object,help.o)
+  $(call add-object,pwd.o)
+  $(call add-object,setenv.o)
+  $(call add-object,unsetenv.o)
+ $(call add-object-folder,obj/)
+  $(call add-object,execute.o)
+  $(call add-object,error.o)
+  $(call add-object,input.o)
+  $(call add-object,main.o)
+  $(call add-object,output.o)
+  $(call add-object,vars.o)
+ $(call set-source-folder,src/)
+ $(call add-include-folder,include/)
+ $(call add-dependency,libft/libft.a)
+ $(call add-dependency,libflag/libflag.a)
 
-$(NAME): $(DOBJS) $(LIBFT) $(LIBFLAG)
-	@echo "Linking $@..."
-	@$(GCC) $(GCCFLAGS) -o$@ $^
-
-$(OBJSDIR)/%.o: %.c $(LIBFT) $(LIBFLAG) | $(OBJSDIR)
-	@echo "Compiling $@..."
-	@$(GCC) $(GCCFLAGS) -o$@ -c $(IINCLUDE) $<
-
-srcs/%.c:
-	$(error File $@ is missing!)
-
-$(LIBFT):
-	@$(MAKE) -C$(dir $(LIBFT)) all
-
-$(LIBFLAG):
-	@$(MAKE) -C$(dir $(LIBFLAG)) all
-
-$(OBJSDIR):
-	@echo "Creating directory $@..."
-	@mkdir -p $@
-
-mostlyclean:
-	@echo "Deleting objects..."
-	@rm -rf $(OBJSDIR)
-	@make -C$(dir $(LIBFT)) clean
-	@make -C$(dir $(LIBFLAG)) clean
-
-clean: mostlyclean
-	@echo "Deleting libraries..."
-	@make -C$(dir $(LIBFT)) fclean
-	@make -C$(dir $(LIBFLAG)) fclean
-
-fclean: clean
-	@echo "Deleting $(NAME)..."
-	@rm -f $(NAME)
-
-re:	fclean
-	@$(MAKE) all
-
-help:
-	@echo "all"
-	@echo "mostlyclean"
-	@echo "clean"
-	@echo "fclean"
-	@echo "re"
-	@echo "help"
+$(call run-powermake)

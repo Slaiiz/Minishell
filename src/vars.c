@@ -45,7 +45,7 @@ int				get_var(char const *key, char const **out)
 **  Returns 0 on success or NONZERO on failure. On failure an error is set.
 */
 
-int				set_var(char const *key, char const *value)
+int				set_var(char *key, char *value)
 {
 	t_entry	*ptr;
 	t_entry	*new;
@@ -56,7 +56,7 @@ int				set_var(char const *key, char const *value)
 		if (!ft_strcmp(ptr->key, key))
 		{
 			free(ptr->value);
-			ptr->value = ft_strdup(value);
+			ptr->value = value;
 			return (0);
 		}
 		ptr = ptr->next;
@@ -64,10 +64,8 @@ int				set_var(char const *key, char const *value)
 	new = malloc(sizeof(*new));
 	if (new == NULL)
 		return (set_error("memory allocation failed"));
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
-	if (new->key == NULL || new->value == NULL)
-		return (set_error("memory allocation failed"));
+	new->key = key;
+	new->value = value;
 	new->next = g_variables;
 	g_variables = new;
 	return (0);
@@ -87,14 +85,13 @@ int				delete_var(char const *key)
 	curr = &g_variables;
 	while (*curr != NULL)
 	{
-		if (!ft_strcmp((*curr)->value, key))
+		if (!ft_strcmp((*curr)->key, key))
 			break ;
 		prev = curr;
 		curr = &(*curr)->next;
 	}
 	if (*curr == NULL)
 		return (set_error("no such variable"));
-	ft_printf("Deleting...\n");
 	free((*curr)->value);
 	free((*curr)->key);
 	if (*prev != NULL)

@@ -19,13 +19,25 @@
 ################################################################################
 #   The present tool is currently adapted for binary projects but in a near    #
 #           future it will be extended to a more general-purpose tool.         #
+################################################################################
+
+# List of builtin Powermake hooks :
+#
+# * on-run-powermake(void)
+# * on-end-powermake(void)
+# * on-add-target-recipe(target)
+# * on-add-object-folder-recipe(target)
+# * on-add-source-folder-recipe(target)
+# * on-add-dependency-recipe(target)
+# * on-missing-source-file(file)
+
 # ---------------------------------------------------------------------------- #
 #                            MAKEFILE AUTOMATION                               #
 # ---------------------------------------------------------------------------- #
 
 # Function index :
 #
-# void add-dependency(name, path)
+# void add-dependency(name,path)
 # void add-include-folder(path)
 # void add-object(path)
 # void add-object-folder(path)
@@ -34,7 +46,6 @@
 # void run-powermake(void)
 # void set-compiler(string)
 # void set-compiler-flags(string)
-#
 
 # @name set-compiler
 # @input string
@@ -118,13 +129,14 @@ endef
 # called.
 define run-powermake
 $(strip 
+$(call run-hook,on-run-powermake)
 $(eval ifeq (${verbose_},true)
-$$(info $${recipe-all_})
-$$(info $${recipe-mostlyclean_})
-$$(info $${recipe-clean_})
-$$(info $${recipe-fclean_})
-$$(info $${recipe-re_})
-$$(info $${recipe-help_})
+$$(info $$(value recipe-all_))
+$$(info $$(value recipe-mostlyclean_))
+$$(info $$(value recipe-clean_}))
+$$(info $$(value recipe-fclean_))
+$$(info $$(value recipe-re_))
+$$(info $$(value recipe-help_))
 endif)
 $(eval ${recipe-all_})
 $(eval ${recipe-mostlyclean_})
@@ -132,7 +144,8 @@ $(eval ${recipe-clean_})
 $(eval ${recipe-fclean_})
 $(eval ${recipe-re_})
 $(eval ${recipe-help_})
-$(foreach _,${targets_},$(call add-target-recipe_,${_})))
+$(foreach _,${targets_},$(call add-target-recipe_,${_}))
+$(call run-hook,on-end-powermake))
 endef
 
 # ---------------------------------------------------------------------------- #
@@ -144,7 +157,6 @@ endef
 # void debug-var(variable)
 # void disable-verbose(void)
 # void enable-verbose(void)
-#
 
 # @name debug-var
 # @input variable
@@ -177,7 +189,6 @@ endef
 # void consume-token(variable)
 # token get-token(variable)
 # token peek-token(variable)
-#
 
 # @name peek-token
 # @input variable
@@ -191,7 +202,7 @@ endef
 # @name get-token
 # @input variable
 # @output token
-# @brief Returns the next token in variable, popping it off the stack.
+# @brief Returns the next token in variable, consuming it in the process.
 define get-token
 $(strip 
 $(firstword ${${1}})
@@ -203,7 +214,7 @@ endef
 # @brief Pops the next token in variable off the stack.
 define consume-token
 $(strip 
-$(eval ${1} := $(shell echo "${${1}} " | cut -f2- -d" ")))
+$(eval ${1} := $(shell echo "${${1}} " | cut -f 2- -d " ")))
 endef
 
 # ---------------------------------------------------------------------------- #
@@ -219,12 +230,11 @@ endef
 # void increment-var(variable)
 # void multiply-var(variable,value)
 # void subtract-var(variable,value)
-#
 
 # @name assign-var
 # @input variable
-# @input value
-# @brief Assigns value to a numeric variable.
+# @input expression
+# @brief Assigns expression to a numeric variable.
 define assign-var
 $(strip 
 $(eval ${1} := $(shell expr ${2})))
@@ -283,13 +293,14 @@ $(eval ${1} := $(shell expr ${${1}} \/ ${2})))
 endef
 
 # ---------------------------------------------------------------------------- #
-#                                MISCELLANEOUS                                 #
+#                            PROGRAM EXECUTION FLOW                            #
 # ---------------------------------------------------------------------------- #
 
 # Function index :
 #
 # void repeat(count,string)
-#
+# void until(boolean,string)
+# void while(boolean,string)
 
 # @name repeat
 # @input count
@@ -299,8 +310,63 @@ define repeat
 $(strip 
 $(eval ifneq (${1},0)
 ${2}$$(call assign-var,0a_,${1} \- 1)
-$$(call repeat,${0a_},${2})
+$$(call repeat,$${0a_},$${2})
 endif))
+endef
+
+# @name while
+# @input boolean
+# @input string
+# @brief Evaluates string as long as boolean is not 'false'.
+# 'false' is interpreted as either 0, false or empty string. boolean should
+# always be a reference to something unless you're into infinite loops.
+define while
+$(strip 
+$(eval 0a_ := $$(subst 0,,${1})
+0a_ := $$(subst false,,$${0a_})
+ifneq ($${0a_},)
+${2}$$(call while,$${1},$${2})
+endif))
+endef
+
+# @name until
+# @input boolean
+# @input string
+# @brief Evaluates string as long as boolean is not 'true'.
+# 'true' is interpreted as non-zero, non-false and non-empty combined.
+# boolean should always be a reference to something unless you're into
+# infinite loops.
+define until
+$(strip 
+$(eval 0a_ := $(subst 0,,${1})
+0a_ := $$(subst false,,$${0a_})
+ifeq ($${0a_},)
+${2}$$(call until,$${1},$${2})
+endif))
+endef
+
+# ---------------------------------------------------------------------------- #
+#                       HOOK MANAGEMENT / EVENT HANDLING                       #
+# ---------------------------------------------------------------------------- #
+
+# @name add-hook
+# @input hook
+# @input function
+# @brief Binds function to hook. On call, contextual data can be retrieved
+# from the first argument ${1}.
+define add-hook
+$(strip 
+$(eval hooks_${1} += ${2}))
+endef
+
+# @name run-hook
+# @input hook
+# @input data
+# @brief Evaluates all functions bound to hook. Data may be passed into
+# the first argument of the functions involved.
+define run-hook
+$(strip 
+$(foreach _,${hooks_${1}},$(call ${_},${2})))
 endef
 
 # ---------------------------------------------------------------------------- #
@@ -310,7 +376,7 @@ endef
 define add-target-recipe_
 $(strip 
 $(eval ifeq (${verbose_},true)
-$$(info $${recipe-target_})
+$$(info $$(value recipe-target_))
 endif)
 $(eval ${recipe-target_})
 $(call add-object-folder-recipes_,${1})
@@ -321,7 +387,7 @@ endef
 define add-object-folder-recipes_
 $(strip 
 $(eval ifeq (${verbose_},true)
-$$(foreach _,${${1}-object-folders_},$$(info $${recipe-object-folder_}))
+$$(foreach _,${${1}-object-folders_},$$(info $$(value recipe-object-folder_)))
 endif)
 $(foreach _,${${1}-object-folders_},$(eval ${recipe-object-folder_})))
 endef
@@ -329,7 +395,7 @@ endef
 define add-source-folder-recipe_
 $(strip 
 $(eval ifeq (${verbose_},true)
-$$(info $${recipe-source-folder_})
+$$(info $$(value recipe-source-folder_))
 endif)
 $(eval ${recipe-source-folder_}))
 endef
@@ -337,7 +403,7 @@ endef
 define add-dependencies-recipes_
 $(strip 
 $(eval ifeq (${verbose_},true)
-$$(foreach _,${${1}-dependencies_},$$(info $${recipe-dependencies_}))
+$$(foreach _,${${1}-dependencies_},$$(info $$(value recipe-dependencies_)))
 endif)
 $(foreach _,${${1}-dependencies_},$(eval ${recipe-dependencies_})))
 endef
@@ -354,15 +420,15 @@ define recipe-mostlyclean_
 mostlyclean:
 $(eval 0a_ := $(foreach _,${targets_},${${_}-objects_}))
 ifneq (${0a_},)
-	rm -f ${0a_}
+	+rm -f ${0a_}
 endif
 $(eval 0a_ := $(foreach _,${targets_},${${_}-object-folders_}))
 ifneq (${0a_},)
-	rm -rf ${0b_}
+	+rm -rf ${0a_}
 endif
 $(eval 0a_ := $(foreach _,${targets_},${${_}-dependencies_}))
 $(foreach _,${0a_},
-	$$(MAKE) -C $(dir ${_}) mostlyclean)
+	+$$(MAKE) -C $(dir ${_}) mostlyclean)
 endef
 
 define recipe-clean_
@@ -370,7 +436,7 @@ $(eval 0a_ := $(foreach _,${targets_},${${_}-dependencies_}))
 clean: mostlyclean
 ifneq (${0a_},)
 $(foreach _,${0a_},
-	$$(MAKE) -C $(dir ${_}) fclean)
+	+$$(MAKE) -C $(dir ${_}) fclean)
 endif
 endef
 
@@ -388,34 +454,59 @@ endef
 
 define recipe-help_
 help:
-	@echo "Powermake commands :"
-	@echo "  all"
-	@echo "  mostlyclean"
-	@echo "  clean"
-	@echo "  fclean"
-	@echo "  re"
-	@echo "  help"
+	@echo "* all"
+	@echo "* mostlyclean"
+	@echo "* clean"
+	@echo "* fclean"
+	@echo "* re"
+	@echo "* help"
 endef
 
 define recipe-target_
+$(call run-hook,on-add-target-recipe,${1})
 ${1}: ${${1}-objects_} ${${1}-dependencies_}
-	$(compiler_) $(compiler-flags_) -o$$@ $$^
+	$(compiler_) $(compiler-flags_) -o $$@ $$^
 endef
 
 define recipe-object-folder_
-$(eval 0a_ := $(addprefix -I,${${1}-include-folders_}))
+$(call run-hook,on-add-object-folder-recipe,${_})
+$(eval 0a_ := $(addprefix -I ,${${1}-include-folders_}))
 ${_}%.o: ${${1}-source-folder_}%.c ${${1}-dependencies_} | ${_}
-	$(compiler_) $(compiler-flags_) -o$$@ -c $$< ${0a_}
+	+$(compiler_) $(compiler-flags_) -o $$@ -c $$< ${0a_}
 ${_}:
 	mkdir -p $$@
 endef
 
 define recipe-source-folder_
-${1}%.c:
-	$$(error Powermake : File $$@ not found!)
+$(call run-hook,on-add-source-folder-recipe,${${1}-source-folder_})
+${${1}-source-folder_}%.c:
+	$$(call run-hook,on-missing-source-file,$$@)
+	$$(error Powermake : File $$@ is missing!)
 endef
 
 define recipe-dependencies_
+$(call run-hook,on-add-dependency-recipe,${_})
 ${_}:
 	$$(MAKE) -C $(dir ${_})
+endef
+
+# ---------------------------------------------------------------------------- #
+#                           CHARACTER SUBSTITUTIONS                            #
+# ---------------------------------------------------------------------------- #
+
+# * co : comma
+# * sp : space
+# * nl : newline
+
+define co
+,
+endef
+
+define sp
+ 
+endef
+
+define nl
+
+
 endef

@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   unsetenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 18:00:11 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/09 18:01:06 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/09 17:11:48 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/09 17:11:48 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "private/execute.h"
 
-void	initialize_builtins(void);
+/*
+** Builtin command : unsetenv
+** Deletes variable described by argv[1].
+*/
 
-#endif
+void	builtin_unsetenv(int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		ft_printf("Too few arguments\n");
+		return ;
+	}
+	if (delete_var(argv[1]))
+		ft_printf("%s\n", get_error());
+}

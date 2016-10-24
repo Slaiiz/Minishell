@@ -43,17 +43,23 @@ static int	fill_buffer(t_buff *buffer)
 	return ((int)bytes);
 }
 
+/*
+** Reads standard input for data to be processed.
+** Upon reaching a newline, sends the whole line associated with it.
+**  Returns 0 on success, or NON-ZERO on failure.
+*/
+
 int			read_input(char const **out)
 {
 	static t_buff	buffer;
 	static char		*data;
-	ssize_t			bytes;
+	int				bytes;
 
 	if (data != NULL)
 		free(data);
 	while (1)
 	{
-		if (fill_buffer(&buffer) < 1)
+		if ((bytes = fill_buffer(&buffer) < 1))
 			return (-1);
 		data = ft_strchr(buffer.data, '\n');
 		if (data == NULL)
@@ -64,39 +70,53 @@ int			read_input(char const **out)
 		break ;
 	}
 	data = (char*)*out;
-	return (bytes);
+	return (ft_strlen(data));
 }
 
-int			process_input(char const *line)
-{
-	int		len;
-	char	**args;
+/*
+** Given a line of text. Parses shell syntax out of it, executing commands
+** encoded in it.
+*/
 
-	args = ft_strsplit(line, ' ');
-	if (args == NULL)
+int			process_input(char const *line, char **envp)
+{
+	int		argc;
+	char	**argv;
+
+	argv = ft_strsplit(line, ' ');
+	if (argv == NULL)
 		return (set_error("memory allocation failed"));
-	len = ft_arraylen((void**)args);
-	if (len < 1)
-		return (0);
-	if (!ft_strcmp(args[0], "help"))
-		builtin_help();
-	else if (!ft_strcmp(args[0], "pwd"))
-		builtin_pwd();
-	else if (!ft_strcmp(args[0], "exit"))
-		builtin_exit();
-	else if (!ft_strcmp(args[0], "env"))
-		builtin_env();
-	else if (!ft_strcmp(args[0], "setenv"))
-		builtin_setenv(len, args);
-	else if (!ft_strcmp(args[0], "unsetenv"))
-		builtin_unsetenv(len, args);
-	else
+	argc = ft_arraylen((void**)argv);
+	if (argc > 0)
 	{
-		set_error("command not found");
-		ft_arraydel((void***)&args);
-		return (-1);
+		if (ft_strchr(argv[0], '/'))
+		{
+			if (execute_binary(argc, argv, envp))
+			{
+				ft_arraydel((void***)&argv);
+				return (-1);
+			}
+		}
+		else if (execute_builtin(argc, argv))
+		{
+			ft_arraydel((void***)&argv);
+			return (-1);
+		}
 	}
-	ft_arraydel((void***)&args);
-	ft_printf("args = %p\n", args);
+	ft_arraydel((void***)&argv);
+	return (0);
+}
+
+/*
+** Sets-up the terminal for use in interactive mode.
+*/
+
+int			initialize_input(void)
+{
+	struct termios	attr;
+
+	tcgetattr(0, &attr);
+	attr.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(0, TCSANOW, &attr);
 	return (0);
 }

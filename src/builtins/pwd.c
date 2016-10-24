@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 17:11:31 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/09 17:11:32 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/10 13:21:17 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/10 13:21:18 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/builtins.h"
+#include "private/execute.h"
 
 /*
-** Builtin command : cd
-** Changes the current directory.
+** Builtin command : pwd
+** Prints the working directory on the standard output.
 */
 
-void	builtin_cd(void)
+void	builtin_pwd(int argc, char **argv)
 {
+	char	path[MAXPATHLEN];
 
+	if (getcwd(path, MAXPATHLEN))
+	{
+		ft_printf("#!fd=2^getcwd() failed\n");
+		return ;
+	}
+	ft_printf("%s\n", path);
+	if (argc)
+		++argv;
 }

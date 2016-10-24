@@ -18,10 +18,11 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <string.h>
+# include <termios.h>
 # include <unistd.h>
 # include "libft.h"
 
-# include "../builtins.h"
+# include "../execute.h"
 # include "../error.h"
 
 typedef struct	s_buff
@@ -29,6 +30,7 @@ typedef struct	s_buff
 	char		*data;
 	ssize_t		size;
 	ssize_t		len;
+	ssize_t		pos;
 }				t_buff;
 
 #endif

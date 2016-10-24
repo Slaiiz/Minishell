@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 17:11:37 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/09 17:11:38 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/09 17:11:31 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/09 17:11:32 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/builtins.h"
+#include "private/execute.h"
 
 /*
-** Builtin command : exit
-** Terminate the shell session.
+** Builtin command : cd
+** Changes the current directory.
 */
 
-void	builtin_exit(void)
+void	builtin_cd(int argc, char **argv)
 {
-	exit(EXIT_SUCCESS);
+	if (argc)
+		++argv;
 }

@@ -10,14 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/builtins.h"
+#include "private/execute.h"
 
 /*
 ** Builtin command : help
 ** Prints shell help on the standard output.
 */
 
-void	builtin_help(void)
+void	builtin_help(int argc, char **argv)
 {
+	if (argc)
+		++argv;
 	ft_printf("Usage: ./minishell [-h] [--help]\n");
 }

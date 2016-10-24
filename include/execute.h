@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/14 16:56:27 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/09 18:00:11 by vchesnea          #+#    #+#             */
+/*   Updated: 2016/10/09 18:01:06 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/builtins.h"
+#ifndef EXECUTE_H
+# define EXECUTE_H
 
-static t_builtin	g_builtins[NUMBUILTINS];
+void	initialize_builtins(void);
 
-void				initialize_builtins(void)
-{
+int		execute_builtin(int argc, char **argv);
 
-}
+int		execute_binary(int argc, char **argv, char **envp);
+
+#endif

@@ -52,9 +52,11 @@ $(OBJSDIR)/%.o: srcs/%.c
 	@mkdir -p $(OBJSDIR)
 	@$(GCC) $(GCCFLAGS) -c -o $@ $(addprefix -I,$(INCLUDE)) $<
 
-clean:
+mostlyclean:
 	@echo "Deleting objects..."
 	@rm -rf $(OBJSDIR)
+
+clean: mostlyclean
 
 fclean: clean
 	@echo "Deleting target..."
