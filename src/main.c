@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/04 15:51:25 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/26 11:46:39 by vchesnea         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "private/main.h"
 
@@ -73,6 +73,13 @@ static int	setup_session(char **envp)
 		return (-1);
 	return (0);
 }
+
+/*
+** Program entry point. First parse the command-line flags, then
+** initialize the builtin commands, hook up to the SIGINT signal,
+** retrieve and set-up the inherited environment variables.
+** Finally, enter the main program loop.
+*/
 
 int			main(int argc, char **argv, char **envp)
 {

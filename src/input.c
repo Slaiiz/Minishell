@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/04 16:50:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/26 17:00:26 by vchesnea         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "private/input.h"
 
@@ -91,13 +91,13 @@ int			process_input(char const *line, char **envp)
 	{
 		if (ft_strchr(argv[0], '/'))
 		{
-			if (execute_binary(argc, argv, envp))
+			if (execute_binary(argv, envp))
 			{
 				ft_arraydel((void***)&argv);
 				return (-1);
 			}
 		}
-		else if (execute_builtin(argc, argv))
+		else if (execute_builtin(argc, argv, envp))
 		{
 			ft_arraydel((void***)&argv);
 			return (-1);

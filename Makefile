@@ -5,8 +5,6 @@ $(call enable-verbose)
 $(call set-compiler,gcc)
 $(call set-compiler-flags,-Wall -Wextra -Werror)
 
-$(call add-hook,on-add-object-folder-recipe,add-folder)
-
 $(call add-target,minishell)
  $(call add-object-folder,obj/builtins/)
   $(call add-object,cd.o)

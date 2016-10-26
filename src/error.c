@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:42:16 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/04 16:09:13 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/26 11:43:54 by vchesnea         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "private/error.h"
 
@@ -56,6 +56,7 @@ char const		*get_error(void)
 
 /*
 ** Sets the error active flag accompanied with a description string.
+**  Always returns an error state for convenience.
 */
 
 int				set_error(char const *string, ...)
