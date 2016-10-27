@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   vars.c                                             :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/25 19:08:45 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:06:13 by vchesnea         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "private/vars.h"
 
@@ -22,21 +22,21 @@ static t_entry	*g_variables;
 
 int				get_var(char const *key, char const **out)
 {
-	t_entry	*ptr;
+	t_entry	*curr;
 
-	ptr = g_variables;
-	while (ptr != NULL)
+	curr = g_variables;
+	while (curr != NULL)
 	{
-		if (!ft_strcmp(ptr->key, key))
+		if (!ft_strcmp(curr->key, key))
 			break ;
-		ptr = ptr->next;
+		curr = curr->next;
 	}
-	if (ptr == NULL)
+	if (curr == NULL)
 	{
 		*out = "";
 		return (-1);
 	}
-	*out = ptr->value;
+	*out = curr->value;
 	return (0);
 }
 
@@ -47,26 +47,28 @@ int				get_var(char const *key, char const **out)
 
 int				set_var(char *key, char *value)
 {
-	t_entry	*ptr;
 	t_entry	*new;
+	t_entry	**curr;
 
-	ptr = g_variables;
-	while (ptr != NULL)
+	curr = &g_variables;
+	while (*curr != NULL)
 	{
-		if (!ft_strcmp(ptr->key, key))
+		if (!ft_strcmp((*curr)->key, key))
 		{
-			free(ptr->value);
-			ptr->value = value;
+			free((*curr)->value);
+			(*curr)->value = ft_strdup(value);
 			return (0);
 		}
-		ptr = ptr->next;
+		curr = &(*curr)->next;
 	}
 	new = malloc(sizeof(*new));
 	if (new == NULL)
 		return (set_error("memory allocation failed"));
-	new->key = key;
-	new->value = value;
 	new->next = g_variables;
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	if (new->key == NULL || new->value == NULL)
+		return (set_error("memory allocation failed"));
 	g_variables = new;
 	return (0);
 }
@@ -78,27 +80,23 @@ int				set_var(char *key, char *value)
 
 int				delete_var(char const *key)
 {
-	t_entry	**prev;
 	t_entry	**curr;
+	t_entry	**next;
 
-	prev = NULL;
 	curr = &g_variables;
 	while (*curr != NULL)
 	{
 		if (!ft_strcmp((*curr)->key, key))
 			break ;
-		prev = curr;
 		curr = &(*curr)->next;
 	}
 	if (*curr == NULL)
 		return (set_error("no such variable"));
+	next = &(*curr)->next;
 	free((*curr)->value);
 	free((*curr)->key);
-	if (*prev != NULL)
-		(*prev)->next = (*curr)->next;
 	free(*curr);
-	if (*prev == NULL)
-		*curr = NULL;
+	*curr = *next;
 	return (0);
 }
 
