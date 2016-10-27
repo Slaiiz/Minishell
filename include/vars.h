@@ -6,14 +6,12 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:12 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/08 18:59:55 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:08:58 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VARS_H
 # define VARS_H
-
-typedef struct s_entry	t_entry;
 
 /*
 ** Structure of an environment variable.
@@ -23,7 +21,7 @@ typedef struct			s_entry
 {
 	char const			*key;
 	char const			*value;
-	t_entry				*next;
+	struct s_entry		*next;
 }						t_entry;
 
 /*
@@ -54,7 +52,7 @@ int						delete_var(char const *key);
 ** For that purpose, use the set_var function.
 */
 
-const t_entry			*get_vars(void);
+const struct s_entry	*get_vars(void);
 
 /*
 ** Frees the entire environment variable list and its contents.

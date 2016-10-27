@@ -6,16 +6,14 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/10 18:35:52 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/10 18:35:53 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:16:57 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
-# define DEFINE_BUILTIN(a, b, c)\
-	g_builtins[a].name = b;\
-	g_builtins[a].func = c;
+# define DEFINE_BUILTIN(a, b, c) (a).name = (b); (a).func = (c)
 
 # include <stdlib.h>
 # include <unistd.h>

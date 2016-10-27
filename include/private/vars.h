@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:16 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/08 18:58:17 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:10:28 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 
 # include "../error.h"
 
-typedef struct s_entry	t_entry;
-
 /*
 ** Structure of an environment variable.
 */
@@ -28,7 +26,7 @@ typedef struct			s_entry
 {
 	char				*key;
 	char				*value;
-	t_entry				*next;
+	struct s_entry		*next;
 }						t_entry;
 
 #endif
