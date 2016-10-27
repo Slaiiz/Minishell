@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/26 19:08:33 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:21:45 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,50 @@
 
 static t_builtin	g_builtins[7];
 
-static int			look_for_binary(char *exec)
+static char			*join_path(const char *s1, const char *s2)
 {
-	char	**data;
-	char	*paths;
-	char	*path;
-	int		i;
+	size_t	len;
+	char	*new;
 
-	if (get_var("PATH", &paths))
-		return ;
-	data = ft_strsplit(paths, ' ');
+	len = ft_strlen(s1);
+	if (len && s1[len - 1] == '/')
+		--len;
+	new = malloc(sizeof(*new) * len + ft_strlen(s2) + 2);
+	if (new == NULL)
+		return (NULL);
+	ft_strncpy(new, s1, len);
+	new[len] = '/';
+	ft_strcpy(new + len + 1, s2);
+	return (new);
+}
+
+static int			search_in_path(char *exec, char **out)
+{
+	const char	*path;
+	int			index;
+	char		*join;
+	char		**data;
+
+	get_var("PATH", &path);
+	data = ft_strsplit(path, ':');
 	if (data == NULL)
 		return (set_error("memory allocation failed"));
-	i = 0;
-	while (data[i] != NULL)
+	index = 0;
+	*out = NULL;
+	while (*out == NULL && data[index] != NULL)
 	{
-		path = ft_strjoin(data[i], exec);
-		if (path == NULL)
+		join = join_path(data[index], exec);
+		if (join == NULL)
 			return (set_error("memory allocation failed"));
-		
+		if (!access(join, X_OK))
+			*out = ft_strdup(join);
+		free(join);
+		++index;
 	}
+	ft_arraydel((void***)&data);
+	if (*out == NULL)
+		return (set_error("executable not in path"));
+	return (0);
 }
 
 /*
@@ -43,13 +67,34 @@ static int			look_for_binary(char *exec)
 
 void				initialize_builtins(void)
 {
-	DEFINE_BUILTIN(0, "cd", builtin_cd);
-	DEFINE_BUILTIN(1, "env", builtin_env);
-	DEFINE_BUILTIN(2, "exit", builtin_exit);
-	DEFINE_BUILTIN(3, "help", builtin_help);
-	DEFINE_BUILTIN(4, "pwd", builtin_pwd);
-	DEFINE_BUILTIN(5, "setenv", builtin_setenv);
-	DEFINE_BUILTIN(6, "unsetenv", builtin_unsetenv);
+	DEFINE_BUILTIN(g_builtins[0], "cd", builtin_cd);
+	DEFINE_BUILTIN(g_builtins[1], "env", builtin_env);
+	DEFINE_BUILTIN(g_builtins[2], "exit", builtin_exit);
+	DEFINE_BUILTIN(g_builtins[3], "help", builtin_help);
+	DEFINE_BUILTIN(g_builtins[4], "pwd", builtin_pwd);
+	DEFINE_BUILTIN(g_builtins[5], "setenv", builtin_setenv);
+	DEFINE_BUILTIN(g_builtins[6], "unsetenv", builtin_unsetenv);
+}
+
+/*
+** Forks a new instance of the process dedicated to executing
+** a binary file pointed at by argv[0], then executes it,
+** passing it the argv and envp arguments.
+**  Returns 0 on success, or NON-ZERO on failure.
+*/
+
+int					execute_binary(char **argv, char **envp)
+{
+	if (access(argv[0], X_OK))
+		return (set_error("%s: permission denied", argv[0]));
+	if (fork() == 0)
+	{
+		if (execve(argv[0], argv, envp))
+			return (set_error("%s: could not execute binary", argv[0]));
+	}
+	if (wait(NULL) == -1)
+		return (set_error("failed to wait for child process"));
+	return (0);
 }
 
 /*
@@ -59,42 +104,24 @@ void				initialize_builtins(void)
 
 int					execute_builtin(int argc, char **argv, char **envp)
 {
-	int	i;
+	char	*path;
+	int		index;
 
-	i = 0;
-	while (i < 7)
+	index = 0;
+	while (index < 7)
 	{
-		if (!ft_strcmp(argv[0], g_builtins[i].name))
+		if (!ft_strcmp(argv[0], g_builtins[index].name))
 		{
-			g_builtins[i].func(argc, argv);
+			g_builtins[index].func(argc, argv);
 			return (0);
 		}
-		++i;
+		++index;
 	}
-	if (look_for_binary(argv[0]))
-		return (set_error("command not found"));
+	if (search_in_path(argv[0], &path))
+		return (set_error("%s: command not found", argv[0]));
+	free(argv[0]);
+	argv[0] = path;
 	if (execute_binary(argv, envp))
 		return (-1);
-	return (0);
-}
-
-/*
-** Forks a new instance of the process dedicated to executing
-** a binary file pointed at by argv[0], then executes it,
-** passing it arguments argv and envp.
-**  Returns 0 on success, or NON-ZERO on failure.
-*/
-
-int					execute_binary(char **argv, char **envp)
-{
-	if (access(argv[0], X_OK))
-		return (set_error("permission denied: %s", argv[0]));
-	if (fork() == 0)
-	{
-		if (execve(argv[0], argv, envp))
-			return (set_error("could not execute binary"));
-	}
-	if (wait(NULL) == -1)
-		return (set_error("failed to wait for child process"));
 	return (0);
 }
