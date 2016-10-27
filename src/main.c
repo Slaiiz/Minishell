@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/26 11:46:39 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:24:53 by vchesnea         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "private/main.h"
 
@@ -19,7 +19,7 @@ static void	handle_signal(int sig)
 	print_prompt();
 }
 
-static int	run_interactive_mode(char **envp)
+static int	run_interactive_mode(char *exec, char **envp)
 {
 	char const	*line;
 	ssize_t		bytes;
@@ -31,7 +31,7 @@ static int	run_interactive_mode(char **envp)
 		if (bytes < 1)
 			break ;
 		if (process_input(line, envp))
-			ft_printf("#!fd=2^%s\n", get_error());
+			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
 	}
 	if (bytes < 0)
 		return (-1);
@@ -69,8 +69,8 @@ static int	setup_session(char **envp)
 			return (-1);
 		++envp;
 	}
-	if (set_var("PS1", DEFAULT_PROMPT))
-		return (-1);
+	set_var("TERM", "xterm-256color");
+	set_var("PS1", DEFAULT_PROMPT);
 	return (0);
 }
 
@@ -87,17 +87,17 @@ int			main(int argc, char **argv, char **envp)
 
 	if (parse_flags(&flags, argc, argv))
 	{
-		ft_printf("#!fd=2^%s\n", get_error());
+		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
 	}
 	if (setup_session(envp))
 	{
-		ft_printf("#!fd=2^%s\n", get_error());
+		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
 	}
-	if (run_interactive_mode(envp))
+	if (run_interactive_mode(argv[0], envp))
 	{
-		ft_printf("#!fd=2^%s\n", get_error());
+		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
 	}
 	ft_printf("Bye!\n");
