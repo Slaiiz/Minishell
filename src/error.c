@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:42:16 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/26 11:43:54 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/27 17:23:12 by vchesnea         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "private/error.h"
 
@@ -49,7 +49,7 @@ static void		copy_decimal(int *len, int arg)
 char const		*get_error(void)
 {
 	if (g_error.active == 0)
-		return ("Success");
+		return ("success");
 	g_error.active = 0;
 	return (g_error.buffer);
 }
@@ -59,14 +59,13 @@ char const		*get_error(void)
 **  Always returns an error state for convenience.
 */
 
-int				set_error(char const *string, ...)
+int				set_error(const char *string, ...)
 {
-	int			len;
-	va_list		argp;
+	int		len;
+	va_list	argp;
 
+	len = 0;
 	va_start(argp, string);
-	ft_strcpy(g_error.buffer, "Error: ");
-	len = ft_strlen(g_error.buffer);
 	while (*string != '\0')
 	{
 		if (*string == '%' && ++string)
@@ -83,6 +82,7 @@ int				set_error(char const *string, ...)
 			break ;
 		g_error.buffer[len++] = *string++;
 	}
+	g_error.buffer[len] = '\0';
 	g_error.active = 1;
 	va_end(argp);
 	return (-1);
