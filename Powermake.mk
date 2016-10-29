@@ -70,8 +70,8 @@ endef
 # will be bound to this target.
 define add-target
 $(strip 
-$(eval current-target_ := ${1})
-$(eval targets_ += $(sort ${1})))
+$(eval targets_ += ${1})
+$(eval current-target_ := ${1}))
 endef
 
 # @name add-dependency
@@ -80,8 +80,8 @@ endef
 # whose directory contains a Makefile.
 define add-dependency
 $(strip 
-$(call add-include-folder,$(dir ${1}))
-$(eval ${current-target_}-dependencies_ += $(sort ${1})))
+$(eval ${current-target_}-dependencies_ += ${1})
+$(call add-include-folder,$(dir ${1})))
 endef
 
 # @name add-object
@@ -90,18 +90,17 @@ endef
 # source folders.
 define add-object
 $(strip 
-$(eval 0a_ := ${current-object-folder_}${1})
-$(eval ${current-target_}-objects_ += $(sort ${0a_})))
+$(eval ${current-target_}-${current-object-folder_}-objects_ += ${1}))
 endef
 
-# @name set-source-folder
+# @name add-source-folder
 # @input path
-# @brief Sets a new source folder. This folder is bound to its target and
+# @brief Adds a new source folder. This folder is bound to its object folder and
 # it will fetch its sources from here.
-define set-source-folder
+define add-source-folder
 $(strip 
-$(eval 0a_ := $(subst //,/,${1}/))
-$(eval ${current-target_}-source-folder_ := $(sort ${0a_})))
+$(eval a0_ = $$(subst //,/,$${1}))
+$(eval ${current-target_}-${current-object-folder_}-sources_ := ${a0_}))
 endef
 
 # @name add-object-folder
@@ -110,9 +109,8 @@ endef
 # will be bound to this folder.
 define add-object-folder
 $(strip 
-$(eval 0a_ := $(subst //,/,${1}/))
-$(eval current-object-folder_ := ${0a_})
-$(eval ${current-target_}-object-folders_ += $(sort ${0a_})))
+$(eval ${current-target_}-object-folders_ += $(subst //,/,${1}))
+$(eval current-object-folder_ := ${1}))
 endef
 
 # @name add-include-folder
@@ -120,32 +118,19 @@ endef
 # @brief Adds a new include folder. It is assumed to contain include files.
 define add-include-folder
 $(strip 
-$(eval 0a_ := $(subst //,/,${1}/))
-$(eval ${current-target_}-include-folders_ += $(sort ${0a_})))
+$(eval ${current-target_}-include-folders_ += $(subst //,/,${1})))
 endef
 
-# @name run-powermake
-# @brief Runs all the recipe work. This should be the last function to be
-# called.
 define run-powermake
 $(strip 
-$(call run-hook,on-run-powermake)
-$(eval ifeq (${verbose_},true)
-$$(info $$(value recipe-all_))
-$$(info $$(value recipe-mostlyclean_))
-$$(info $$(value recipe-clean_}))
-$$(info $$(value recipe-fclean_))
-$$(info $$(value recipe-re_))
-$$(info $$(value recipe-help_))
-endif)
-$(eval ${recipe-all_})
-$(eval ${recipe-mostlyclean_})
-$(eval ${recipe-clean_})
-$(eval ${recipe-fclean_})
-$(eval ${recipe-re_})
-$(eval ${recipe-help_})
-$(foreach _,${targets_},$(call add-target-recipe_,${_}))
-$(call run-hook,on-end-powermake))
+$(eval ${all-recipe_})
+$(eval ${mostlyclean-recipe_})
+$(eval ${clean-recipe_})
+$(eval ${fclean-recipe_})
+$(eval ${re-recipe_})
+$(eval ${help-recipe_})
+$(foreach _,${targets_},
+	$(call add-target-recipe,${_})))
 endef
 
 # ---------------------------------------------------------------------------- #
@@ -366,93 +351,97 @@ endef
 # the first argument of the functions involved.
 define run-hook
 $(strip 
-$(foreach _,${hooks_${1}},$(call ${_},${2})))
+$(foreach _,${hooks_${1}},
+	$(call ${_},${2})))
 endef
 
 # ---------------------------------------------------------------------------- #
 #                              PRIVATE FUNCTIONS                               #
 # ---------------------------------------------------------------------------- #
 
-define add-target-recipe_
+# @name add-target-recipe
+# @input target
+# @brief Registers a recipe for target.
+define add-target-recipe
 $(strip 
-$(eval ifeq (${verbose_},true)
-$$(info $$(value recipe-target_))
-endif)
-$(eval ${recipe-target_})
-$(call add-object-folder-recipes_,${1})
-$(call add-source-folder-recipe_,${1})
-$(call add-dependencies-recipes_,${1}))
+$(eval ${target-recipe_})
+$(foreach _,${${1}-object-folders_},
+	$(call add-object-folder-recipe,${1},${_}))
+$(foreach _,${${1}-dependencies_},
+	$(call add-dependency-recipe_,${1},${_})))
 endef
 
-define add-object-folder-recipes_
+# @name add-object-folder-recipe_
+# @input target
+# @input object-folder
+# @brief Registers a recipe from target for object-folder.
+define add-object-folder-recipe
 $(strip 
-$(eval ifeq (${verbose_},true)
-$$(foreach _,${${1}-object-folders_},$$(info $$(value recipe-object-folder_)))
-endif)
-$(foreach _,${${1}-object-folders_},$(eval ${recipe-object-folder_})))
+$(eval ${object-folder-recipe_})
+$(foreach _,${${1}-${2}-objects_},
+	$(call add-object-recipe,${1},${2},${_})))
 endef
 
-define add-source-folder-recipe_
+# @name add-object-recipe
+# @input target
+# @input object-folder
+# @input object
+# @brief Registers a recipe from object-folder from target for object.
+define add-object-recipe
 $(strip 
-$(eval ifeq (${verbose_},true)
-$$(info $$(value recipe-source-folder_))
-endif)
-$(eval ${recipe-source-folder_}))
+$(eval 0a_ := $$(addprefix -I,$${$${1}-include-folders_}))
+$(eval ${object-recipe_}))
 endef
 
-define add-dependencies-recipes_
+# @name add-dependency-recipe_
+# @input target
+# @input dependency
+# @brief Registers a recipe from target for dependency.
+define add-dependency-recipe_
 $(strip 
-$(eval ifeq (${verbose_},true)
-$$(foreach _,${${1}-dependencies_},$$(info $$(value recipe-dependencies_)))
-endif)
-$(foreach _,${${1}-dependencies_},$(eval ${recipe-dependencies_})))
+$(eval ${dependency-recipe_}))
 endef
 
 # ---------------------------------------------------------------------------- #
 #                              POWERMAKE RECIPES                               #
 # ---------------------------------------------------------------------------- #
 
-define recipe-all_
+define all-recipe_
 all: ${targets_}
 endef
 
-define recipe-mostlyclean_
+define mostlyclean-recipe_
+$(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-object-folders_}))
 mostlyclean:
-$(eval 0a_ := $(foreach _,${targets_},${${_}-objects_}))
-ifneq (${0a_},)
-	+rm -f ${0a_}
-endif
-$(eval 0a_ := $(foreach _,${targets_},${${_}-object-folders_}))
-ifneq (${0a_},)
-	+rm -rf ${0a_}
-endif
-$(eval 0a_ := $(foreach _,${targets_},${${_}-dependencies_}))
 $(foreach _,${0a_},
-	+$$(MAKE) -C $(dir ${_}) mostlyclean)
+	+rm -rf ${_})
+$(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))
+$(foreach _,${0a_},
+	$$(MAKE) -C $(dir ${_}) mostlyclean)
 endef
 
-define recipe-clean_
-$(eval 0a_ := $(foreach _,${targets_},${${_}-dependencies_}))
+define clean-recipe_
+$(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))
 clean: mostlyclean
-ifneq (${0a_},)
 $(foreach _,${0a_},
-	+$$(MAKE) -C $(dir ${_}) fclean)
-endif
+	$$(MAKE) -C $(dir ${_}) clean)
 endef
 
-define recipe-fclean_
+define fclean-recipe_
+$(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))
 fclean: clean
-ifneq (${targets_},)
-	rm -f ${targets_}
-endif
+$(foreach _,${targets_},
+	rm -f ${_})
+$(foreach _,${0a_},
+	$$(MAKE) -C $(dir ${_}) fclean)
 endef
 
-define recipe-re_
+define re-recipe_
 re: fclean
 	$$(MAKE) all
 endef
 
-define recipe-help_
+define help-recipe_
 help:
 	@echo "* all"
 	@echo "* mostlyclean"
@@ -462,32 +451,28 @@ help:
 	@echo "* help"
 endef
 
-define recipe-target_
-$(call run-hook,on-add-target-recipe,${1})
-${1}: ${${1}-objects_} ${${1}-dependencies_}
-	$(compiler_) $(compiler-flags_) -o $$@ $$^
+define target-recipe_
+$(eval 0a_ = $$(addprefix $${_},$${$${1}-$${_}-objects_}))
+$(eval 0b_ = $$(foreach _,$${$${1}-object-folders_},$${0a_}))
+${1}: ${0b_} ${${1}-dependencies_}
+	${compiler_} ${compiler-flags_} -o $$@ $$^
 endef
 
-define recipe-object-folder_
-$(call run-hook,on-add-object-folder-recipe,${_})
-$(eval 0a_ := $(addprefix -I ,${${1}-include-folders_}))
-${_}%.o: ${${1}-source-folder_}%.c ${${1}-dependencies_} | ${_}
-	+$(compiler_) $(compiler-flags_) -o $$@ -c $$< ${0a_}
-${_}:
+define object-folder-recipe_
+${2}:
 	mkdir -p $$@
 endef
 
-define recipe-source-folder_
-$(call run-hook,on-add-source-folder-recipe,${${1}-source-folder_})
-${${1}-source-folder_}%.c:
-	$$(call run-hook,on-missing-source-file,$$@)
-	$$(error Powermake : File $$@ is missing!)
+define object-recipe_
+${2}${3}: ${${1}-${2}-sources_}$(3:.o=.c) | ${2}
+	${compiler_} ${compiler-flags_} ${0a_} -o $$@ -c $$<
+${${1}-${2}-sources_}$(3:.o=.c):
+	$$(error File $$@ not found!)
 endef
 
-define recipe-dependencies_
-$(call run-hook,on-add-dependency-recipe,${_})
-${_}:
-	$$(MAKE) -C $(dir ${_})
+define dependency-recipe_
+${2}:
+	$$(MAKE) -C $(dir ${2}) all
 endef
 
 # ---------------------------------------------------------------------------- #
