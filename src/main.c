@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                              ###    ##  ####      */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/29 18:59:29 by vchesnea         ###   ########.fr       */
+/*   Updated: 10/29/2016, 11:26:41 PM by vchesnea          ###  .fr           */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	parse_flags(t_flaglist **out, int argc, char **argv)
 {
 	int	error;
 
+	*out = NULL;
 	if (libflag_add(out, 'h', "help", FLAG_TYPE_HOOK, print_help))
 		return (set_error("memory allocation failed"));
 	error = libflag_parse(*out, argc, argv);
