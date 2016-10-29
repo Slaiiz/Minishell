@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 13:41:13 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:04:33 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/29 19:02:10 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	print_prompt(void)
 
 	if (get_var("PS1", &string))
 	{
-		ft_printf("%s", DEFAULT_PROMPT);
+		ft_printf("%s ", DEFAULT_PROMPT);
 		return ;
 	}
-	ft_printf("%s", string);
+	ft_printf("%s ", string);
 }
