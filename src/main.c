@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:24:53 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/29 18:59:29 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	run_interactive_mode(char *exec, char **envp)
 	{
 		print_prompt();
 		bytes = read_input(&line);
-		if (bytes < 1)
+		if (bytes < 0)
 			break ;
 		if (process_input(line, envp))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
