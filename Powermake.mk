@@ -356,7 +356,7 @@ $(foreach _,${hooks_${1}},
 endef
 
 # ---------------------------------------------------------------------------- #
-#                              PRIVATE FUNCTIONS                               #
+#                         DISCLOSED PRIVATE FUNCTIONS                          #
 # ---------------------------------------------------------------------------- #
 
 # @name add-target-recipe
@@ -368,7 +368,7 @@ $(eval ${target-recipe_})
 $(foreach _,${${1}-object-folders_},
 	$(call add-object-folder-recipe,${1},${_}))
 $(foreach _,${${1}-dependencies_},
-	$(call add-dependency-recipe_,${1},${_})))
+	$(call add-dependency-recipe,${1},${_})))
 endef
 
 # @name add-object-folder-recipe_
@@ -397,7 +397,7 @@ endef
 # @input target
 # @input dependency
 # @brief Registers a recipe from target for dependency.
-define add-dependency-recipe_
+define add-dependency-recipe
 $(strip 
 $(eval ${dependency-recipe_}))
 endef
