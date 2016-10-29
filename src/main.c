@@ -14,9 +14,11 @@
 
 static void	handle_signal(int sig)
 {
-	sig = 2;
-	ft_printf("\n");
-	print_prompt();
+	if (sig == SIGINT)
+	{
+		ft_printf("\n");
+		print_prompt();
+	}
 }
 
 static int	run_interactive_mode(char *exec, char **envp)
