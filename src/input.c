@@ -65,7 +65,6 @@ int			process_input(char *line, char **envp)
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
 		return (set_error("memory allocation failed"));
-	ft_printf(">%s<\n");
 	argv = ft_strsplit(tmp, ' ');
 	free(tmp);
 	if (argv == NULL)
