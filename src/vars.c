@@ -6,11 +6,13 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:06:13 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 18:04:23 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/vars.h"
+
+# include "error.h"
 
 static t_entry	*g_variables;
 
@@ -20,7 +22,7 @@ static t_entry	*g_variables;
 **  Returns 0 on success or NONZERO on failure. On failure an error is set.
 */
 
-int				get_var(char const *key, char const **out)
+const char		*get_var(char const *key)
 {
 	t_entry	*curr;
 
@@ -32,12 +34,8 @@ int				get_var(char const *key, char const **out)
 		curr = curr->next;
 	}
 	if (curr == NULL)
-	{
-		*out = "";
-		return (-1);
-	}
-	*out = curr->value;
-	return (0);
+		return ("");
+	return (curr->value);
 }
 
 /*
