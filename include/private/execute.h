@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/10 18:35:52 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:16:57 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 10:04:42 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "libft.h"
 
 # include "../error.h"
+# include "../helpers.h"
 # include "../vars.h"
 
 typedef struct	s_builtin
