@@ -6,14 +6,12 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:36 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 11:22:47 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 17:52:19 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_H
 # define INPUT_H
-
-# define BUFF_SIZE 32
 
 # include <errno.h>
 # include <stdlib.h>
@@ -21,13 +19,5 @@
 # include <termios.h>
 # include <unistd.h>
 # include "libft.h"
-
-typedef struct	s_buff
-{
-	char		*data;
-	ssize_t		size;
-	ssize_t		len;
-	ssize_t		pos;
-}				t_buff;
 
 #endif

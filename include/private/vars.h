@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:16 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:10:28 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 13:50:24 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdlib.h>
 # include "libft.h"
-
-# include "../error.h"
 
 /*
 ** Structure of an environment variable.

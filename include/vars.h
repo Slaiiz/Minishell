@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:12 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:08:58 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 18:02:22 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 typedef struct			s_entry
 {
-	char const			*key;
-	char const			*value;
+	const char			*key;
+	const char			*value;
 	struct s_entry		*next;
 }						t_entry;
 
@@ -30,21 +30,21 @@ typedef struct			s_entry
 **  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
-int						get_var(char const *key, char const **out);
+const char 				*get_var(const char *key);
 
 /*
 ** Sets the environment variable named *key with the argument *value.
 **  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
-int						set_var(char const *key, char const *value);
+int						set_var(const char *key, const char *value);
 
 /*
 ** Deletes the environment variable named *key.
 **  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
-int						delete_var(char const *key);
+int						delete_var(const char *key);
 
 /*
 ** Returns a pointer to the environment variable list.

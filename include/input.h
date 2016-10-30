@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:32 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/04 16:50:33 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 17:44:21 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 **  Returns 0 on success, or NON-ZERO on failure. On failure an error is set.
 */
 
-int	read_input(char const **out);
+int	read_input(char **out);
 
 /*
 ** Given a line of text. Parses shell syntax out of it, executing commands
@@ -27,7 +27,7 @@ int	read_input(char const **out);
 **  Returns 0 on success, or NON-ZERO on failure. On failure an error is set.
 */
 
-int	process_input(char const *line, char **envp);
+int	process_input(char *line, char **envp);
 
 /*
 ** Sets-up the terminal for use in interactive mode.
