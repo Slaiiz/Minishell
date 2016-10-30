@@ -24,7 +24,8 @@ OBJS       = ft_atoi.o        ft_bzero.o      ft_isalnum.o      ft_isalpha.o   \
              ft_isascii.o     ft_lstdel.o     ft_memalloc.o     ft_memdel.o    \
              ft_putendl.o     ft_putstr_fd.o  ft_strcpy.o       ft_striteri.o  \
              ft_strmapi.o     ft_strnew.o     ft_strsub.o       ft_max.o       \
-             ft_rot13.o       ft_arraydel.o   ft_strupcase.o    ft_uitoa.o
+             ft_rot13.o       ft_arraydel.o   ft_strupcase.o    ft_uitoa.o\
+			 ft_bufnew.o      ft_bufadd.o     ft_bufdel.o       ft_bufsub.o
 OBJSDIR    = objs
 INCLUDE    = include
 
@@ -32,35 +33,28 @@ _OBJS      = $(addprefix $(OBJSDIR)/,$(OBJS)) \
              $(addprefix $(OBJSDIR)/printf/,$(PRINTFOBJS))
 _INCLUDE   = $(addprefix -I ,$(INCLUDE))
 
-# ------------------------------------------------------------------------------
-
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
 $(NAME): $(_OBJS)
-	@echo "Linking $@..."
 	@$(AR) -cr $@ $^
 
 $(OBJSDIR)/printf/%.o: srcs/printf/%.c
-	@echo "Compiling $@..."
-	@mkdir -p $(OBJSDIR)/printf
-	@$(GCC) $(GCCFLAGS) -c -o $@ $(addprefix -I,$(INCLUDE)) $<
+	mkdir -p $(OBJSDIR)/printf
+	$(GCC) $(GCCFLAGS) -c -o $@ $(addprefix -I,$(INCLUDE)) $<
 
 $(OBJSDIR)/%.o: srcs/%.c
-	@echo "Compiling $@..."
-	@mkdir -p $(OBJSDIR)
-	@$(GCC) $(GCCFLAGS) -c -o $@ $(addprefix -I,$(INCLUDE)) $<
+	mkdir -p $(OBJSDIR)
+	$(GCC) $(GCCFLAGS) -c -o $@ $(addprefix -I,$(INCLUDE)) $<
 
 mostlyclean:
-	@echo "Deleting objects..."
-	@rm -rf $(OBJSDIR)
+	rm -rf $(OBJSDIR)
 
 clean: mostlyclean
 
 fclean: clean
-	@echo "Deleting target..."
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean
-	@$(MAKE) all
+	$(MAKE) all
