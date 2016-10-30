@@ -6,11 +6,13 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 13:41:13 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/29 19:02:10 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 14:00:58 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/output.h"
+
+# include "vars.h"
 
 /*
 ** Executed on command-line flag '-h --help', prints help and quits.
