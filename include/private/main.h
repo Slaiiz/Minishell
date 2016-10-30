@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:21 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/04 15:51:22 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 11:22:10 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,5 @@
 # include <unistd.h>
 # include "libflag.h"
 # include "libft.h"
-
-# include "../constants.h"
-# include "../error.h"
-# include "../execute.h"
-# include "../input.h"
-# include "../output.h"
-# include "../vars.h"
 
 #endif

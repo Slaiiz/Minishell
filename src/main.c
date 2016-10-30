@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                              ###    ##  ####      */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 10/29/2016, 11:26:41 PM by vchesnea          ###  .fr           */
+/*   Updated: 2016/10/30 11:21:57 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/main.h"
+
+#include "constants.h"
+#include "error.h"
+#include "execute.h"
+#include "input.h"
+#include "output.h"
+#include "vars.h"
 
 static void	handle_signal(int sig)
 {

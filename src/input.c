@@ -6,11 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 15:05:54 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 11:23:01 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/input.h"
+
+#include "execute.h"
+#include "error.h"
 
 static int	extend_buffer(t_buff *buffer)
 {

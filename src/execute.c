@@ -6,11 +6,15 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 10:19:19 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 11:22:32 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/execute.h"
+
+#include "error.h"
+#include "helpers.h"
+#include "vars.h"
 
 static t_builtin	g_builtins[7];
 

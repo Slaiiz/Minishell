@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:06:07 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 10:17:25 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 11:18:43 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,13 @@ char	*join_path(const char *s1, const char *s2);
 */
 
 int		file_exists(const char *path);
+
+/*
+** Replaces every occurence of $[a-zA-Z]+ with the value of the environment
+** variable refered by it.
+**  Returns 0 on success, or NON-ZERO on failure. On failure an error is set.
+*/
+
+int		substitute_vars(const char *string);
 
 #endif
