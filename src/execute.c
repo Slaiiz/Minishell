@@ -6,30 +6,13 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:21:45 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 10:19:19 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/execute.h"
 
 static t_builtin	g_builtins[7];
-
-static char			*join_path(const char *s1, const char *s2)
-{
-	size_t	len;
-	char	*new;
-
-	len = ft_strlen(s1);
-	if (len && s1[len - 1] == '/')
-		--len;
-	new = malloc(sizeof(*new) * len + ft_strlen(s2) + 2);
-	if (new == NULL)
-		return (NULL);
-	ft_strncpy(new, s1, len);
-	new[len] = '/';
-	ft_strcpy(new + len + 1, s2);
-	return (new);
-}
 
 static int			search_in_path(char *exec, char **out)
 {
@@ -85,12 +68,14 @@ void				initialize_builtins(void)
 
 int					execute_binary(char **argv, char **envp)
 {
+	if (!file_exists(argv[0]))
+		return (set_error("no such file or directory: %s", argv[0]));
 	if (access(argv[0], X_OK))
-		return (set_error("%s: permission denied", argv[0]));
+		return (set_error("permission denied: %s", argv[0]));
 	if (fork() == 0)
 	{
 		if (execve(argv[0], argv, envp))
-			return (set_error("%s: could not execute binary", argv[0]));
+			return (set_error("could not execute binary: %s", argv[0]));
 	}
 	if (wait(NULL) == -1)
 		return (set_error("failed to wait for child process"));
@@ -118,7 +103,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 		++index;
 	}
 	if (search_in_path(argv[0], &path))
-		return (set_error("%s: command not found", argv[0]));
+		return (set_error("command not found: %s", argv[0]));
 	free(argv[0]);
 	argv[0] = path;
 	if (execute_binary(argv, envp))
