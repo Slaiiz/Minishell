@@ -12,6 +12,8 @@
 
 #include "private/execute.h"
 
+#include "vars.h"
+
 static void	recurse(const t_entry *env)
 {
 	if (env->next)

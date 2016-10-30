@@ -12,6 +12,9 @@
 
 #include "private/execute.h"
 
+#include "error.h"
+#include "vars.h"
+
 /*
 ** Builtin command : unsetenv
 ** Deletes variable described by argv[1].

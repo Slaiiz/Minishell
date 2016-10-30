@@ -34,7 +34,8 @@ void	print_prompt(void)
 {
 	char const	*string;
 
-	if (get_var("PS1", &string))
+	string = get_var("PS1");
+	if (ft_strequ(string, ""))
 	{
 		ft_printf("%s ", DEFAULT_PROMPT);
 		return ;

@@ -25,7 +25,7 @@ static int			search_in_path(char *exec, char **out)
 	char		*join;
 	char		**data;
 
-	get_var("PATH", &path);
+	path = get_var("PATH");
 	data = ft_strsplit(path, ':');
 	if (data == NULL)
 		return (set_error("memory allocation failed"));
