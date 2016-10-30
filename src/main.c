@@ -6,15 +6,15 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 11:21:57 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 17:44:51 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/main.h"
 
-#include "constants.h"
 #include "error.h"
 #include "execute.h"
+#include "helpers.h"
 #include "input.h"
 #include "output.h"
 #include "vars.h"
@@ -30,20 +30,17 @@ static void	handle_signal(int sig)
 
 static int	run_interactive_mode(char *exec, char **envp)
 {
-	char const	*line;
-	ssize_t		bytes;
+	char	*line;
 
 	while (1)
 	{
 		print_prompt();
-		bytes = read_input(&line);
-		if (bytes < 0)
-			break ;
+		if (read_input(&line))
+			return (-1);
 		if (process_input(line, envp))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
+		free(line);
 	}
-	if (bytes < 0)
-		return (-1);
 	return (0);
 }
 
@@ -80,7 +77,6 @@ static int	setup_session(char **envp)
 		++envp;
 	}
 	set_var("TERM", "xterm-256color");
-	set_var("PS1", DEFAULT_PROMPT);
 	return (0);
 }
 
