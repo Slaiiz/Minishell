@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 11:23:01 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/30 18:14:08 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,7 @@
 
 #include "execute.h"
 #include "error.h"
-
-static int	extend_buffer(t_buff *buffer)
-{
-	char	*new;
-
-	buffer->size += BUFF_SIZE;
-	new = malloc(sizeof(*new) * (buffer->size + 1));
-	if (new == NULL)
-		return (set_error("memory allocation failed"));
-	if (buffer->data != NULL)
-	{
-		ft_memcpy(new, buffer->data, buffer->len);
-		free(buffer->data);
-	}
-	buffer->data = new;
-	return (0);
-}
-
-static int	fill_buffer(t_buff *buffer)
-{
-	ssize_t	bytes;
-
-	if (!(buffer->len % BUFF_SIZE) && extend_buffer(buffer))
-		return (-1);
-	bytes = read(0, buffer->data + buffer->len, buffer->size - buffer->len);
-	if (bytes < 0)
-		return (set_error("could not read stdin"));
-	buffer->len += bytes;
-	buffer->data[buffer->len] = '\0';
-	return ((int)bytes);
-}
+#include "helpers.h"
 
 /*
 ** Reads standard input for data to be processed.
@@ -52,28 +22,33 @@ static int	fill_buffer(t_buff *buffer)
 **  Returns 0 on success, or NON-ZERO on failure.
 */
 
-int			read_input(char const **out)
+int			read_input(char **out)
 {
-	static t_buff	buffer;
-	static char		*data;
-	int				bytes;
+	char			*dat[32];
+	static t_buff	*buf;
+	char			*ptr;
+	ssize_t			size;
 
-	if (data != NULL)
-		free(data);
-	while (1)
+	if (buf == NULL)
 	{
-		if ((bytes = fill_buffer(&buffer) < 1))
-			return (-1);
-		data = ft_strchr(buffer.data, '\n');
-		if (data == NULL)
-			continue ;
-		*out = ft_strsub(buffer.data, 0, (data - buffer.data));
-		ft_memcpy(buffer.data, &data[1], buffer.len + buffer.data - data);
-		buffer.len -= &data[1] - buffer.data;
-		break ;
+		buf = ft_bufnew(32);
+		if (buf == NULL)
+			return (set_error("memory allocation failed"));
 	}
-	data = (char*)*out;
-	return (ft_strlen(data));
+	while ((size = read(0, dat, 32)))
+	{
+		if (ft_bufadd(buf, dat, size))
+			return (set_error("memory allocation failed"));
+		if ((ptr = ft_memchr(buf->data, '\n', buf->len)) == NULL)
+			continue ;
+		*out = malloc(sizeof(*out) * (ptr - (char*)buf->data + 1));
+		if (*out == NULL)
+			return (set_error("memory allocation failed"));
+		ft_bufsub(buf, *out, (ptr - (char*)buf->data + 1));
+		(*out)[ptr - (char*)buf->data] = '\0';
+		return (0);
+	}
+	return (-1);
 }
 
 /*
@@ -81,12 +56,18 @@ int			read_input(char const **out)
 ** encoded in it.
 */
 
-int			process_input(char const *line, char **envp)
+int			process_input(char *line, char **envp)
 {
+	char	*tmp;
 	int		argc;
 	char	**argv;
 
-	argv = ft_strsplit(line, ' ');
+	tmp = substitute_vars(line);
+	if (tmp == NULL)
+		return (set_error("memory allocation failed"));
+	ft_printf(">%s<\n");
+	argv = ft_strsplit(tmp, ' ');
+	free(tmp);
 	if (argv == NULL)
 		return (set_error("memory allocation failed"));
 	argc = ft_arraylen((void**)argv);
