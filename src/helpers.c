@@ -31,7 +31,7 @@ char		*substitute_vars(const char *string)
 		return (NULL);
 	while ((ptr = ft_strchr(string, '$')) && ++ptr)
 	{
-		if (ft_bufadd(buf, string, ptr - string))
+		if (ft_bufadd(buf, string, ptr - string - 1))
 			return (NULL);
 		string = ptr;
 		while (ft_isalnum(*ptr) || *ptr == '_')
