@@ -18,14 +18,11 @@ t_buff	*ft_bufnew(size_t size)
 	new = malloc(sizeof(*new));
 	if (new == NULL)
 		return (NULL);
-	if (size != 0)
+	new->data = malloc(size);
+	if (new->data == NULL)
 	{
-		new->data = malloc(size);
-		if (new->data == NULL)
-		{
-			free(new);
-			return (NULL);
-		}
+		free(new);
+		return (NULL);
 	}
 	new->size = size;
 	new->len = 0;

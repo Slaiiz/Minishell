@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 15:16:53 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 16:50:45 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/31 15:24:50 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_bufdel(t_buff **buf)
 {
 	if ((*buf)->data != NULL)
 		free((*buf)->data);
+	free(*buf);
 	*buf = NULL;
 	return ;
 }

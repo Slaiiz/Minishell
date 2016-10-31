@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 14:54:22 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 17:12:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/31 15:56:28 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int					ft_abs(int n);
 void				ft_arraydel(void ***array);
 int					ft_arraylen(void **array);
 int					ft_atoi(char const *str);
-int					ft_bufadd(t_buff *buf, const void *data, size_t size);
+int					ft_bufadd(t_buff *buf, const void *data, ssize_t size);
 void				ft_bufdel(t_buff **buf);
-int					ft_bufsub(t_buff *buf, void *out, size_t size);
+size_t				ft_bufsub(t_buff *buf, void *out, ssize_t size);
 t_buff				*ft_bufnew(size_t size);
 void				ft_bzero(void *s, size_t len);
 char				*ft_chrrep(char *str, char c, char **rep);
@@ -65,7 +65,7 @@ int					ft_memcmp(void const *s1, void const *s2, size_t n);
 void				*ft_memcpy(void *dst, void const *src, size_t n);
 void				*ft_memccpy(void *dst, void const *src, int c, size_t n);
 void				ft_memdel(void **ap);
-void				*ft_memdup(void const *m, int n);
+void				*ft_memdup(const void *addr, size_t n);
 void				*ft_memmove(void *dst, void const *src, size_t len);
 void				*ft_memset(void *b, int c, size_t len);
 int					ft_min(int a, int b);
