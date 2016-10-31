@@ -6,17 +6,17 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 18:14:10 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/03/21 18:14:13 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/31 15:55:29 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/libft.h"
 
-void	*ft_memdup(const void *m, int n)
+void	*ft_memdup(const void *addr, size_t n)
 {
-	void	*d;
+	void	*new;
 
-	if (!n || (d = malloc(sizeof(char) * n)) == NULL)
+	if (n == 0 || ((new = malloc(n)) == NULL))
 		return (NULL);
-	return (ft_memcpy(d, m, n));
+	return (ft_memcpy(new, addr, n));
 }
