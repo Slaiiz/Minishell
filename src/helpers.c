@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:03:55 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 18:12:10 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/31 15:50:55 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 /*
 ** Replaces every occurence of $[a-zA-Z]+ with the value of the environment
-** variable refered by it.
+** variable referred by it.
 */
 
 char		*substitute_vars(const char *string)
@@ -39,7 +39,8 @@ char		*substitute_vars(const char *string)
 		tmp = ft_strsub(string, 0, ptr - string);
 		if (tmp == NULL)
 			return (NULL);
-		ft_bufadd(buf, get_var(tmp), ft_strlen(get_var(tmp)));
+		if (ft_bufadd(buf, get_var(tmp), ft_strlen(get_var(tmp))))
+			return (NULL);
 		string = ptr;
 		free(tmp);
 	}
@@ -65,7 +66,7 @@ char		*join_path(const char *s1, const char *s2)
 	len = ft_strlen(s1);
 	if (len && s1[len - 1] == '/')
 		--len;
-	new = malloc(sizeof(*new) * len + ft_strlen(s2) + 2);
+	new = malloc(len + ft_strlen(s2) + 2);
 	if (new == NULL)
 		return (NULL);
 	ft_strncpy(new, s1, len);
