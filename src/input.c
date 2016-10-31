@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 18:14:08 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/31 17:39:36 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ int			read_input(char **out)
 			return (set_error("memory allocation failed"));
 		if ((ptr = ft_memchr(buf->data, '\n', buf->len)) == NULL)
 			continue ;
-		*out = malloc(sizeof(*out) * (ptr - (char*)buf->data + 1));
+		size = (ptr - (char*)buf->data);
+		*out = malloc(size + 1);
 		if (*out == NULL)
 			return (set_error("memory allocation failed"));
-		ft_bufsub(buf, *out, (ptr - (char*)buf->data + 1));
-		(*out)[ptr - (char*)buf->data] = '\0';
+		ft_bufsub(buf, *out, size + 1);
+		(*out)[size] = '\0';
 		return (0);
 	}
 	return (-1);
@@ -62,9 +63,11 @@ int			process_input(char *line, char **envp)
 	int		argc;
 	char	**argv;
 
+	ft_printf("Before: >%s<\n", line);
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
 		return (set_error("memory allocation failed"));
+	ft_printf("After : >%s<\n", tmp);
 	argv = ft_strsplit(tmp, ' ');
 	free(tmp);
 	if (argv == NULL)
