@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:21 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 14:01:35 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 17:44:28 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "libflag.h"
-# include "libft.h"
+# include "libft/libft.h"
 
 #endif

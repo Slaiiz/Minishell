@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vars.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:16 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 13:50:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 17:44:35 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define VARS_H
 
 # include <stdlib.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 /*
 ** Structure of an environment variable.
