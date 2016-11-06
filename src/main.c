@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 17:44:51 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 17:40:53 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,17 @@ static int	setup_session(char **envp)
 {
 	char	*value;
 	char	*key;
+	char	*tmp;
 
 	initialize_builtins();
 	if (signal(SIGINT, handle_signal))
 		return (set_error("could not setup signals"));
 	while (*envp != NULL)
 	{
+		tmp = *envp;
 		if (ft_expect((char const**)envp, "$*=$*", &key, &value))
 			return (set_error("malformed key/value pair"));
+		*envp = tmp;
 		if (set_var(key, value))
 			return (-1);
 		++envp;
@@ -106,6 +109,5 @@ int			main(int argc, char **argv, char **envp)
 		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
 	}
-	ft_printf("Bye!\n");
 	return (EXIT_SUCCESS);
 }

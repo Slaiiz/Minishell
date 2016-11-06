@@ -6,13 +6,13 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 18:04:23 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 17:40:56 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/vars.h"
 
-# include "error.h"
+#include "error.h"
 
 static t_entry	*g_variables;
 

@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 11:22:32 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 17:40:47 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_builtin	g_builtins[7];
 
 static int			search_in_path(char *exec, char **out)
 {
+	char		**tmp;
 	const char	*path;
 	int			index;
 	char		*join;
@@ -36,12 +37,15 @@ static int			search_in_path(char *exec, char **out)
 		join = join_path(data[index], exec);
 		if (join == NULL)
 			return (set_error("memory allocation failed"));
-		if (!access(join, X_OK))
+		if (file_exists(join))
 			*out = ft_strdup(join);
 		free(join);
 		++index;
 	}
-	ft_arraydel((void***)&data);
+	tmp = data;
+	while (*tmp)
+		free(*tmp++);
+	free(data);
 	if (*out == NULL)
 		return (set_error("executable not in path"));
 	return (0);
@@ -108,7 +112,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 	}
 	if (search_in_path(argv[0], &path))
 		return (set_error("command not found: %s", argv[0]));
-	free(argv[0]);
+	ft_strdel(&argv[0]);
 	argv[0] = path;
 	if (execute_binary(argv, envp))
 		return (-1);

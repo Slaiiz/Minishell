@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/10 13:21:17 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/29 18:56:12 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 18:22:44 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	builtin_pwd(int argc, char **argv)
 
 	if (getcwd(path, MAXPATHLEN) == NULL)
 	{
-		ft_printf("#!fd=2^getcwd() failed\n");
+		ft_printf("#!fd=2^%s: getcwd() failed\n", argv[0]);
 		return ;
 	}
 	if (argc)

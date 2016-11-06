@@ -6,14 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/31 17:39:36 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/11/06 18:09:35 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/input.h"
 
-#include "execute.h"
 #include "error.h"
+#include "execute.h"
 #include "helpers.h"
 
 /*
@@ -24,29 +24,26 @@
 
 int			read_input(char **out)
 {
-	char			*dat[32];
-	static t_buff	*buf;
-	char			*ptr;
-	ssize_t			size;
+	t_buff	*buf;
+	char	*ptr;
+	ssize_t	size;
+	char	t[32];
 
+	buf = ft_bufnew();
 	if (buf == NULL)
+		return (set_error("memory allocation failed"));
+	while ((size = read(STDIN_FILENO, t, 32)) >= 0)
 	{
-		buf = ft_bufnew(32);
-		if (buf == NULL)
-			return (set_error("memory allocation failed"));
-	}
-	while ((size = read(0, dat, 32)))
-	{
-		if (ft_bufadd(buf, dat, size))
+		if (ft_bufadd(buf, t, size))
 			return (set_error("memory allocation failed"));
 		if ((ptr = ft_memchr(buf->data, '\n', buf->len)) == NULL)
 			continue ;
 		size = (ptr - (char*)buf->data);
-		*out = malloc(size + 1);
+		*out = ft_strndup(buf->data, size + 1);
 		if (*out == NULL)
 			return (set_error("memory allocation failed"));
-		ft_bufsub(buf, *out, size + 1);
 		(*out)[size] = '\0';
+		ft_bufdel(&buf);
 		return (0);
 	}
 	return (-1);
@@ -70,24 +67,26 @@ int			process_input(char *line, char **envp)
 	free(tmp);
 	if (argv == NULL)
 		return (set_error("memory allocation failed"));
-	argc = ft_arraylen((void**)argv);
+	argc = 0;
+	while (argv[argc])
+		++argc;
 	if (argc > 0)
 	{
 		if (ft_strchr(argv[0], '/'))
 		{
 			if (execute_binary(argv, envp))
 			{
-				ft_arraydel((void***)&argv);
+				ft_arrdel((void***)&argv, argc, NULL);
 				return (-1);
 			}
 		}
 		else if (execute_builtin(argc, argv, envp))
 		{
-			ft_arraydel((void***)&argv);
+			ft_arrdel((void***)&argv, argc, NULL);
 			return (-1);
 		}
 	}
-	ft_arraydel((void***)&argv);
+	ft_arrdel((void***)&argv, argc, NULL);
 	return (0);
 }
 

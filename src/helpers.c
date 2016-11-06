@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:03:55 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/31 15:50:55 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/10/06 17:40:49 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char		*substitute_vars(const char *string)
 	const char	*ptr;
 	char		*tmp;
 
-	buf = ft_bufnew(32);
+	buf = ft_bufnew();
 	if (buf == NULL)
 		return (NULL);
 	while ((ptr = ft_strchr(string, '$')) && ++ptr)
