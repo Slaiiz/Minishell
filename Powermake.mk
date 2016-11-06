@@ -76,12 +76,12 @@ endef
 
 # @name add-dependency
 # @input path
-# @brief Adds a new dependency. It is assumed to be pointing at a file
-# whose directory contains a Makefile.
+# @brief Adds a new dependency. It is assumed to be pointing at a directory
+# containing a Makefile, an at least these two directories : lib and include.
 define add-dependency
 $(strip 
 $(eval ${current-target_}-dependencies_ += ${1})
-$(call add-include-folder,$(dir ${1})))
+$(call add-include-folder,${1}/include/))
 endef
 
 # @name add-object
@@ -123,6 +123,15 @@ endef
 
 define run-powermake
 $(strip 
+$(call run-hook,on-run-powermake)
+$(eval ifeq (${verbose_},true)
+$$(info $${all-recipe_})
+$$(info $${mostlyclean-recipe_})
+$$(info $${clean-recipe_})
+$$(info $${fclean-recipe_})
+$$(info $${re-recipe_})
+$$(info $${help-recipe_})
+endif)
 $(eval ${all-recipe_})
 $(eval ${mostlyclean-recipe_})
 $(eval ${clean-recipe_})
@@ -130,7 +139,8 @@ $(eval ${fclean-recipe_})
 $(eval ${re-recipe_})
 $(eval ${help-recipe_})
 $(foreach _,${targets_},
-	$(call add-target-recipe,${_})))
+	$(call add-target-recipe,${_}))
+$(call run-hook,on-end-powermake))
 endef
 
 # ---------------------------------------------------------------------------- #
@@ -364,6 +374,10 @@ endef
 # @brief Registers a recipe for target.
 define add-target-recipe
 $(strip 
+$(call run-hook,on-add-target-recipe,${1})
+$(eval ifeq (${verbose_},true)
+$$(info $${target-recipe_})
+endif)
 $(eval ${target-recipe_})
 $(foreach _,${${1}-object-folders_},
 	$(call add-object-folder-recipe,${1},${_}))
@@ -377,6 +391,10 @@ endef
 # @brief Registers a recipe from target for object-folder.
 define add-object-folder-recipe
 $(strip 
+$(call run-hook,on-add-object-folder-recipe,${2})
+$(eval ifeq (${verbose_},true)
+$$(info $${object-folder-recipe_})
+endif)
 $(eval ${object-folder-recipe_})
 $(foreach _,${${1}-${2}-objects_},
 	$(call add-object-recipe,${1},${2},${_})))
@@ -389,7 +407,11 @@ endef
 # @brief Registers a recipe from object-folder from target for object.
 define add-object-recipe
 $(strip 
+$(call run-hook,on-add-object-recipe,${3})
 $(eval 0a_ := $$(addprefix -I,$${$${1}-include-folders_}))
+$(eval ifeq (${verbose_},true)
+$$(info $${object-recipe_})
+endif)
 $(eval ${object-recipe_}))
 endef
 
@@ -399,6 +421,10 @@ endef
 # @brief Registers a recipe from target for dependency.
 define add-dependency-recipe
 $(strip 
+$(call run-hook,on-add-dependency-recipe,${2})
+$(eval ifeq (${verbose_},true)
+$$(info $${dependency-recipe_})
+endif)
 $(eval ${dependency-recipe_}))
 endef
 
@@ -407,41 +433,44 @@ endef
 # ---------------------------------------------------------------------------- #
 
 define all-recipe_
+
 all: ${targets_}
 endef
 
 define mostlyclean-recipe_
 $(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-object-folders_}))
-mostlyclean:
+mostlyclean:\
 $(foreach _,${0a_},
-	+rm -rf ${_})
-$(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))
+	+rm -rf ${_})\
+$(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))\
 $(foreach _,${0a_},
-	$$(MAKE) -C $(dir ${_}) mostlyclean)
+	$$(MAKE) -C ${_} mostlyclean)
 endef
 
 define clean-recipe_
 $(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))
-clean: mostlyclean
+clean: mostlyclean\
 $(foreach _,${0a_},
-	$$(MAKE) -C $(dir ${_}) clean)
+	$$(MAKE) -C ${_} clean)
 endef
 
 define fclean-recipe_
 $(eval 0a_ = $$(foreach _,$${targets_},$${$${_}-dependencies_}))
-fclean: clean
+fclean: clean\
 $(foreach _,${targets_},
-	rm -f ${_})
+	rm -f ${_})\
 $(foreach _,${0a_},
-	$$(MAKE) -C $(dir ${_}) fclean)
+	$$(MAKE) -C ${_} fclean)
 endef
 
 define re-recipe_
+
 re: fclean
 	$$(MAKE) all
 endef
 
 define help-recipe_
+
 help:
 	@echo "* all"
 	@echo "* mostlyclean"
@@ -452,27 +481,32 @@ help:
 endef
 
 define target-recipe_
-$(eval 0a_ = $$(addprefix $${_},$${$${1}-$${_}-objects_}))
+$(eval 0a_ = $$(addprefix $${_},$${$${1}-$${_}-objects_}))\
 $(eval 0b_ = $$(foreach _,$${$${1}-object-folders_},$${0a_}))
-${1}: ${0b_} ${${1}-dependencies_}
+${1}: ${0b_} $(foreach _,${${1}-dependencies_},${_}/lib/$(notdir ${_}).a)
 	${compiler_} ${compiler-flags_} -o $$@ $$^
 endef
 
 define object-folder-recipe_
+
 ${2}:
 	mkdir -p $$@
 endef
 
 define object-recipe_
+
 ${2}${3}: ${${1}-${2}-sources_}$(3:.o=.c) | ${2}
 	${compiler_} ${compiler-flags_} ${0a_} -o $$@ -c $$<
+
 ${${1}-${2}-sources_}$(3:.o=.c):
-	$$(error File $$@ not found!)
+	$$(call run-hook,on-missing-source-file)
+	$$(error Powermake : File $$@ not found!)
 endef
 
 define dependency-recipe_
-${2}:
-	$$(MAKE) -C $(dir ${2}) all
+
+${2}/lib/$(notdir ${2}).a:
+	$$(MAKE) -C ${2} all
 endef
 
 # ---------------------------------------------------------------------------- #

@@ -1,5 +1,7 @@
 include Powermake.mk
 
+$(call enable-verbose)
+
 $(call set-compiler,gcc)
 $(call set-compiler-flags,-Wall -Wextra -Werror)
 
@@ -23,7 +25,7 @@ $(call add-target,minishell)
    $(call add-object,output.o)
    $(call add-object,vars.o)
  $(call add-include-folder,include/)
- $(call add-dependency,libft/libft.a)
- $(call add-dependency,libflag/libflag.a)
+ $(call add-dependency,libft)
+ $(call add-dependency,libflag)
 
 $(call run-powermake)
