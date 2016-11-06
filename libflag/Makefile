@@ -1,53 +1,41 @@
-#                   #
-#    TABSTOP: 16    #
-#                   #
+gcc = gcc
+gcc-flags = -Wall -Wextra -Werror
 
-NAME	 = libflag.a
-GCC	 = gcc
-GCCFLAGS	 = -Wall -Wextra -Werror
-AR	 = ar
-OBJS	 = libflag_add.o libflag_free.o libflag_parse.o
-OBJSDIR	 = objs
-INCLUDE	 = include
-LIBFT	 = ../libft
+ar = ar
+ar-flags = -cr
 
-INCLUDE	:= $(LIBFT) $(INCLUDE)
-OBJS_	 = $(addprefix $(OBJSDIR)/,$(OBJS))
-INCLUDE_	 = $(addprefix -I,$(INCLUDE))
+define objects
+$(addprefix obj/,$(strip 
+libflag_add.o libflag_free.o libflag_parse.o))
+endef
 
-.PHONY:	 all mostlyclean clean fclean re
+.phony: all mostlyclean clean fclean re
 
-ifneq	 ($(GCCFLAGS),-Wall -Wextra -Werror)
-all:	 $(NAME)
-	 $(warning Compilation flags disabled!)
-else
-all:	 $(NAME)
-endif
+lib/libflag.a: ${objects} | lib
+	${ar} ${ar-flags} $@ $^
 
-$(NAME):	 $(OBJS_)
-	 @echo "Linking $@..."
-	 @$(AR) -cr $@ $^
-
-$(OBJSDIR)/%.o:	 srcs/%.c | $(OBJSDIR)
-	 @echo "Compiling $@..."
-	 @$(GCC) $(GCCFLAGS) -o$@ -c $(INCLUDE_) $^
-
-srcs/%.c:
-	 $(error File $@ is missing!)
-
-$(OBJSDIR):
-	 @echo "Creating directory $@..."
-	 @mkdir -p $@
+all: lib/libflag.a
 
 mostlyclean:
-	 @echo "Deleting objects..."
-	 @rm -rf $(OBJSDIR)
+	rm -rf obj
 
-clean:	 mostlyclean
+clean: mostlyclean
 
-fclean:	 clean
-	 @echo "Deleting $(NAME)..."
-	 @rm -f $(NAME)
+fclean: clean
+	rm -rf lib
 
-re:	 fclean
-	 @$(MAKE) all
+re: fclean
+	${MAKE} all
+
+lib:
+	mkdir -p $@
+
+obj/%.o: src/%.c | obj
+	${gcc} ${gcc-flags} -o $@ -c -I include -I ../libft/include $^
+
+src/%.c:
+	$(error File $@ not found)
+
+obj:
+	mkdir -p $@
+

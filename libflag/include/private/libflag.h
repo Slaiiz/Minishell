@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:16:45 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/08 15:16:46 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/11/01 18:21:41 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFLAG_H
 
 # include <stdlib.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 # define FLAG_ERROR_OK        0
 # define FLAG_ERROR_NOMATCH   1
@@ -24,8 +24,6 @@
 /*
 ** Forward declarations
 */
-
-typedef struct s_flaglist	t_flaglist;
 
 typedef enum				e_flagtype
 {
@@ -39,9 +37,9 @@ typedef struct				s_flaglist
 {
 	char					fast;
 	const char				*slow;
-	t_flagtype				type;
+	enum e_flagtype			type;
 	void					*data;
-	t_flaglist				*next;
+	struct s_flaglist		*next;
 }							t_flaglist;
 
 #endif
