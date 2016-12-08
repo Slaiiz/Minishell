@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
+/*   vars.c                                              ###    ##  ####      */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:40:56 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/11/08 21:26:04 by vchesnea              ###  .fr           */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 static t_entry	*g_variables;
 
 /*
-** Puts the value of environment variable named *key into address **out.
+** Returns the value of environment variable named *key.
 ** In the event the key does not exists, an empty string is returned.
-**  Returns 0 on success or NONZERO on failure. On failure an error is set.
 */
 
 const char		*get_var(char const *key)

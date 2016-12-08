@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                              ###    ##  ####      */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:40:53 by vchesnea         ###   ########.fr       */
+/*   Updated: 2016/11/08 21:30:51 by vchesnea              ###  .fr           */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,12 @@ static int	setup_session(char **envp)
 	while (*envp != NULL)
 	{
 		tmp = *envp;
-		if (ft_expect((char const**)envp, "$*=$*", &key, &value))
+		if (ft_expect((char const**)&tmp, "$*=$*", &key, &value))
 			return (set_error("malformed key/value pair"));
-		*envp = tmp;
 		if (set_var(key, value))
 			return (-1);
 		++envp;
 	}
-	set_var("TERM", "xterm-256color");
 	return (0);
 }
 
