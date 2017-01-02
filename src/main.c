@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:40:53 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/01/02 16:36:20 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,20 @@ static int	run_interactive_mode(char *exec, char **envp)
 	return (0);
 }
 
-static int	parse_flags(t_flaglist **out, int argc, char **argv)
+static int	parse_flags(int argc, char **argv)
 {
-	int	error;
+	t_flaglist	*flags;
+	int			error;
 
-	*out = NULL;
-	if (libflag_add(out, 'h', "help", FLAG_TYPE_HOOK, print_help))
+	flags = NULL;
+	if (flag_add(&flags, 'h', "help", FLAG_TYPE_HOOK, print_help))
 		return (set_error("memory allocation failed"));
-	error = libflag_parse(*out, argc, argv);
+	error = flag_parse(flags, argc, argv);
 	if (error == FLAG_ERROR_NOMATCH)
 		return (set_error("unrecognized flag"));
 	if (error == FLAG_ERROR_BADSYNTAX)
 		return (set_error("bad flag syntax"));
-	libflag_free(out);
+	flag_free(&flags);
 	return (0);
 }
 
@@ -92,9 +93,7 @@ static int	setup_session(char **envp)
 
 int			main(int argc, char **argv, char **envp)
 {
-	t_flaglist	*flags;
-
-	if (parse_flags(&flags, argc, argv))
+	if (parse_flags(argc, argv))
 	{
 		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
