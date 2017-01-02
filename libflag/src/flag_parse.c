@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:37:10 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/08 15:37:11 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/01/02 16:40:32 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	parse_fast(t_flaglist *list, char *arg)
 	return (FLAG_ERROR_OK);
 }
 
-int			libflag_parse(t_flaglist *list, int argc, char **argv)
+int			flag_parse(t_flaglist *list, int argc, char **argv)
 {
 	int		error;
 	char	*arg;

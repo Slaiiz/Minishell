@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flag_free.c                                        :+:      :+:    :+:   */
+/*   flag_add.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/08 15:37:18 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/08 15:37:18 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/08 15:37:23 by vchesnea          #+#    #+#             */
+/*   Updated: 2017/01/02 15:42:33 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/libflag.h"
 
-void	libflag_free(t_flaglist **list)
+int	flag_add(t_flaglist **out, const char fast, const char *slow,
+			t_flagtype type, void *data)
 {
-	t_flaglist	*next;
+	t_flaglist	*new;
 
-	while (*list != NULL)
-	{
-		next = (*list)->next;
-		free(*list);
-		*list = next;
-	}
-	*list = NULL;
+	new = malloc(sizeof(*new));
+	if (new == NULL)
+		return (FLAG_ERROR_MALLOC);
+	new->fast = fast;
+	new->slow = slow;
+	new->type = type;
+	new->data = data;
+	new->next = *out;
+	*out = new;
+	return (FLAG_ERROR_OK);
 }

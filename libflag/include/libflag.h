@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:11:10 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/08 18:22:34 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/01/02 16:30:20 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ typedef enum				e_flagtype
 	FLAG_TYPE_HOOK
 }							t_flagtype;
 
-int							libflag_add(t_flaglist **out, const char fast,
+int							flag_add(t_flaglist **out, const char fast,
 							const char *slow, t_flagtype type, void *data);
 
-void						libflag_free(t_flaglist **list);
+void						flag_free(t_flaglist **list);
 
-int							libflag_parse(t_flaglist *list, int argc,
-							char **argv);
+int							flag_parse(t_flaglist *list, int argc, char **argv);
 
 #endif

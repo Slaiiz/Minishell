@@ -6,7 +6,7 @@
 #   By: vchesnea <vchesnea@student.42.fr>            +#+  +:+       +#+        #
 #                                                  +#+#+#+#+#+   +#+           #
 #   Created: 2016/10/06 18:19:39 by vchesnea            #+#    #+#             #
-#   Updated: 2016/10/06 18:19:41 by vchesnea           ###   ########.fr       #
+#   Updated: 2017/00/02 15:32:46 by vchesnea           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ ar-flags = -cr
 
 define objects
 $(addprefix obj/,$(strip 
-libflag_add.o libflag_free.o libflag_parse.o))
+flag_add.o
+flag_free.o
+flag_parse.o))
 endef
 
 .phony: all mostlyclean clean fclean re
