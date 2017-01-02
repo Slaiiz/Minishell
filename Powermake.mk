@@ -77,7 +77,7 @@ endef
 # @name add-dependency
 # @input path
 # @brief Adds a new dependency. It is assumed to be pointing at a directory
-# containing a Makefile, an at least these two directories : lib and include.
+# containing a Makefile, and at least these two directories : lib and include.
 define add-dependency
 $(strip 
 $(eval ${current-target_}-dependencies_ += ${1})
