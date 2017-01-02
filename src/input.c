@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/11/06 18:09:35 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/01/02 16:48:41 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			read_input(char **out)
 		ft_bufdel(&buf);
 		return (0);
 	}
-	return (-1);
+	return (set_error("reached end of file"));
 }
 
 /*
