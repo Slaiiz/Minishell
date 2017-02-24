@@ -6,14 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:49:19 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:23 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:12:35 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_INTEGER_H
 # define LIBFT_INTEGER_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 int	ft_abs(int n);
 

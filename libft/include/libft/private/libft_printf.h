@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:50:54 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/11/01 18:47:27 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:07:51 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,29 +60,29 @@ typedef struct	s_format
 	short		conv;
 }				t_format;
 
-void	display_as_dec(t_buffer *buf, t_format *in, size_t arg);
+void			display_as_dec(t_buffer *buf, t_format *in, size_t arg);
 
-void	display_as_hex(t_buffer *buf, t_format *in, size_t arg);
+void			display_as_hex(t_buffer *buf, t_format *in, size_t arg);
 
-void	display_as_ptr(t_buffer *buf, t_format *in, size_t arg);
+void			display_as_ptr(t_buffer *buf, t_format *in, size_t arg);
 
-void	display_as_str(t_buffer *buf, t_format *in, size_t arg);
+void			display_as_str(t_buffer *buf, t_format *in, size_t arg);
 
-void	parse_extras(t_buffer *in, const char **format);
+void			parse_extras(t_buffer *in, const char **format);
 
-void	pad_buffer(t_buffer *buf, t_format *in, int fpad, int ppad);
+void			pad_buffer(t_buffer *buf, t_format *in, int fpad, int ppad);
 
-void	write_to_buffer(t_buffer *in, int mode, int len, const char *s);
+void			write_to_buffer(t_buffer *in, int mode, int len, const char *s);
 
-void	get_flags(t_format *out, const char **s);
+void			get_flags(t_format *out, const char **s);
 
-void	get_precision(t_format *out, const char **s);
+void			get_precision(t_format *out, const char **s);
 
-void	get_modifier(t_format *out, const char **s);
+void			get_modifier(t_format *out, const char **s);
 
-void	get_conversion(t_format *out, const char **s);
+void			get_conversion(t_format *out, const char **s);
 
-size_t	sign_extend(t_format *in, size_t arg);
+size_t			sign_extend(t_format *in, size_t arg);
 
 # undef LIBFT_PRINTF_H
 # include "../libft_printf.h"

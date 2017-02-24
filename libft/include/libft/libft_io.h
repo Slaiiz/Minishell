@@ -6,14 +6,12 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:50:10 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:23 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:13:07 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_IO_H
 # define LIBFT_IO_H
-
-#include <stdlib.h>
 
 void	ft_putchar_fd(char c, int fd);
 

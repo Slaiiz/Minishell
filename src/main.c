@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                              ###    ##  ####      */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/01/02 17:03:29 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/14 14:28:30 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,19 @@ static int	run_interactive_mode(char *exec, char **envp)
 	{
 		print_prompt();
 		if (read_input(&line))
-			return (-1);
+			continue ;
 		if (process_input(line, envp))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
 		free(line);
 	}
+	free_vars();
 	return (0);
 }
 
 static int	parse_flags(int argc, char **argv)
 {
-	t_flaglist	*flags;
 	int			error;
+	t_flaglist	*flags;
 
 	flags = NULL;
 	if (flag_add(&flags, 'h', "help", FLAG_TYPE_HOOK, print_help))
@@ -63,9 +64,9 @@ static int	parse_flags(int argc, char **argv)
 
 static int	setup_session(char **envp)
 {
-	char	*value;
 	char	*key;
 	char	*tmp;
+	char	*value;
 
 	initialize_builtins();
 	if (signal(SIGINT, handle_signal))
@@ -77,6 +78,8 @@ static int	setup_session(char **envp)
 			return (set_error("malformed key/value pair"));
 		if (set_var(key, value))
 			return (-1);
+		free(value);
+		free(key);
 		++envp;
 	}
 	return (0);

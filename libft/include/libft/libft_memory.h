@@ -6,14 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:50:34 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:25 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:13:30 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_MEMORY_H
 # define LIBFT_MEMORY_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 void	ft_bzero(void *s, size_t n);
 

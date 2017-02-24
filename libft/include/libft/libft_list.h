@@ -6,14 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:50:21 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:13:22 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_LIST_H
 # define LIBFT_LIST_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 typedef struct		s_list
 {

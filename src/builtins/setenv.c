@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 17:11:44 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 17:06:43 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 15:42:39 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void		builtin_setenv(int argc, char **argv)
 	if (argc < 2)
 	{
 		env = get_vars();
-		recurse(env);
+		if (env != NULL)
+			recurse(env);
 		return ;
 	}
 	set_var(argv[1], argc < 3 ? "" : argv[2]);

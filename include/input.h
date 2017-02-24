@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 17:43:36 by vchesnea         ###   ########.fr       */
-/*   Updated: 2016/10/06 18:17:50 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:57:54 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,5 @@ int	read_input(char **out);
 */
 
 int	process_input(char *line, char **envp);
-
-/*
-** Sets-up the terminal for use in interactive mode.
-*/
-
-int	initialize_input(void);
 
 #endif

@@ -6,11 +6,16 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:37:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/01/02 15:42:33 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:46:53 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/libflag.h"
+
+/*
+** Appends a new flag definition to an existing flag list.
+**  Returns FLAG_ERROR_OK on success, or any other value on failure.
+*/
 
 int	flag_add(t_flaglist **out, const char fast, const char *slow,
 			t_flagtype type, void *data)

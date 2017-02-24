@@ -6,47 +6,25 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:51:28 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:27 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:50:20 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_QTREE_H
 # define LIBFT_QTREE_H
 
-#include <stdlib.h>
-
-typedef enum		e_qtype
-{
-	TYPE_LEAF,
-	TYPE_TREE
-}					t_qtype;
-
-typedef struct		s_point
-{
-	int				x;
-	int				y;
-}					t_point;
+# include <stdlib.h>
 
 typedef struct		s_qtree
 {
+	void			*data;
+	struct s_qtree	*nw;
 	struct s_qtree	*ne;
 	struct s_qtree	*se;
 	struct s_qtree	*sw;
-	struct s_qtree	*nw;
-	struct s_point	pos;
-	struct s_point	len;
-	enum e_qtype	type;
-	void			*data;
+	struct s_qtree	*parent;
 }					t_qtree;
 
-void				ft_qtreedel(t_qtree **qtree, void(*f)(void *));
-
-void				ft_qtreeget(t_qtree *qtree, int x, int y);
-
-void				ft_qtreeiter(t_qtree *qtree, void (*f)(t_qtree *));
-
-t_qtree				*ft_qtreenew(int sx, int sy, void *data);
-
-int					ft_qtreeset(t_qtree *qtree, int x, int y, void *data);
+t_qtree				*ft_qtreenew(int x, int y, void *data);
 
 #endif

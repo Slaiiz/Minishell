@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vars.c                                              ###    ##  ####      */
+/*   vars.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/11/08 21:26:04 by vchesnea              ###  .fr           */
+/*   Updated: 2017/02/14 14:49:09 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_entry	*g_variables;
 
 /*
 ** Returns the value of environment variable named *key.
-** In the event the key does not exists, an empty string is returned.
+** In the event the key does not exist, an empty string is returned.
 */
 
 const char		*get_var(char const *key)
@@ -28,7 +28,7 @@ const char		*get_var(char const *key)
 	curr = g_variables;
 	while (curr != NULL)
 	{
-		if (!ft_strcmp(curr->key, key))
+		if (ft_strequ(curr->key, key))
 			break ;
 		curr = curr->next;
 	}
@@ -50,7 +50,7 @@ int				set_var(char *key, char *value)
 	curr = &g_variables;
 	while (*curr != NULL)
 	{
-		if (!ft_strcmp((*curr)->key, key))
+		if (ft_strequ((*curr)->key, key))
 		{
 			free((*curr)->value);
 			(*curr)->value = ft_strdup(value);
@@ -83,7 +83,7 @@ int				delete_var(char const *key)
 	curr = &g_variables;
 	while (*curr != NULL)
 	{
-		if (!ft_strcmp((*curr)->key, key))
+		if (ft_strequ((*curr)->key, key))
 			break ;
 		curr = &(*curr)->next;
 	}

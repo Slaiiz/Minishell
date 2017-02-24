@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:03:55 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:40:49 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 15:31:58 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,41 @@
 #include "error.h"
 #include "vars.h"
 
+static int	substitute_single(t_buff *buf, const char **pos, const char *ptr)
+{
+	char	*tmp;
+
+	*pos = ptr;
+	while (ft_isalnum(*ptr) || *ptr == '_')
+		++ptr;
+	if ((tmp = ft_strsub(*pos, 0, ptr - *pos)) == NULL)
+		return (1);
+	if (ft_bufadd(buf, get_var(tmp), ft_strlen(get_var(tmp))))
+		return (1);
+	*pos = ptr;
+	free(tmp);
+	return (0);
+}
+
 /*
-** Replaces every occurence of $[a-zA-Z]+ with the value of the environment
+** Replaces every occurence of $[a-zA-Z_]+ with the value of the environment
 ** variable referred by it.
 */
 
 char		*substitute_vars(const char *string)
 {
+	char		*tmp;
 	t_buff		*buf;
 	const char	*ptr;
-	char		*tmp;
 
-	buf = ft_bufnew();
-	if (buf == NULL)
+	if ((buf = ft_bufnew()) == NULL)
 		return (NULL);
 	while ((ptr = ft_strchr(string, '$')) && ++ptr)
 	{
 		if (ft_bufadd(buf, string, ptr - string - 1))
 			return (NULL);
-		string = ptr;
-		while (ft_isalnum(*ptr) || *ptr == '_')
-			++ptr;
-		tmp = ft_strsub(string, 0, ptr - string);
-		if (tmp == NULL)
+		if (substitute_single(buf, &string, ptr))
 			return (NULL);
-		if (ft_bufadd(buf, get_var(tmp), ft_strlen(get_var(tmp))))
-			return (NULL);
-		string = ptr;
-		free(tmp);
 	}
 	if (ft_bufadd(buf, string, ft_strchr(string, '\0') - string + 1))
 		return (NULL);
@@ -82,7 +89,7 @@ char		*join_path(const char *s1, const char *s2)
 
 int			file_exists(const char *path)
 {
-	struct stat stats;
+	struct stat	stats;
 
 	if (stat(path, &stats))
 		return (0);

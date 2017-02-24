@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/01/02 16:48:41 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/14 14:28:05 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 /*
 ** Reads standard input for data to be processed.
 ** Upon reaching a newline, sends the whole line associated with it.
-**  Returns 0 on success, or NON-ZERO on failure.
+**  Returns 0 on success, or NONZERO on failure.
 */
 
 int			read_input(char **out)
 {
-	t_buff	*buf;
-	char	*ptr;
-	ssize_t	size;
 	char	t[32];
+	char	*ptr;
+	t_buff	*buf;
+	ssize_t	size;
 
 	buf = ft_bufnew();
 	if (buf == NULL)
@@ -46,7 +46,8 @@ int			read_input(char **out)
 		ft_bufdel(&buf);
 		return (0);
 	}
-	return (set_error("reached end of file"));
+	ft_bufdel(&buf);
+	return (-1);
 }
 
 /*
@@ -56,8 +57,8 @@ int			read_input(char **out)
 
 int			process_input(char *line, char **envp)
 {
-	char	*tmp;
 	int		argc;
+	char	*tmp;
 	char	**argv;
 
 	tmp = substitute_vars(line);
@@ -87,19 +88,5 @@ int			process_input(char *line, char **envp)
 		}
 	}
 	ft_arrdel((void***)&argv, argc, NULL);
-	return (0);
-}
-
-/*
-** Sets-up the terminal for use in interactive mode.
-*/
-
-int			initialize_input(void)
-{
-	struct termios	attr;
-
-	tcgetattr(0, &attr);
-	attr.c_lflag &= ~(ICANON | ECHO);
-	tcsetattr(0, TCSANOW, &attr);
 	return (0);
 }

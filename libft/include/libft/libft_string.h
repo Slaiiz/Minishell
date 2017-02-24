@@ -6,14 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:51:58 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:30 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:14:35 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_STRING_H
 # define LIBFT_STRING_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 int		ft_isalnum(int c);
 

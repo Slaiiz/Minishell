@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:40:47 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/14 14:28:17 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,20 @@ static t_builtin	g_builtins[7];
 
 static int			search_in_path(char *exec, char **out)
 {
-	char		**tmp;
-	const char	*path;
 	int			index;
+	char		**tmp;
 	char		*join;
 	char		**data;
+	const char	*path;
 
 	path = get_var("PATH");
-	data = ft_strsplit(path, ':');
-	if (data == NULL)
+	if ((data = ft_strsplit(path, ':')) == NULL)
 		return (set_error("memory allocation failed"));
 	index = 0;
 	*out = NULL;
 	while (*out == NULL && data[index] != NULL)
 	{
-		join = join_path(data[index], exec);
-		if (join == NULL)
+		if ((join = join_path(data[index], exec)) == NULL)
 			return (set_error("memory allocation failed"));
 		if (file_exists(join))
 			*out = ft_strdup(join);
@@ -71,7 +69,7 @@ void				initialize_builtins(void)
 ** Forks a new instance of the process dedicated to executing
 ** a binary file pointed at by argv[0], then executes it,
 ** passing it the argv and envp arguments.
-**  Returns 0 on success, or NON-ZERO on failure.
+**  Returns 0 on success, or NONZERO on failure.
 */
 
 int					execute_binary(char **argv, char **envp)
@@ -92,18 +90,19 @@ int					execute_binary(char **argv, char **envp)
 
 /*
 ** Executes the builtin command pointed at by argv[0].
-**  Return 0 on success, or NON-ZERO on failure.
+** If not found, assume it is a binary executable instead.
+**  Return 0 on success, or NONZERO on failure.
 */
 
 int					execute_builtin(int argc, char **argv, char **envp)
 {
-	char	*path;
 	int		index;
+	char	*path;
 
 	index = 0;
 	while (index < 7)
 	{
-		if (!ft_strcmp(argv[0], g_builtins[index].name))
+		if (ft_strequ(argv[0], g_builtins[index].name))
 		{
 			g_builtins[index].func(argc, argv);
 			return (0);
@@ -112,7 +111,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 	}
 	if (search_in_path(argv[0], &path))
 		return (set_error("command not found: %s", argv[0]));
-	ft_strdel(&argv[0]);
+	free(argv[0]);
 	argv[0] = path;
 	if (execute_binary(argv, envp))
 		return (-1);

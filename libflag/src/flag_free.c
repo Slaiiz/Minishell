@@ -6,11 +6,16 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:37:18 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/01/02 15:42:35 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:48:49 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/libflag.h"
+
+/*
+** Frees a given list of flags generated previously
+** by libflag, zeroing its pointer before returning.
+*/
 
 void	flag_free(t_flaglist **list)
 {

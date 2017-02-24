@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 17:11:34 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/27 15:01:12 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 15:42:17 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void		builtin_env(int argc, char **argv)
 	const t_entry	*env;
 
 	env = get_vars();
-	recurse(env);
+	if (env != NULL)
+		recurse(env);
 	if (argc)
 		++argv;
 }

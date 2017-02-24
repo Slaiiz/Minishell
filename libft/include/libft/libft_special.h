@@ -6,14 +6,14 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:51:45 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:18:28 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 17:14:26 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_SPECIAL_H
 # define LIBFT_SPECIAL_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 char	*ft_chrrep(char *str, char c, char **rep);
 

@@ -6,7 +6,7 @@
 /*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:37:10 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/01/02 16:40:32 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:45:16 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ static int	parse_fast(t_flaglist *list, char *arg)
 	}
 	return (FLAG_ERROR_OK);
 }
+
+/*
+** Parses the standard argument table given a list of flags.
+**  Returns FLAG_ERROR_OK on success, or any other value on failure.
+*/
 
 int			flag_parse(t_flaglist *list, int argc, char **argv)
 {

@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrdel.c                                        :+:      :+:    :+:   */
+/*   ft_btreedel.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/01 17:22:09 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/14 13:03:06 by vchesnea         ###   ########.fr       */
+/*   Created: 2017/02/11 17:55:21 by vchesnea          #+#    #+#             */
+/*   Updated: 2017/02/11 18:04:46 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/libft_array.h"
+#include "private/btree.h"
 
-void	ft_arrdel(void ***array, size_t len, void (*f)(void*))
+static void	recurse(t_btree **node, void (*f)(void*))
 {
-	void	**tmp;
-
-	tmp = *array;
-	while (len)
+	if (node->left)
 	{
-		if (f == NULL)
-			free(*tmp++);
-		else
-			f(*tmp++);
-		--len;
+		recurse(node->left);
+		free(node->left);
 	}
-	free(*array);
-	*array = NULL;
+	if (node->right)
+	{
+		recurse(node->right);
+		free(node->right);
+	}
+	f(node->data);
+	free(node);
+}
+
+void		ft_btreedel(t_btree **btree, void (*f)(void*))
+{
+	recurse(*btree);
+	*btree = NULL;
 }

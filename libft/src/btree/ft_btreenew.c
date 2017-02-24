@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrdel.c                                        :+:      :+:    :+:   */
+/*   ft_btreenew.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/01 17:22:09 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/14 13:03:06 by vchesnea         ###   ########.fr       */
+/*   Created: 2017/02/11 17:55:23 by vchesnea          #+#    #+#             */
+/*   Updated: 2017/02/11 17:55:29 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private/libft_array.h"
+#include "private/btree.h"
 
-void	ft_arrdel(void ***array, size_t len, void (*f)(void*))
+t_btree	*ft_btreenew(const void *data)
 {
-	void	**tmp;
+	t_btree	*new;
 
-	tmp = *array;
-	while (len)
-	{
-		if (f == NULL)
-			free(*tmp++);
-		else
-			f(*tmp++);
-		--len;
-	}
-	free(*array);
-	*array = NULL;
+	new = malloc(sizeof(*new));
+	if (new == NULL)
+		return (NULL);
+	new->data = new;
+	new->left = NULL;
+	new->right = NULL;
+	new->parent = NULL;
+	return (new);
 }
