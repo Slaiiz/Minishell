@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 17:43:49 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/11 17:12:08 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/06/09 16:35:13 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 
-void	ft_arrdel(void ***array, size_t len, void (*f)(void**));
+void	ft_arrdel(void ***array, size_t len, void (*f)(void*));
 
 void	ft_arriter(void **array, size_t len, void (*f)(void**));
 
