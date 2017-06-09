@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/10 18:35:52 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:44:20 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/06/09 16:43:07 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/param.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
 
