@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 17:11:31 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:42:27 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/06/09 16:48:32 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,25 @@
 
 void	builtin_cd(int argc, char **argv)
 {
-	char	path[MAXPATHLEN];
+	char path[MAXPATHLEN];
+	struct stat	stats;
 
 	if (argc < 2)
 		return ;
-	if (chdir(argv[1]))
+	if (stat(argv[1], &stats))
 	{
 		ft_printf("#!fd=2^%s: no such file or directory: %s\n",
 			argv[0], argv[1]);
 		return ;
 	}
-	if (getcwd(path, MAXPATHLEN) == NULL)
+	if (!S_ISDIR(stats.st_mode))
 	{
-		ft_printf("#!fd=2^getcwd() failed\n");
+		ft_printf("#!fd=2^%s: not a directory: %s\n",
+			argv[0], argv[1]);
 		return ;
 	}
+	chdir(argv[1]);
+	getcwd(path, MAXPATHLEN);
 	if (set_var("PWD", path))
 	{
 		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
