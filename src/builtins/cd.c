@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 17:11:31 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/06/09 16:48:32 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/10/10 17:47:21 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 void	builtin_cd(int argc, char **argv)
 {
-	char path[MAXPATHLEN];
+	char		path[MAXPATHLEN];
 	struct stat	stats;
 
 	if (argc < 2)

@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:03:55 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/11 15:31:58 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/07/10 12:33:08 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 #include "error.h"
 #include "vars.h"
+
+/*
+** Handles a single substitution then advances the given pointer.
+**  Returns 0 on success, or NONZERO on failure.
+*/
 
 static int	substitute_single(t_buff *buf, const char **pos, const char *ptr)
 {
@@ -32,8 +37,9 @@ static int	substitute_single(t_buff *buf, const char **pos, const char *ptr)
 }
 
 /*
-** Replaces every occurence of $[a-zA-Z_]+ with the value of the environment
-** variable referred by it.
+** Replaces every occurence of $[a-zA-Z_]+ with the value
+** of the environment variable referred to by it.
+**  Returns the substitued string on success, or NULL on failure.
 */
 
 char		*substitute_vars(const char *string)

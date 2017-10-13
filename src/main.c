@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/14 14:28:30 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/07/07 12:35:00 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 #include "output.h"
 #include "vars.h"
 
+/*
+** Called whenever a handled signal is triggered.
+** SIGINT: Interrupt execution.
+** SIGSTP: Kill program.
+*/
+
 static void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
@@ -26,7 +32,16 @@ static void	handle_signal(int sig)
 		ft_printf("\n");
 		print_prompt();
 	}
+	if (sig == SIGTSTP)
+	{
+		ft_printf(" job killed\n");
+		print_prompt();
+	}
 }
+
+/*
+** Runs the program in an infinite loop, no way out once in.
+*/
 
 static int	run_interactive_mode(char *exec, char **envp)
 {
@@ -45,6 +60,10 @@ static int	run_interactive_mode(char *exec, char **envp)
 	return (0);
 }
 
+/*
+** Parses behavior-modifying command-line arguments.
+*/
+
 static int	parse_flags(int argc, char **argv)
 {
 	int			error;
@@ -52,6 +71,8 @@ static int	parse_flags(int argc, char **argv)
 
 	flags = NULL;
 	if (flag_add(&flags, 'h', "help", FLAG_TYPE_HOOK, print_help))
+		return (set_error("memory allocation failed"));
+	if (flag_add(&flags, 'r', "root", FLAG_TYPE_VALUE, NULL))
 		return (set_error("memory allocation failed"));
 	error = flag_parse(flags, argc, argv);
 	if (error == FLAG_ERROR_NOMATCH)
@@ -62,6 +83,12 @@ static int	parse_flags(int argc, char **argv)
 	return (0);
 }
 
+/*
+** Sets-up the builtin commands, the signals.
+** Inherits the parent process' environment.
+**  Returns 0 on success, or NONZERO on failure.
+*/
+
 static int	setup_session(char **envp)
 {
 	char	*key;
@@ -69,7 +96,7 @@ static int	setup_session(char **envp)
 	char	*value;
 
 	initialize_builtins();
-	if (signal(SIGINT, handle_signal))
+	if (signal(SIGINT, handle_signal) || signal(SIGTSTP, handle_signal))
 		return (set_error("could not setup signals"));
 	while (*envp != NULL)
 	{

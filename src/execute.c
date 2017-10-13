@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/14 14:28:17 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:03:25 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@
 
 static t_builtin	g_builtins[7];
 
+/*
+** Looks for exec in the paths described by the PATH variable.
+**  Returns 0 on success, or NONZERO on failure.
+*/
+
 static int			search_in_path(char *exec, char **out)
 {
 	int			index;
 	char		**tmp;
 	char		*join;
 	char		**data;
-	const char	*path;
 
-	path = get_var("PATH");
-	if ((data = ft_strsplit(path, ':')) == NULL)
+	if ((data = ft_strsplit(get_var("PATH"), ':')) == NULL)
 		return (set_error("memory allocation failed"));
 	index = 0;
 	*out = NULL;

@@ -18,11 +18,19 @@
 
 static t_error	g_error;
 
+/*
+** Append the string arg.
+*/
+
 static void		copy_string(int *len, char *arg)
 {
 	ft_strncpy(g_error.buffer + *len, arg, BUFF_SIZE - *len);
 	*len = ft_strlen(g_error.buffer);
 }
+
+/*
+** Append the character arg.
+*/
 
 static void		copy_char(int *len, char arg)
 {
@@ -30,6 +38,10 @@ static void		copy_char(int *len, char arg)
 		return ;
 	g_error.buffer[(*len)++] = arg;
 }
+
+/*
+** Append the string representation of arg.
+*/
 
 static void		copy_decimal(int *len, int arg)
 {
@@ -43,7 +55,7 @@ static void		copy_decimal(int *len, int arg)
 }
 
 /*
-** Returns the last error in the form on a string.
+** Returns the last error in the form of a string.
 */
 
 char const		*get_error(void)

@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/14 14:28:05 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:03:24 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int			process_input(char *line, char **envp)
 	int		argc;
 	char	*tmp;
 	char	**argv;
+	int		retval;
 
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
@@ -71,22 +72,17 @@ int			process_input(char *line, char **envp)
 	argc = 0;
 	while (argv[argc])
 		++argc;
+	retval = 0;
 	if (argc > 0)
 	{
 		if (ft_strchr(argv[0], '/'))
 		{
 			if (execute_binary(argv, envp))
-			{
-				ft_arrdel((void***)&argv, argc, NULL);
-				return (-1);
-			}
+				retval = -1;
 		}
 		else if (execute_builtin(argc, argv, envp))
-		{
-			ft_arrdel((void***)&argv, argc, NULL);
-			return (-1);
-		}
+			retval = -1;
 	}
 	ft_arrdel((void***)&argv, argc, NULL);
-	return (0);
+	return (retval);
 }
