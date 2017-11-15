@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   help.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/09 17:09:56 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 18:24:28 by vchesnea         ###   ########.fr       */
+/*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
+/*   Updated: 2017/02/14 14:49:09 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/execute.h"
 
 /*
-** Builtin command : help
-** Prints shell help on the standard output.
+** Builtin command : echo
+** Writes the concatenated arguments to the standard output.
 */
 
-void	builtin_help(int argc, char **argv)
+void	builtin_echo(int argc, char **argv)
 {
-	if (argc)
-		++argv;
-	ft_printf("echo, cd, env, exit, help, pwd, setenv, unsetenv\n");
+	while (argc > 1)
+	{
+		if (argc > 2)
+			ft_printf("%s ", *++argv);
+		else
+			ft_printf("%s", *++argv);
+		--argc;
+	}
+	ft_printf("\n");
 }
