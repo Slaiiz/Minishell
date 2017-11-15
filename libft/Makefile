@@ -89,16 +89,18 @@ endef
 define objs
 $(strip 
 ${obj-array} ${obj-buffer} ${obj-integer} ${obj-io} ${obj-list}
-${obj-memory} ${obj-special} ${obj-string} obj/printf/ft_printf.o)
+${obj-memory} ${obj-special} ${obj-string} ${obj-printf})
 endef
 
 .phony: all mostlyclean clean fclean re obj-buffer obj-integer obj-io \
         obj-list obj-memory obj-qtree obj-special obj-string
 
 lib/libft.a: ${objs} | lib/
-	${ar} ${ar-flags} $@ ${obj-array} ${obj-buffer} ${obj-integer} \
-	${obj-io} ${obj-list} ${obj-memory} ${obj-special} ${obj-string} \
-	obj/printf/ft_printf.o
+	${ar} ${ar-flags} $@ ${obj-array}          \
+	${obj-buffer} ${obj-integer}               \
+	${obj-io} ${obj-list} ${obj-memory}        \
+	${obj-special} ${obj-string} ${obj-printf}
+
 lib/:
 	mkdir -p $@
 
@@ -164,9 +166,6 @@ obj/string/%.o: src/string/%.c | obj/string
 	${gcc} ${gcc-flags} -o $@ -c -I include/libft $^
 obj/string:
 	mkdir -p $@
-
-obj/printf/ft_printf.o: ${obj-printf} | obj/printf
-	${gcc} ${gcc-flags} -o $@ -r $^
 
 src/%.c:
 	$(error File $@ not found)
