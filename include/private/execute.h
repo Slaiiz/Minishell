@@ -80,4 +80,11 @@ void			builtin_setenv(int argc, char **argv);
 
 void			builtin_unsetenv(int argc, char **argv);
 
+/*
+** Builtin command : echo
+** Writes the concatenated arguments to the standard output.
+*/
+
+void			builtin_echo(int argc, char **argv);
+
 #endif

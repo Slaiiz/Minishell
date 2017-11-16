@@ -66,6 +66,7 @@ void				initialize_builtins(void)
 	DEFINE_BUILTIN(g_builtins[4], "pwd", builtin_pwd);
 	DEFINE_BUILTIN(g_builtins[5], "setenv", builtin_setenv);
 	DEFINE_BUILTIN(g_builtins[6], "unsetenv", builtin_unsetenv);
+	DEFINE_BUILTIN(g_builtins[7], "echo", builtin_echo);
 }
 
 /*
@@ -103,7 +104,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 	char	*path;
 
 	index = 0;
-	while (index < 7)
+	while (index < 8)
 	{
 		if (ft_strequ(argv[0], g_builtins[index].name))
 		{
