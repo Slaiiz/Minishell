@@ -17,6 +17,26 @@
 #include "helpers.h"
 
 /*
+** Does the job of choosing what to execute and how.
+**  Returns 0 on success, or NONZERO on failure.
+*/
+
+static int	carry_execution(int argc, char **argv, char **envp)
+{
+	if (argc > 0)
+	{
+		if (ft_strchr(argv[0], '/'))
+		{
+			if (execute_binary(argv, envp))
+				return (1);
+		}
+		else if (execute_builtin(argc, argv, envp))
+			return (1);
+	}
+	return (0);
+}
+
+/*
 ** Reads standard input for data to be processed.
 ** Upon reaching a newline, sends the whole line associated with it.
 **  Returns 0 on success, or NONZERO on failure.
@@ -60,7 +80,6 @@ int			process_input(char *line, char **envp)
 	int		argc;
 	char	*tmp;
 	char	**argv;
-	int		retval;
 
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
@@ -72,17 +91,11 @@ int			process_input(char *line, char **envp)
 	argc = 0;
 	while (argv[argc])
 		++argc;
-	retval = 0;
-	if (argc > 0)
+	if (carry_execution(argc, argv, envp))
 	{
-		if (ft_strchr(argv[0], '/'))
-		{
-			if (execute_binary(argv, envp))
-				retval = -1;
-		}
-		else if (execute_builtin(argc, argv, envp))
-			retval = -1;
+		ft_arrdel((void***)&argv, argc, NULL);
+		return (1);
 	}
 	ft_arrdel((void***)&argv, argc, NULL);
-	return (retval);
+	return (0);
 }

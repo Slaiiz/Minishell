@@ -49,7 +49,7 @@ static int	parse_fast(t_flaglist *list, char *arg)
 		base = list;
 		while (base != NULL)
 		{
-			if (base->fast == arg[0])
+			if (base->fast[0] == arg[0])
 			{
 				error = evaluate_flag(base, arg);
 				if (error != FLAG_ERROR_OK)

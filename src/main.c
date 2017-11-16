@@ -65,7 +65,7 @@ static int	parse_flags(int argc, char **argv)
 	t_flaglist	*flags;
 
 	flags = NULL;
-	if (flag_add(&flags, 'h', "help", FLAG_TYPE_HOOK, print_help))
+	if (flag_add(&flags, "h:help", FLAG_TYPE_HOOK, print_help))
 		return (set_error(ERR_NOMEMORY));
 	error = flag_parse(flags, argc, argv);
 	if (error == FLAG_ERROR_NOMATCH)

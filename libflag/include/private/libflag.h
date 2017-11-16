@@ -35,7 +35,7 @@ typedef enum				e_flagtype
 
 typedef struct				s_flaglist
 {
-	char					fast;
+	const char				*fast;
 	const char				*slow;
 	enum e_flagtype			type;
 	void					*data;

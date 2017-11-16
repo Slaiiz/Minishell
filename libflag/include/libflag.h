@@ -37,8 +37,8 @@ typedef enum				e_flagtype
 **  Returns FLAG_ERROR_OK on success, or any other value on failure.
 */
 
-int							flag_add(t_flaglist **out, const char fast,
-							const char *slow, t_flagtype type, void *data);
+int							flag_add(t_flaglist **out, const char *flag,
+							t_flagtype type, void *data);
 
 /*
 ** Frees a given list of flags generated previously

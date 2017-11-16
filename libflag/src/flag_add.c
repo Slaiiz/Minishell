@@ -17,7 +17,7 @@
 **  Returns FLAG_ERROR_OK on success, or any other value on failure.
 */
 
-int	flag_add(t_flaglist **out, const char fast, const char *slow,
+int	flag_add(t_flaglist **out, const char *flag,
 			t_flagtype type, void *data)
 {
 	t_flaglist	*new;
@@ -25,8 +25,9 @@ int	flag_add(t_flaglist **out, const char fast, const char *slow,
 	new = malloc(sizeof(*new));
 	if (new == NULL)
 		return (FLAG_ERROR_MALLOC);
-	new->fast = fast;
-	new->slow = slow;
+	if (ft_expect(&flag, "$i:$i",
+			&new->fast, &new->slow))
+		return (FLAG_ERROR_BADSYNTAX);
 	new->type = type;
 	new->data = data;
 	new->next = *out;
