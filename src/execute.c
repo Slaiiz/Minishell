@@ -16,7 +16,7 @@
 #include "helpers.h"
 #include "vars.h"
 
-static t_builtin	g_builtins[7];
+static t_builtin	g_builtins[8];
 
 /*
 ** Looks for exec in the paths described by the PATH variable.
