@@ -13,8 +13,8 @@
 #ifndef HELPERS_H
 # define HELPERS_H
 
-#include <stdlib.h>
-#include <sys/stat.h>
-#include "libft/libft.h"
+# include <stdlib.h>
+# include <sys/stat.h>
+# include "libft/libft.h"
 
 #endif

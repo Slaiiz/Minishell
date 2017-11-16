@@ -30,7 +30,7 @@ typedef struct			s_entry
 **  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
-const char 				*get_var(const char *key);
+const char				*get_var(const char *key);
 
 /*
 ** Sets the environment variable named *key with the argument *value.

@@ -18,6 +18,9 @@
 # include <unistd.h>
 # include <wchar.h>
 
+# undef LIBFT_PRINTF_H
+# include "../libft_printf.h"
+
 # define ALT		  0x01
 # define ZPAD		  0x02
 # define BLANK		  0x04
@@ -83,8 +86,5 @@ void			get_modifier(t_format *out, const char **s);
 void			get_conversion(t_format *out, const char **s);
 
 size_t			sign_extend(t_format *in, size_t arg);
-
-# undef LIBFT_PRINTF_H
-# include "../libft_printf.h"
 
 #endif
