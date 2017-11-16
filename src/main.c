@@ -22,7 +22,6 @@
 /*
 ** Called whenever a handled signal is triggered.
 ** SIGINT: Interrupt execution.
-** SIGSTP: Kill program.
 */
 
 static void	handle_signal(int sig)
