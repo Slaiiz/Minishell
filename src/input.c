@@ -31,17 +31,17 @@ int			read_input(char **out)
 
 	buf = ft_bufnew();
 	if (buf == NULL)
-		return (set_error("memory allocation failed"));
-	while ((size = read(STDIN_FILENO, t, 32)) >= 0)
+		return (set_error(ERR_NOMEMORY));
+	while ((size = read(STDIN_FILENO, t, 32)) > 0)
 	{
 		if (ft_bufadd(buf, t, size))
-			return (set_error("memory allocation failed"));
+			return (set_error(ERR_NOMEMORY));
 		if ((ptr = ft_memchr(buf->data, '\n', buf->len)) == NULL)
 			continue ;
 		size = (ptr - (char*)buf->data);
 		*out = ft_strndup(buf->data, size + 1);
 		if (*out == NULL)
-			return (set_error("memory allocation failed"));
+			return (set_error(ERR_NOMEMORY));
 		(*out)[size] = '\0';
 		ft_bufdel(&buf);
 		return (0);
@@ -64,11 +64,11 @@ int			process_input(char *line, char **envp)
 
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
-		return (set_error("memory allocation failed"));
+		return (set_error(ERR_NOMEMORY));
 	argv = ft_strsplit(tmp, ' ');
 	free(tmp);
 	if (argv == NULL)
-		return (set_error("memory allocation failed"));
+		return (set_error(ERR_NOMEMORY));
 	argc = 0;
 	while (argv[argc])
 		++argc;

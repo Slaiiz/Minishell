@@ -31,13 +31,13 @@ static int			search_in_path(char *exec, char **out)
 	char		**data;
 
 	if ((data = ft_strsplit(get_var("PATH"), ':')) == NULL)
-		return (set_error("memory allocation failed"));
+		return (set_error(ERR_NOMEMORY));
 	index = 0;
 	*out = NULL;
 	while (*out == NULL && data[index] != NULL)
 	{
 		if ((join = join_path(data[index], exec)) == NULL)
-			return (set_error("memory allocation failed"));
+			return (set_error(ERR_NOMEMORY));
 		if (file_exists(join))
 			*out = ft_strdup(join);
 		free(join);
@@ -48,7 +48,7 @@ static int			search_in_path(char *exec, char **out)
 		free(*tmp++);
 	free(data);
 	if (*out == NULL)
-		return (set_error("executable not in path"));
+		return (1);
 	return (0);
 }
 
@@ -79,16 +79,16 @@ void				initialize_builtins(void)
 int					execute_binary(char **argv, char **envp)
 {
 	if (!file_exists(argv[0]))
-		return (set_error("no such file or directory: %s", argv[0]));
+		return (set_error(ERR_FILENOTFOUND, argv[0]));
 	if (access(argv[0], X_OK))
-		return (set_error("permission denied: %s", argv[0]));
+		return (set_error(ERR_NOPERMISSION, argv[0]));
 	if (fork() == 0)
 	{
 		if (execve(argv[0], argv, envp))
-			return (set_error("could not execute binary: %s", argv[0]));
+			return (set_error(ERR_EXECFAILED, argv[0]));
 	}
 	if (wait(NULL) == -1)
-		return (set_error("failed to wait for child process"));
+		return (set_error(ERR_WAITFAILED));
 	return (0);
 }
 
@@ -114,7 +114,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 		++index;
 	}
 	if (search_in_path(argv[0], &path))
-		return (set_error("command not found: %s", argv[0]));
+		return (set_error(ERR_CMDNOTFOUND, argv[0]));
 	free(argv[0]);
 	argv[0] = path;
 	if (execute_binary(argv, envp))

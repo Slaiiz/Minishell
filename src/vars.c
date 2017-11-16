@@ -60,12 +60,12 @@ int				set_var(char *key, char *value)
 	}
 	new = malloc(sizeof(*new));
 	if (new == NULL)
-		return (set_error("memory allocation failed"));
+		return (set_error(ERR_NOMEMORY));
 	new->next = g_variables;
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	if (new->key == NULL || new->value == NULL)
-		return (set_error("memory allocation failed"));
+		return (set_error(ERR_NOMEMORY));
 	g_variables = new;
 	return (0);
 }
@@ -88,7 +88,7 @@ int				delete_var(char const *key)
 		curr = &(*curr)->next;
 	}
 	if (*curr == NULL)
-		return (set_error("no such variable"));
+		return (set_error(ERR_VARNOTFOUND, key));
 	next = &(*curr)->next;
 	free((*curr)->value);
 	free((*curr)->key);

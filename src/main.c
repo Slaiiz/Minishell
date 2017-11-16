@@ -32,11 +32,6 @@ static void	handle_signal(int sig)
 		ft_printf("\n");
 		print_prompt();
 	}
-	if (sig == SIGTSTP)
-	{
-		ft_printf(" job killed\n");
-		print_prompt();
-	}
 }
 
 /*
@@ -51,7 +46,7 @@ static int	run_interactive_mode(char *exec, char **envp)
 	{
 		print_prompt();
 		if (read_input(&line))
-			continue ;
+			break ;
 		if (process_input(line, envp))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
 		free(line);
@@ -71,14 +66,12 @@ static int	parse_flags(int argc, char **argv)
 
 	flags = NULL;
 	if (flag_add(&flags, 'h', "help", FLAG_TYPE_HOOK, print_help))
-		return (set_error("memory allocation failed"));
-	if (flag_add(&flags, 'r', "root", FLAG_TYPE_VALUE, NULL))
-		return (set_error("memory allocation failed"));
+		return (set_error(ERR_NOMEMORY));
 	error = flag_parse(flags, argc, argv);
 	if (error == FLAG_ERROR_NOMATCH)
-		return (set_error("unrecognized flag"));
+		return (set_error(ERR_UNKNOWNFLAG));
 	if (error == FLAG_ERROR_BADSYNTAX)
-		return (set_error("bad flag syntax"));
+		return (set_error(ERR_BADFLAGSTX));
 	flag_free(&flags);
 	return (0);
 }
@@ -97,12 +90,12 @@ static int	setup_session(char **envp)
 
 	initialize_builtins();
 	if (signal(SIGINT, handle_signal) || signal(SIGTSTP, handle_signal))
-		return (set_error("could not setup signals"));
+		return (set_error(ERR_SIGNALFAILED));
 	while (*envp != NULL)
 	{
 		tmp = *envp;
 		if (ft_expect((char const**)&tmp, "$*=$*", &key, &value))
-			return (set_error("malformed key/value pair"));
+			return (set_error(ERR_MALFORMEDKV));
 		if (set_var(key, value))
 			return (-1);
 		free(value);
