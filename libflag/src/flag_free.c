@@ -24,6 +24,8 @@ void	flag_free(t_flaglist **list)
 	while (*list != NULL)
 	{
 		next = (*list)->next;
+		free((*list)->slow);
+		free((*list)->fast);
 		free(*list);
 		*list = next;
 	}
