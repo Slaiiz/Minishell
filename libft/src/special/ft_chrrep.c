@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chrrep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/02 12:28:02 by vchesnea          #+#    #+#             */
 /*   Updated: 2016/11/01 15:09:08 by vchesnea         ###   ########.fr       */

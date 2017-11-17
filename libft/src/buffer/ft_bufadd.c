@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bufadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 14:30:43 by vchesnea          #+#    #+#             */
 /*   Updated: 2016/11/01 15:38:45 by vchesnea         ###   ########.fr       */

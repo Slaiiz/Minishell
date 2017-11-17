@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/21 18:14:10 by vchesnea          #+#    #+#             */
 /*   Updated: 2016/11/01 15:05:40 by vchesnea         ###   ########.fr       */

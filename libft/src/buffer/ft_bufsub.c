@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bufsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 15:18:11 by vchesnea          #+#    #+#             */
 /*   Updated: 2016/10/06 17:40:32 by vchesnea         ###   ########.fr       */

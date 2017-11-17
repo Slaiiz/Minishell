@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   libflag.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:11:10 by vchesnea          #+#    #+#             */
 /*   Updated: 2017/02/11 16:49:02 by vchesnea         ###   ########.fr       */

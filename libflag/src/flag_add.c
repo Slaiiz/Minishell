@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   flag_add.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 15:37:23 by vchesnea          #+#    #+#             */
 /*   Updated: 2017/02/11 16:46:53 by vchesnea         ###   ########.fr       */

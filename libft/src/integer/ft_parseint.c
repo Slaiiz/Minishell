@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parseint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 14:53:17 by vchesnea          #+#    #+#             */
 /*   Updated: 2016/11/01 15:42:23 by vchesnea         ###   ########.fr       */

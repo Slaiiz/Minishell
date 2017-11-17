@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printmem.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/25 14:01:14 by vchesnea          #+#    #+#             */
 /*   Updated: 2016/11/01 15:10:23 by vchesnea         ###   ########.fr       */
