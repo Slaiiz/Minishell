@@ -118,6 +118,6 @@ int					execute_builtin(int argc, char **argv, char **envp)
 	free(argv[0]);
 	argv[0] = path;
 	if (execute_binary(argv, envp))
-		return (-1);
+		return (1);
 	return (0);
 }

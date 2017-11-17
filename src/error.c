@@ -97,5 +97,5 @@ int				set_error(const char *string, ...)
 	g_error.buffer[len] = '\0';
 	g_error.active = 1;
 	va_end(argp);
-	return (-1);
+	return (1);
 }

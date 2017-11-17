@@ -88,7 +88,7 @@ static int	setup_session(char **envp)
 	char	*value;
 
 	initialize_builtins();
-	if (signal(SIGINT, handle_signal) || signal(SIGTSTP, handle_signal))
+	if (signal(SIGINT, handle_signal))
 		return (set_error(ERR_SIGNALFAILED));
 	while (*envp != NULL)
 	{
@@ -96,7 +96,7 @@ static int	setup_session(char **envp)
 		if (ft_expect((char const**)&tmp, "$*=$*", &key, &value))
 			return (set_error(ERR_MALFORMEDKV));
 		if (set_var(key, value))
-			return (-1);
+			return (1);
 		free(value);
 		free(key);
 		++envp;

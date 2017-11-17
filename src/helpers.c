@@ -37,7 +37,7 @@ static int	substitute_single(t_buff *buf, const char **pos, const char *ptr)
 }
 
 /*
-** Replaces every occurence of $[a-zA-Z_]+ with the value
+** Replaces every occurence of \$[a-zA-Z_]+ with the value
 ** of the environment variable referred to by it.
 **  Returns the substitued string on success, or NULL on failure.
 */

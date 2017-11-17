@@ -67,7 +67,7 @@ int			read_input(char **out)
 		return (0);
 	}
 	ft_bufdel(&buf);
-	return (-1);
+	return (1);
 }
 
 /*
