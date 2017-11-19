@@ -16,6 +16,8 @@
 #include "helpers.h"
 #include "vars.h"
 
+extern pid_t		g_child;
+
 static t_builtin	g_builtins[8];
 
 /*
@@ -88,13 +90,14 @@ int					execute_binary(char **argv, char **envp)
 		return (set_error(ERR_ISDIRECTORY, argv[0]));
 	if (access(argv[0], X_OK))
 		return (set_error(ERR_NOPERMISSION, argv[0]));
-	if (fork() == 0)
+	if ((g_child = fork()) == 0)
 	{
 		if (execve(argv[0], argv, envp))
 			exit(1);
 	}
 	if (wait(NULL) == -1)
 		return (set_error(ERR_WAITFAILED));
+	g_child = 0;
 	return (0);
 }
 

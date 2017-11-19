@@ -19,6 +19,8 @@
 #include "output.h"
 #include "vars.h"
 
+pid_t		g_child;
+
 /*
 ** Called whenever a handled signal is triggered.
 ** SIGINT: Interrupt execution.
@@ -28,6 +30,8 @@ static void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
+		if (g_child)
+			return ;
 		ft_printf("\n");
 		print_prompt();
 	}
