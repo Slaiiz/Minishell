@@ -78,14 +78,20 @@ void				initialize_builtins(void)
 
 int					execute_binary(char **argv, char **envp)
 {
+	struct stat	stats;
+
 	if (!file_exists(argv[0]))
 		return (set_error(ERR_FILENOTFOUND, argv[0]));
+	if (stat(argv[0], &stats))
+		return (set_error(ERR_STATFAILED, argv[0]));
+	if (S_ISDIR(stats.st_mode))
+		return (set_error(ERR_ISDIRECTORY, argv[0]));
 	if (access(argv[0], X_OK))
 		return (set_error(ERR_NOPERMISSION, argv[0]));
 	if (fork() == 0)
 	{
 		if (execve(argv[0], argv, envp))
-			return (set_error(ERR_EXECFAILED, argv[0]));
+			exit(1);
 	}
 	if (wait(NULL) == -1)
 		return (set_error(ERR_WAITFAILED));
