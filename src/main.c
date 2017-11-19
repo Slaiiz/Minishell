@@ -51,7 +51,7 @@ static int	run_interactive_mode(char *exec, char **envp)
 		free(line);
 	}
 	free_vars();
-	return (0);
+	return (1);
 }
 
 /*
@@ -79,6 +79,8 @@ static int	parse_flags(int argc, char **argv)
 ** Sets-up the builtin commands, the signals.
 ** Inherits the parent process' environment.
 **  Returns 0 on success, or NONZERO on failure.
+**
+** TODO: Override $SHELL with the path to the program.
 */
 
 static int	setup_session(char **envp)

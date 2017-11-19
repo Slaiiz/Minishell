@@ -18,6 +18,8 @@
 /*
 ** Builtin command : cd
 ** Changes the current directory.
+**
+** TODO: Add ability to go backwards.
 */
 
 void	builtin_cd(int argc, char **argv)
