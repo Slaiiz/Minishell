@@ -73,6 +73,8 @@ int			read_input(char **out)
 /*
 ** Given a line of text. Parses shell syntax out of it, executing commands
 ** encoded in it.
+**
+** TODO: Preserve quoted strings while splitting line.
 */
 
 int			process_input(char *line, char **envp)
