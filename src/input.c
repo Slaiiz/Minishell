@@ -15,6 +15,7 @@
 #include "error.h"
 #include "execute.h"
 #include "helpers.h"
+#include "parsing.h"
 
 /*
 ** Does the job of choosing what to execute and how.
@@ -86,8 +87,10 @@ int			process_input(char *line, char **envp)
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
 		return (set_error(ERR_NOMEMORY));
+/*	argv = parse_input_string(tmp); */
 	argv = ft_strsplit(tmp, ' ');
 	free(tmp);
+/*	return (0); */
 	if (argv == NULL)
 		return (set_error(ERR_NOMEMORY));
 	argc = 0;
