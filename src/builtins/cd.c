@@ -15,37 +15,51 @@
 #include "error.h"
 #include "vars.h"
 
-/*
-** Builtin command : cd
-** Changes the current directory.
-**
-** TODO: Add ability to go backwards.
-*/
-
-void	builtin_cd(int argc, char **argv)
+static int	validate(char *exec, char *path)
 {
-	char		path[MAXPATHLEN];
 	struct stat	stats;
 
-	if (argc < 2)
-		return ;
-	if (stat(argv[1], &stats))
+	if (stat(path, &stats))
 	{
 		ft_printf("#!fd=2^%s: no such file or directory: %s\n",
-			argv[0], argv[1]);
-		return ;
+			exec, path);
+		return (1);
 	}
 	if (!S_ISDIR(stats.st_mode))
 	{
 		ft_printf("#!fd=2^%s: not a directory: %s\n",
-			argv[0], argv[1]);
-		return ;
+			exec, path);
+		return (1);
 	}
-	chdir(argv[1]);
-	getcwd(path, MAXPATHLEN);
-	if (set_var("PWD", path))
+	return (0);
+}
+
+/*
+** Builtin command : cd
+** Changes the current directory.
+*/
+
+void		builtin_cd(int argc, char **argv)
+{
+	char		path[MAXPATHLEN];
+	char const	*target;
+	char const	*oldpwd;
+
+	if (argc < 2)
+		return ;
+	if (ft_strequ(argv[1], "-"))
+		target = get_var("OLDPWD");
+	else if (!validate(argv[0], argv[1]))
+		target = argv[1];
+	else
+		return ;
+	oldpwd = get_var("PWD");
+	if (chdir(target))
 	{
-		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
+		ft_printf("#!fd=2^%s: could not chdir()\n");
 		return ;
 	}
+	getcwd(path, MAXPATHLEN);
+	set_var("OLDPWD", oldpwd);
+	set_var("PWD", path);
 }
