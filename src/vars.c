@@ -21,7 +21,7 @@ static t_entry	*g_variables;
 ** In the event the key does not exist, an empty string is returned.
 */
 
-const char		*get_var(char const *key)
+char const		*get_var(char const *key)
 {
 	t_entry	*curr;
 
