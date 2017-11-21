@@ -25,7 +25,7 @@
 # define ERR_MALFORMEDKV   "malformed key/value pair"
 # define ERR_STATFAILED    "could not stat() file: %s"
 # define ERR_ISDIRECTORY   "file is directory: %s"
-# define ERR_WRONGQUOTING  "wrongly quoted input string"
+# define ERR_EXPECTTOKEN   "expected token: %s"
 
 /*
 ** Returns the last error in the form on a string.

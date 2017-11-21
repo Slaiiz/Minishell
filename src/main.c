@@ -43,17 +43,28 @@ static void	handle_signal(int sig)
 
 static int	run_interactive_mode(char *exec, char **envp)
 {
-	char	*line;
+	t_buff		*buff;
+	char		*line;
+	char		delim;
 
+	if ((buff = ft_bufnew()) == NULL)
+		return (set_error(ERR_NOMEMORY));
+	print_prompt();
 	while (1)
 	{
-		print_prompt();
-		if (read_input(&line))
-			break ;
+		if (read_input(buff, &line) == ';')
+		{
+			if (process_input(line, envp))
+				ft_printf("#!fd=2^%s: %s\n", exec, get_error());
+			ft_strdel(&line);
+			continue ;
+		}
 		if (process_input(line, envp))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
-		free(line);
+		ft_strdel(&line);
+		print_prompt();
 	}
+	ft_bufdel(&buff);
 	free_vars();
 	return (1);
 }

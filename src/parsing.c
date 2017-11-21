@@ -14,41 +14,66 @@
 
 #include "error.h"
 
-static int	read_quoted_string(const char **ptr, t_list **list)
+static int	read_quoted_string(const char **str, char **out)
 {
-	char		*string;
 	const char	*tmp;
-	t_list		*new;
 
-	tmp = *ptr;
-	while (*tmp != '\"' && *tmp != '\'')
-		if (*tmp++ == '\0')
-			return (set_error(ERR_WRONGQUOTING));
-	if ((string = ft_strndup(*ptr, tmp - *ptr)) == NULL)
+	if (**str == '\"' && (tmp = ++(*str)))
+	{
+		while (*tmp != '\"')
+			if (*(tmp++) == '\0')
+				return (set_error(ERR_EXPECTTOKEN, "\""));
+	}
+	else if (**str == '\'' && (tmp = ++(*str)))
+	{
+		while (*tmp != '\'')
+			if (*tmp++ == '\0')
+				return (set_error(ERR_EXPECTTOKEN, "\'"));
+	}
+	*out = ft_strndup(*str, tmp - *str);
+	if (*out == NULL)
 		return (set_error(ERR_NOMEMORY));
-	if ((new = ft_lstnew(string, 0)) == NULL)
-		return (set_error(ERR_NOMEMORY));
-	ft_lstadd(list, new);
-	*ptr = tmp + 1;
+	*str = tmp + 1;
 	return (0);
 }
 
-static int	read_single_word(const char **ptr, t_list **list)
+static int	read_single_word(const char **str, char **out)
 {
-	char		*string;
 	const char	*tmp;
-	t_list		*new;
 
-	tmp = *ptr;
-	while (*tmp != '\0' && !ft_isblank(*tmp) && *tmp != '\"')
-		tmp++;
-	if ((string = ft_strndup(*ptr, tmp - *ptr)) == NULL)
-		return (set_error(ERR_NOMEMORY));
-	if ((new = ft_lstnew(string, 0)) == NULL)
-		return (set_error(ERR_NOMEMORY));
-	ft_lstadd(list, new);
-	*ptr = tmp;
+	tmp = *str;
+	while (*tmp != '\'' && *tmp != '\"')
+	{
+		if (*tmp == '\0' || ft_isblank(*tmp))
+			break ;
+		++tmp;
+	}
+	*out = ft_strndup(*str, tmp - *str);
+	if (*out == NULL)
+		return (1);
+	*str = tmp;
 	return (0);
+}
+
+static char	**turn_into_array(t_list **str)
+{
+	char	**out;
+	t_list	*ptr;
+	int		tmp;
+
+	ptr = *str;
+	tmp = ft_lstlen(ptr) + 1;
+	out = malloc(sizeof(char*) * tmp);
+	if (out == NULL)
+		return (NULL);
+	out[--tmp] = NULL;
+	while (tmp--)
+	{
+		out[tmp] = ptr->content;
+		ptr = ptr->next;
+	}
+	ft_lstdel(str, NULL);
+	return (out);
 }
 
 /*
@@ -56,29 +81,27 @@ static int	read_single_word(const char **ptr, t_list **list)
 **  Returns an allocated string on success, or NULL on failure.
 */
 
-t_list		*parse_input_string(const char *line)
+char		**parse_input_string(const char *str)
 {
-	t_list	*output;
+	char	*tmp;
+	t_list	*out;
+	t_list	*new;
 
-	while (ft_isblank(*line))
-		++line;
-	output = NULL;
-	while (*line != '\0')
+	while (*str != '\0')
 	{
-		if ((*line == '\'' || *line == '\"') && line++)
+		while (ft_isblank(*str))
+			++str;
+		if (*str == '\'' || *str == '\"')
 		{
-			if (read_quoted_string(&line, &output))
+			if (read_quoted_string(&str, &tmp))
 				return (NULL);
 		}
-		else if (read_single_word(&line, &output))
+		else if (read_single_word(&str, &tmp))
 			return (NULL);
-		while (ft_isblank(*line))
-			line++;
+		new = ft_lstnew(tmp, ft_strlen(tmp));
+		if (new == NULL)
+			return (NULL);
+		ft_lstadd(&out, new);
 	}
-	while (output != NULL)
-	{
-		ft_printf("> %s\n", output->content);
-		output = output->next;
-	}
-	return (output);
+	return (turn_into_array(&out));
 }

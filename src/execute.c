@@ -105,6 +105,8 @@ int					execute_binary(char **argv, char **envp)
 ** Executes the builtin command pointed at by argv[0].
 ** If not found, assume it is a binary executable instead.
 **  Return 0 on success, or NONZERO on failure.
+**
+** TODO: Pass the up-to-date environment to child processes.
 */
 
 int					execute_builtin(int argc, char **argv, char **envp)

@@ -19,7 +19,7 @@
 **  Returns 0 on success, or NON-ZERO on failure. On failure an error is set.
 */
 
-int	read_input(char **out);
+int	read_input(t_buff *buff, char **out);
 
 /*
 ** Given a line of text. Parses shell syntax out of it, executing commands

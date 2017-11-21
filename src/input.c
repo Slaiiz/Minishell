@@ -43,31 +43,27 @@ static int	carry_execution(int argc, char **argv, char **envp)
 **  Returns 0 on success, or NONZERO on failure.
 */
 
-int			read_input(char **out)
+int			read_input(t_buff *buff, char **out, char *delim)
 {
 	char	t[32];
 	char	*ptr;
-	t_buff	*buf;
 	ssize_t	size;
 
-	buf = ft_bufnew();
-	if (buf == NULL)
-		return (set_error(ERR_NOMEMORY));
 	while ((size = read(STDIN_FILENO, t, 32)) > 0)
 	{
-		if (ft_bufadd(buf, t, size))
+		if (ft_bufadd(buff, t, size))
 			return (set_error(ERR_NOMEMORY));
-		if ((ptr = ft_memchr(buf->data, '\n', buf->len)) == NULL)
-			continue ;
-		size = (ptr - (char*)buf->data);
-		*out = ft_strndup(buf->data, size + 1);
+		if ((ptr = ft_memchr(buff->data, ';', buff->len)) == NULL)
+			if ((ptr = ft_memchr(buff->data, '\n', buff->len)) == NULL)
+				continue ;
+		*delim = *ptr;
+		size = (ptr - (char*)buff->data);
+		*out = ft_bufdup(buff, size + 1);
 		if (*out == NULL)
 			return (set_error(ERR_NOMEMORY));
 		(*out)[size] = '\0';
-		ft_bufdel(&buf);
 		return (0);
 	}
-	ft_bufdel(&buf);
 	return (1);
 }
 
@@ -75,7 +71,7 @@ int			read_input(char **out)
 ** Given a line of text. Parses shell syntax out of it, executing commands
 ** encoded in it.
 **
-** TODO: Preserve quoted strings while splitting line.
+** FIXME: parse_input_string() causes leaks.
 */
 
 int			process_input(char *line, char **envp)
@@ -87,12 +83,10 @@ int			process_input(char *line, char **envp)
 	tmp = substitute_vars(line);
 	if (tmp == NULL)
 		return (set_error(ERR_NOMEMORY));
-/*	argv = parse_input_string(tmp); */
-	argv = ft_strsplit(tmp, ' ');
+	argv = parse_input_string(tmp);
 	free(tmp);
-/*	return (0); */
 	if (argv == NULL)
-		return (set_error(ERR_NOMEMORY));
+		return (1);
 	argc = 0;
 	while (argv[argc])
 		++argc;
