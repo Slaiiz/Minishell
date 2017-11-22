@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:12 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:44:10 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/22 17:28:34 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct			s_entry
 */
 
 char const				*get_var(char const *key);
-
 
 /*
 ** Sets the environment variable named *key with the argument *value.

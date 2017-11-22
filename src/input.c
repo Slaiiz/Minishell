@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/10/10 18:03:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/22 18:24:24 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int			read_input(t_buff *buff, char **out, char *delim)
 ** Given a line of text. Parses shell syntax out of it, executing commands
 ** encoded in it.
 **
-** FIXME: parse_input_string() causes leaks.
+** FIXME: parse_input_string() causes leaks for odd numbers of quotes.
+** TODO: substitute character '~' by $HOME, unless if quoted.
 */
 
 int			process_input(char *line, char **envp)
