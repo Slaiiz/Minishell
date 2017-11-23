@@ -12,7 +12,7 @@
 
 include Powermake.mk
 
-$(call enable-verbose)
+$(call disable-verbose)
 
 $(call set-compiler,gcc)
 $(call set-compiler-flags,-Wall -Wextra -Werror)
