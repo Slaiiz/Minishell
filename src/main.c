@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/22 18:18:48 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 12:35:26 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static void	handle_signal(int sig)
 
 /*
 ** Runs the program in an infinite loop, no way out once in.
-** FIXME: commands following semicolons will often queue up.
-** FIXME: read_input() may return line made only of blanks.
 */
 
 static int	run_interactive_mode(char *exec, char **envp)
@@ -55,7 +53,7 @@ static int	run_interactive_mode(char *exec, char **envp)
 	while (1)
 	{
 		if (read_input(buff, &line, &delim))
-			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
+			return (1);
 		if (delim == ';')
 		{
 			if (process_input(line, envp))
@@ -95,15 +93,15 @@ static int	parse_flags(int argc, char **argv)
 /*
 ** Sets-up the builtin commands, the signals.
 ** Inherits the parent process' environment.
+** Increments $SHLVL variable.
 **  Returns 0 on success, or NONZERO on failure.
-**
-** TODO: Override $SHELL with the path to the program.
 */
 
 static int	setup_session(char **envp)
 {
 	char	*key;
 	char	*tmp;
+	int		shlvl;
 	char	*value;
 
 	initialize_builtins();
@@ -120,6 +118,9 @@ static int	setup_session(char **envp)
 		free(key);
 		++envp;
 	}
+	shlvl = ft_atoi(get_var("SHLVL")) + 1;
+	if (set_var("SHLVL", ft_itoa(shlvl)))
+		return (1);
 	return (0);
 }
 
