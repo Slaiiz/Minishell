@@ -434,7 +434,8 @@ endef
 
 define all-recipe_
 
-all: ${targets_}
+all:
+	$$(MAKE) -j ${targets_}
 endef
 
 define mostlyclean-recipe_
@@ -466,7 +467,7 @@ endef
 define re-recipe_
 
 re: fclean
-	$$(MAKE) all
+	$$(MAKE) -j
 endef
 
 define help-recipe_
