@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/06 17:43:36 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/22 17:24:10 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 12:46:16 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	read_input(t_buff *buff, char **out, char *delim);
 **  Returns 0 on success, or NON-ZERO on failure. On failure an error is set.
 */
 
-int	process_input(char *line, char **envp);
+int	process_input(char *line);
 
 #endif
