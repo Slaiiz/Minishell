@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:03:55 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/07/10 12:33:08 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 18:22:36 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "vars.h"
 
 /*
-** Handles a single substitution then advances the given pointer.
+** Handles a single var substitution then advances the given pointer.
 **  Returns 0 on success, or NONZERO on failure.
 */
 
@@ -28,9 +28,9 @@ static int	substitute_single(t_buff *buf, const char **pos, const char *ptr)
 	while (ft_isalnum(*ptr) || *ptr == '_')
 		++ptr;
 	if ((tmp = ft_strsub(*pos, 0, ptr - *pos)) == NULL)
-		return (1);
+		return (set_error(ERR_NOMEMORY));
 	if (ft_bufadd(buf, get_var(tmp), ft_strlen(get_var(tmp))))
-		return (1);
+		return (set_error(ERR_NOMEMORY));
 	*pos = ptr;
 	free(tmp);
 	return (0);
@@ -38,11 +38,11 @@ static int	substitute_single(t_buff *buf, const char **pos, const char *ptr)
 
 /*
 ** Replaces every occurence of \$[a-zA-Z_]+ with the value
-** of the environment variable referred to by it.
+** of the environment variable reffered to by it.
 **  Returns the substitued string on success, or NULL on failure.
 */
 
-char		*substitute_vars(const char *string)
+char		*substitute_input(const char *string)
 {
 	char		*tmp;
 	t_buff		*buf;

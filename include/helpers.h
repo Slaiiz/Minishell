@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:06:07 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/30 13:59:43 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 17:16:13 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int		file_exists(const char *path);
 ** variable refered by it.
 */
 
-char	*substitute_vars(const char *string);
+char	*substitute_input(const char *str);
 
 #endif
