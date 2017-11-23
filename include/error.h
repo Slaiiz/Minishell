@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:43:33 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:42:08 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 18:15:36 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define ERR_STATFAILED    "could not stat() file: %s"
 # define ERR_ISDIRECTORY   "file is directory: %s"
 # define ERR_EXPECTTOKEN   "expected token: %s"
+# define ERR_READFAILED    "could not read() stdin"
 
 /*
 ** Returns the last error in the form on a string.
