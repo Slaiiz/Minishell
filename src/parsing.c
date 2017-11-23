@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 10:29:42 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 12:22:38 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 18:13:21 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	read_quoted_string(const char **str, char **out)
 	if (**str == '\"' && (tmp = ++(*str)))
 	{
 		while (*tmp != '\"')
-			if (*(tmp++) == '\0')
+			if (*tmp++ == '\0')
 				return (set_error(ERR_EXPECTTOKEN, "\""));
 	}
 	else if (**str == '\'' && (tmp = ++(*str)))
@@ -37,6 +37,10 @@ static int	read_quoted_string(const char **str, char **out)
 	return (0);
 }
 
+/*
+** TODO: Substitute tildes here.
+*/
+
 static int	read_single_word(const char **str, char **out)
 {
 	const char	*tmp;
@@ -50,7 +54,7 @@ static int	read_single_word(const char **str, char **out)
 	}
 	*out = ft_strndup(*str, tmp - *str);
 	if (*out == NULL)
-		return (1);
+		return (set_error(ERR_NOMEMORY));
 	*str = tmp;
 	return (0);
 }
