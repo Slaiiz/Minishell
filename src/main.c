@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 12:35:26 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 16:08:42 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	handle_signal(int sig)
 ** Runs the program in an infinite loop, no way out once in.
 */
 
-static int	run_interactive_mode(char *exec, char **envp)
+static int	run_interactive_mode(char *exec)
 {
 	t_buff		*buff;
 	char		*line;
@@ -56,12 +56,12 @@ static int	run_interactive_mode(char *exec, char **envp)
 			return (1);
 		if (delim == ';')
 		{
-			if (process_input(line, envp))
+			if (process_input(line))
 				ft_printf("#!fd=2^%s: %s\n", exec, get_error());
 			ft_strdel(&line);
 			continue ;
 		}
-		if (process_input(line, envp))
+		if (process_input(line))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
 		ft_strdel(&line);
 		print_prompt();
@@ -101,7 +101,7 @@ static int	setup_session(char **envp)
 {
 	char	*key;
 	char	*tmp;
-	int		shlvl;
+	char	*shlvl;
 	char	*value;
 
 	initialize_builtins();
@@ -118,9 +118,10 @@ static int	setup_session(char **envp)
 		free(key);
 		++envp;
 	}
-	shlvl = ft_atoi(get_var("SHLVL")) + 1;
-	if (set_var("SHLVL", ft_itoa(shlvl)))
+	shlvl = ft_itoa(ft_atoi(get_var("SHLVL")) + 1);
+	if (set_var("SHLVL", shlvl))
 		return (1);
+	free(shlvl);
 	return (0);
 }
 
@@ -143,7 +144,7 @@ int			main(int argc, char **argv, char **envp)
 		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
 	}
-	if (run_interactive_mode(argv[0], envp))
+	if (run_interactive_mode(argv[0]))
 	{
 		ft_printf("#!fd=2^%s: %s\n", argv[0], get_error());
 		return (EXIT_FAILURE);
