@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/10/10 18:03:25 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 16:50:56 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int					execute_binary(char **argv, char **envp)
 ** Executes the builtin command pointed at by argv[0].
 ** If not found, assume it is a binary executable instead.
 **  Return 0 on success, or NONZERO on failure.
-**
-** TODO: Pass the up-to-date environment to child processes.
 */
 
 int					execute_builtin(int argc, char **argv, char **envp)
