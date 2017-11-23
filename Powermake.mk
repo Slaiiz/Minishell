@@ -51,7 +51,7 @@
 # @input string
 # @brief Sets the compiler to use in producing objects.
 define set-compiler
-$(strip 
+$(strip
 $(eval compiler_ := ${1}))
 endef
 
@@ -59,7 +59,7 @@ endef
 # @input string
 # @brief Sets the compiler flags to use in producing objects.
 define set-compiler-flags
-$(strip 
+$(strip
 $(eval compiler-flags_ := ${1}))
 endef
 
@@ -69,7 +69,7 @@ endef
 # add-dependency, add-object, add-source-folder or add-include-folder
 # will be bound to this target.
 define add-target
-$(strip 
+$(strip
 $(eval targets_ += ${1})
 $(eval current-target_ := ${1}))
 endef
@@ -79,7 +79,7 @@ endef
 # @brief Adds a new dependency. It is assumed to be pointing at a directory
 # containing a Makefile, and at least these two directories : lib and include.
 define add-dependency
-$(strip 
+$(strip
 $(eval ${current-target_}-dependencies_ += ${1})
 $(call add-include-folder,${1}/include/))
 endef
@@ -89,7 +89,7 @@ endef
 # @brief Adds a new object. Its sources will be fetched amongst the given
 # source folders.
 define add-object
-$(strip 
+$(strip
 $(eval ${current-target_}-${current-object-folder_}-objects_ += ${1}))
 endef
 
@@ -98,7 +98,7 @@ endef
 # @brief Adds a new source folder. This folder is bound to its object folder and
 # it will fetch its sources from here.
 define add-source-folder
-$(strip 
+$(strip
 $(eval a0_ = $$(subst //,/,$${1}))
 $(eval ${current-target_}-${current-object-folder_}-sources_ := ${a0_}))
 endef
@@ -108,7 +108,7 @@ endef
 # @brief Adds a new object folder. All subsequent calls to set-source-folder
 # will be bound to this folder.
 define add-object-folder
-$(strip 
+$(strip
 $(eval ${current-target_}-object-folders_ += $(subst //,/,${1}))
 $(eval current-object-folder_ := ${1}))
 endef
@@ -117,12 +117,12 @@ endef
 # @input path
 # @brief Adds a new include folder. It is assumed to contain include files.
 define add-include-folder
-$(strip 
+$(strip
 $(eval ${current-target_}-include-folders_ += $(subst //,/,${1})))
 endef
 
 define run-powermake
-$(strip 
+$(strip
 $(call run-hook,on-run-powermake)
 $(eval ifeq (${verbose_},true)
 $$(info $${all-recipe_})
@@ -157,21 +157,21 @@ endef
 # @input variable
 # @brief Prints the debugged value of a given variable.
 define debug-var
-$(strip 
+$(strip
 $(info ${1} is ${${1}}))
 endef
 
 # @name enable-verbose
 # @brief Enable script verbose for debugging purposes.
 define enable-verbose
-$(strip 
+$(strip
 $(eval verbose_ = true))
 endef
 
 # @name disable-verbose
 # @brief Disable script verbose.
 define disable-verbose
-$(strip 
+$(strip
 $(eval verbose_ = false))
 endef
 
@@ -190,7 +190,7 @@ endef
 # @output token
 # @brief Returns the next token in variable, without popping it off the stack.
 define peek-token
-$(strip 
+$(strip
 $(firstword ${${1}}))
 endef
 
@@ -199,7 +199,7 @@ endef
 # @output token
 # @brief Returns the next token in variable, consuming it in the process.
 define get-token
-$(strip 
+$(strip
 $(firstword ${${1}})
 $(call consume-token,${1}))
 endef
@@ -208,7 +208,7 @@ endef
 # @input variable
 # @brief Pops the next token in variable off the stack.
 define consume-token
-$(strip 
+$(strip
 $(eval ${1} := $(shell echo "${${1}} " | cut -f 2- -d " ")))
 endef
 
@@ -231,7 +231,7 @@ endef
 # @input expression
 # @brief Assigns expression to a numeric variable.
 define assign-var
-$(strip 
+$(strip
 $(eval ${1} := $(shell expr ${2})))
 endef
 
@@ -239,7 +239,7 @@ endef
 # @input variable
 # @brief Increments a numeric variable.
 define increment-var
-$(strip 
+$(strip
 $(call add-var,${1},1))
 endef
 
@@ -247,7 +247,7 @@ endef
 # @input variable
 # @brief Decrements a numeric variable.
 define decrement-var
-$(strip 
+$(strip
 $(call subtract-var,${1},1))
 endef
 
@@ -256,7 +256,7 @@ endef
 # @input value
 # @brief Computes the sum of variable and value into variable.
 define add-var
-$(strip 
+$(strip
 $(eval ${1} := $(shell expr ${${1}} \+ ${2})))
 endef
 
@@ -265,7 +265,7 @@ endef
 # @input value
 # @brief Computes the difference of variable and value into variable.
 define subtract-var
-$(strip 
+$(strip
 $(eval ${1} := $(shell expr ${${1}} \- ${2})))
 endef
 
@@ -274,7 +274,7 @@ endef
 # @input value
 # @brief Computes the product of variable and value into variable.
 define multiply-var
-$(strip 
+$(strip
 $(eval ${1} := $(shell expr ${${1}} \* ${2})))
 endef
 
@@ -283,7 +283,7 @@ endef
 # @input value
 # @brief Computes the quotient of variable and value into variable.
 define divide-var
-$(strip 
+$(strip
 $(eval ${1} := $(shell expr ${${1}} \/ ${2})))
 endef
 
@@ -302,7 +302,7 @@ endef
 # @input string
 # @brief Evaluates string count times. Like foreach but more flexible.
 define repeat
-$(strip 
+$(strip
 $(eval ifneq (${1},0)
 ${2}$$(call assign-var,0a_,${1} \- 1)
 $$(call repeat,$${0a_},$${2})
@@ -316,7 +316,7 @@ endef
 # 'false' is interpreted as either 0, false or empty string. boolean should
 # always be a reference to something unless you're into infinite loops.
 define while
-$(strip 
+$(strip
 $(eval 0a_ := $$(subst 0,,${1})
 0a_ := $$(subst false,,$${0a_})
 ifneq ($${0a_},)
@@ -332,7 +332,7 @@ endef
 # boolean should always be a reference to something unless you're into
 # infinite loops.
 define until
-$(strip 
+$(strip
 $(eval 0a_ := $(subst 0,,${1})
 0a_ := $$(subst false,,$${0a_})
 ifeq ($${0a_},)
@@ -350,7 +350,7 @@ endef
 # @brief Binds function to hook. On call, contextual data can be retrieved
 # from the first argument ${1}.
 define add-hook
-$(strip 
+$(strip
 $(eval hooks_${1} += ${2}))
 endef
 
@@ -360,7 +360,7 @@ endef
 # @brief Evaluates all functions bound to hook. Data may be passed into
 # the first argument of the functions involved.
 define run-hook
-$(strip 
+$(strip
 $(foreach _,${hooks_${1}},
 	$(call ${_},${2})))
 endef
@@ -373,7 +373,7 @@ endef
 # @input target
 # @brief Registers a recipe for target.
 define add-target-recipe
-$(strip 
+$(strip
 $(call run-hook,on-add-target-recipe,${1})
 $(eval ifeq (${verbose_},true)
 $$(info $${target-recipe_})
@@ -390,7 +390,7 @@ endef
 # @input object-folder
 # @brief Registers a recipe from target for object-folder.
 define add-object-folder-recipe
-$(strip 
+$(strip
 $(call run-hook,on-add-object-folder-recipe,${2})
 $(eval ifeq (${verbose_},true)
 $$(info $${object-folder-recipe_})
@@ -406,7 +406,7 @@ endef
 # @input object
 # @brief Registers a recipe from object-folder from target for object.
 define add-object-recipe
-$(strip 
+$(strip
 $(call run-hook,on-add-object-recipe,${3})
 $(eval 0a_ := $$(addprefix -I,$${$${1}-include-folders_}))
 $(eval ifeq (${verbose_},true)
@@ -420,7 +420,7 @@ endef
 # @input dependency
 # @brief Registers a recipe from target for dependency.
 define add-dependency-recipe
-$(strip 
+$(strip
 $(call run-hook,on-add-dependency-recipe,${2})
 $(eval ifeq (${verbose_},true)
 $$(info $${dependency-recipe_})
@@ -523,7 +523,7 @@ define co
 endef
 
 define sp
- 
+
 endef
 
 define nl
