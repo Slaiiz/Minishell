@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 10:29:42 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/20 10:29:43 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 12:22:38 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char		**parse_input_string(const char *str)
 	t_list	*out;
 	t_list	*new;
 
+	out = NULL;
 	while (*str != '\0')
 	{
 		while (ft_isblank(*str))
@@ -96,6 +97,8 @@ char		**parse_input_string(const char *str)
 			if (read_quoted_string(&str, &tmp))
 				return (NULL);
 		}
+		else if (*str == '\0')
+			break ;
 		else if (read_single_word(&str, &tmp))
 			return (NULL);
 		new = ft_lstnew(tmp, ft_strlen(tmp));
