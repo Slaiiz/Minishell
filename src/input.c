@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/22 18:24:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 12:04:17 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,35 @@ static int	carry_execution(int argc, char **argv, char **envp)
 }
 
 /*
-** Reads standard input for data to be processed.
-** Upon reaching a newline, sends the whole line associated with it.
+** Reads standard input for data to be loaded in the command buffer.
 **  Returns 0 on success, or NONZERO on failure.
 */
 
 int			read_input(t_buff *buff, char **out, char *delim)
 {
-	char	t[32];
-	char	*ptr;
+	char	c;
 	ssize_t	size;
+	char	*ptr;
 
-	while ((size = read(STDIN_FILENO, t, 32)) > 0)
+	if (!(ptr = ft_memchr(buff->data, ';', buff->len)))
 	{
-		if (ft_bufadd(buff, t, size))
-			return (set_error(ERR_NOMEMORY));
-		if ((ptr = ft_memchr(buff->data, ';', buff->len)) == NULL)
-			if ((ptr = ft_memchr(buff->data, '\n', buff->len)) == NULL)
-				continue ;
-		*delim = *ptr;
-		size = (ptr - (char*)buff->data);
-		*out = ft_bufdup(buff, size + 1);
-		if (*out == NULL)
-			return (set_error(ERR_NOMEMORY));
-		(*out)[size] = '\0';
-		return (0);
+		while (!(ptr = ft_memchr(buff->data, '\n', buff->len)))
+		{
+			if ((size = read(STDIN_FILENO, &c, 1)) <= 0)
+				return (1);
+			if (ft_bufadd(buff, &c, size))
+				return (set_error(ERR_NOMEMORY));
+			if ((ptr = ft_memchr(buff->data, ';', buff->len)))
+				break ;
+		}
 	}
-	return (1);
+	size = ptr - (char*)buff->data;
+	*out = ft_bufdup(buff, size + 1);
+	if (*out == NULL)
+		return (1);
+	*delim = (*out)[size];
+	(*out)[size] = '\0';
+	return (0);
 }
 
 /*
