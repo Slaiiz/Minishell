@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/22 17:20:51 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 16:02:15 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_entry	*g_variables;
 ** In the event the key does not exist, an empty string is returned.
 */
 
-char const		*get_var(char const *key)
+const char		*get_var(const char *key)
 {
 	t_entry	*curr;
 
@@ -75,7 +75,7 @@ int				set_var(char *key, char *value)
 **  Returns 0 on success or NONZERO on failure. On failure an error is set.
 */
 
-int				delete_var(char const *key)
+int				delete_var(const char *key)
 {
 	t_entry	**curr;
 	t_entry	**next;

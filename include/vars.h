@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:12 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/22 17:28:34 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/23 16:02:23 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct			s_entry
 **  Returns 0 on success or NON-ZERO on failure. On failure an error is set.
 */
 
-char const				*get_var(char const *key);
+const char				*get_var(const char *key);
 
 /*
 ** Sets the environment variable named *key with the argument *value.
