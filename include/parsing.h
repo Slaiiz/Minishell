@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vchesnea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 10:30:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/20 10:30:24 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 18:07:27 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@
 **  Returns an allocated string on success, or NULL on failure.
 */
 
-char	**parse_input_string(char const *str);
+int	parse_input_string(const char *str, char ***out);
 
 #endif

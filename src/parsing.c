@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 10:29:42 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/24 16:40:18 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 18:47:52 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "helpers.h"
 #include "vars.h"
 
-static int	read_quoted_string(const char **str, char **out)
+static int	read_quoted_string(const char **str, char **new)
 {
 	const char	*tmp;
 
@@ -32,14 +32,14 @@ static int	read_quoted_string(const char **str, char **out)
 			if (*tmp++ == '\0')
 				return (set_error(ERR_EXPECTTOKEN, "\'"));
 	}
-	*out = ft_strndup(*str, tmp - *str);
-	if (*out == NULL)
+	*new = ft_strndup(*str, tmp - *str);
+	if (*new == NULL)
 		return (set_error(ERR_NOMEMORY));
 	*str = tmp + 1;
 	return (0);
 }
 
-static int	read_tilde_operator(const char **str, char **out)
+static int	read_tilde_operator(const char **str, char **new)
 {
 	const char	*tmp;
 
@@ -50,54 +50,56 @@ static int	read_tilde_operator(const char **str, char **out)
 			break ;
 		++tmp;
 	}
-	*out = ft_strnew(tmp - *str + ft_strlen(get_var("HOME")));
-	if (*out == NULL)
+	*new = ft_strnew(tmp - *str + ft_strlen(get_var("HOME")));
+	if (*new == NULL)
 		return (set_error(ERR_NOMEMORY));
-	ft_strcat(*out, get_var("HOME"));
-	ft_strncat(*out, *str + 1, tmp - (*str + 1));
+	ft_strcat(*new, get_var("HOME"));
+	ft_strncat(*new, *str + 1, tmp - (*str + 1));
 	*str = tmp;
 	return (0);
 }
 
-static int	read_single_word(const char **str, char **out)
+static int	read_single_word(const char **str, char **new)
 {
 	const char	*tmp;
 
 	tmp = *str;
 	if (*tmp == '~' && is_valid_tilde(tmp))
-		return (read_tilde_operator(str, out));
+		return (read_tilde_operator(str, new));
 	while (*tmp != '\'' && *tmp != '\"')
 	{
 		if (*tmp == '\0' || ft_isblank(*tmp))
 			break ;
 		++tmp;
 	}
-	*out = ft_strndup(*str, tmp - *str);
-	if (*out == NULL)
+	*new = ft_strndup(*str, tmp - *str);
+	if (*new == NULL)
 		return (set_error(ERR_NOMEMORY));
 	*str = tmp;
 	return (0);
 }
 
-static char	**turn_into_array(t_list **str)
+static int	turn_into_array(t_list **lst, char ***out)
 {
-	char	**out;
-	t_list	*ptr;
-	int		tmp;
+	t_list	*tmp;
+	size_t	len;
 
-	ptr = *str;
-	tmp = ft_lstlen(ptr) + 1;
-	out = malloc(sizeof(char*) * tmp);
-	if (out == NULL)
-		return (NULL);
-	out[--tmp] = NULL;
-	while (tmp--)
+	tmp = *lst;
+	len = ft_lstlen(tmp);
+	*out = malloc((len + 1) * sizeof(char*));
+	if (*out == NULL)
 	{
-		out[tmp] = ptr->content;
-		ptr = ptr->next;
+		ft_lstfree(lst);
+		return (set_error(ERR_NOMEMORY));
 	}
-	ft_lstdel(str, NULL);
-	return (out);
+	(*out)[len] = NULL;
+	while (len--)
+	{
+		(*out)[len] = tmp->content;
+		tmp = tmp->next;
+	}
+	ft_lstdel(lst, NULL);
+	return (0);
 }
 
 /*
@@ -105,28 +107,30 @@ static char	**turn_into_array(t_list **str)
 **  Returns an allocated string on success, or NULL on failure.
 */
 
-char		**parse_input_string(const char *str)
+int			parse_input_string(const char *str, char ***out)
 {
-	char	*tmp;
-	t_list	*out;
-	t_list	*new;
+	t_list		*lst;
+	char		*new;
 
-	out = NULL;
+	lst = NULL;
 	while (*str != '\0')
 	{
 		if (ft_isblank(*str) && ++str)
 			continue ;
 		if (*str == '\'' || *str == '\"')
 		{
-			if (read_quoted_string(&str, &tmp))
-				return (NULL);
+			if (read_quoted_string(&str, &new))
+			{
+				ft_lstfree(&lst);
+				return (1);
+			}
 		}
-		else if (read_single_word(&str, &tmp))
-			return (NULL);
-		new = ft_lstnew(tmp, ft_strlen(tmp));
-		if (new == NULL)
-			return (NULL);
-		ft_lstadd(&out, new);
+		else if (read_single_word(&str, &new))
+		{
+			ft_lstfree(&lst);
+			return (1);
+		}
+		ft_lstadd(&lst, ft_lstnew(new, ft_strlen(new)));
 	}
-	return (turn_into_array(&out));
+	return (turn_into_array(&lst, out));
 }
