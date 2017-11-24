@@ -6,13 +6,15 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/20 10:29:42 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 18:13:21 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:40:18 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private/parsing.h"
 
 #include "error.h"
+#include "helpers.h"
+#include "vars.h"
 
 static int	read_quoted_string(const char **str, char **out)
 {
@@ -37,15 +39,33 @@ static int	read_quoted_string(const char **str, char **out)
 	return (0);
 }
 
-/*
-** TODO: Substitute tildes here.
-*/
+static int	read_tilde_operator(const char **str, char **out)
+{
+	const char	*tmp;
+
+	tmp = *str + 1;
+	while (*tmp != '\'' && *tmp != '\"')
+	{
+		if (*tmp == '\0' || ft_isblank(*tmp))
+			break ;
+		++tmp;
+	}
+	*out = ft_strnew(tmp - *str + ft_strlen(get_var("HOME")));
+	if (*out == NULL)
+		return (set_error(ERR_NOMEMORY));
+	ft_strcat(*out, get_var("HOME"));
+	ft_strncat(*out, *str + 1, tmp - (*str + 1));
+	*str = tmp;
+	return (0);
+}
 
 static int	read_single_word(const char **str, char **out)
 {
 	const char	*tmp;
 
 	tmp = *str;
+	if (*tmp == '~' && is_valid_tilde(tmp))
+		return (read_tilde_operator(str, out));
 	while (*tmp != '\'' && *tmp != '\"')
 	{
 		if (*tmp == '\0' || ft_isblank(*tmp))
@@ -94,15 +114,13 @@ char		**parse_input_string(const char *str)
 	out = NULL;
 	while (*str != '\0')
 	{
-		while (ft_isblank(*str))
-			++str;
+		if (ft_isblank(*str) && ++str)
+			continue ;
 		if (*str == '\'' || *str == '\"')
 		{
 			if (read_quoted_string(&str, &tmp))
 				return (NULL);
 		}
-		else if (*str == '\0')
-			break ;
 		else if (read_single_word(&str, &tmp))
 			return (NULL);
 		new = ft_lstnew(tmp, ft_strlen(tmp));
