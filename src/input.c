@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 18:15:47 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 15:46:41 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int			read_input(t_buff *buff, char **out, char *delim)
 ** encoded in it.
 **
 ** FIXME: parse_input_string() causes leaks for odd numbers of quotes.
-** TODO: substitute character '~' by $HOME, unless if quoted.
 */
 
 int			process_input(char *line)
