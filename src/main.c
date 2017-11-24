@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 15:51:24 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 16:08:42 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 17:04:56 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ static void	handle_signal(int sig)
 	if (sig == SIGINT)
 	{
 		if (g_child)
+		{
+			kill(g_child, SIGINT);
 			return ;
+		}
 		ft_printf("\n");
 		print_prompt();
 	}
@@ -54,17 +57,11 @@ static int	run_interactive_mode(char *exec)
 	{
 		if (read_input(buff, &line, &delim))
 			return (1);
-		if (delim == ';')
-		{
-			if (process_input(line))
-				ft_printf("#!fd=2^%s: %s\n", exec, get_error());
-			ft_strdel(&line);
-			continue ;
-		}
 		if (process_input(line))
 			ft_printf("#!fd=2^%s: %s\n", exec, get_error());
+		if (delim == '\n')
+			print_prompt();
 		ft_strdel(&line);
-		print_prompt();
 	}
 	return (1);
 }
@@ -80,6 +77,8 @@ static int	parse_flags(int argc, char **argv)
 
 	flags = NULL;
 	if (flag_add(&flags, "h:help", FLAG_TYPE_HOOK, print_help))
+		return (set_error(ERR_NOMEMORY));
+	if (flag_add(&flags, "v:version", FLAG_TYPE_HOOK, print_version))
 		return (set_error(ERR_NOMEMORY));
 	error = flag_parse(flags, argc, argv);
 	if (error == FLAG_ERROR_NOMATCH)

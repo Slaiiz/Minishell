@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 13:41:17 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:44:03 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:15:10 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 */
 
 void	print_help(void);
+
+/*
+** Executed on command-line flag '-v --version', prints build version.
+** Only for the shows, ain't gonna change anytime soon.
+*/
+
+void	print_version(void);
 
 /*
 ** Called each time to mark the beginning of a command.

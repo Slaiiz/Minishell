@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 13:41:13 by vchesnea          #+#    #+#             */
-/*   Updated: 2016/10/06 17:40:54 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:18:00 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@
 
 void	print_help(void)
 {
-	ft_printf("Usage: ./minishell [-h] [--help]\n");
+	ft_printf("Usage: ./minishell [-hv] [--help --version]\n");
+	exit(EXIT_SUCCESS);
+}
+
+/*
+** Executed on command-line flag '-v --version', prints build version.
+** Only for the show, ain't gonna change anytime soon.
+*/
+
+void	print_version(void)
+{
+	ft_printf("Minishell, version 1.0.0\n");
 	exit(EXIT_SUCCESS);
 }
 
