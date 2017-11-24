@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:43:33 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 18:15:36 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 13:30:45 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define ERR_ISDIRECTORY   "file is directory: %s"
 # define ERR_EXPECTTOKEN   "expected token: %s"
 # define ERR_READFAILED    "could not read() stdin"
+# define ERR_NOTDIRECTORY  "not a directory: %s"
 
 /*
 ** Returns the last error in the form on a string.
