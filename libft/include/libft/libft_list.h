@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 12:50:21 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/02/11 17:13:22 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 18:40:20 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 
 t_list				*ft_lstdup(t_list *lst);
+
+void				ft_lstfree(t_list **alst);
 
 void				ft_lstiter(t_list *lst, void (*f)(t_list *));
 

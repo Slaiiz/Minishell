@@ -43,7 +43,8 @@ endef
 define obj-list
 $(addprefix obj/list/,$(strip 
 ft_lstadd.o      ft_lstdel.o     ft_lstdelone.o  ft_lstdup.o
-ft_lstiter.o     ft_lstlen.o     ft_lstmap.o     ft_lstnew.o))
+ft_lstiter.o     ft_lstlen.o     ft_lstmap.o     ft_lstnew.o
+ft_lstfree.o))
 endef
 
 define obj-memory
