@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:03:55 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 18:22:36 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:46:57 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,20 @@ char		*join_path(const char *s1, const char *s2)
 	new[len] = '/';
 	ft_strcpy(new + len + 1, s2);
 	return (new);
+}
+
+/*
+** Returns whether the tilde pointed at by str should be substitued.
+*/
+
+int			is_valid_tilde(const char *str)
+{
+	if (*str == '~' && ++str)
+	{
+		if (*str == '\0' || *str == '/' || ft_isblank(*str))
+			return (1);
+	}
+	return (0);
 }
 
 /*

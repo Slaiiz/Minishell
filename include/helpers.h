@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/30 10:06:07 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 17:16:13 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 15:33:25 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,11 @@ int		file_exists(const char *path);
 */
 
 char	*substitute_input(const char *str);
+
+/*
+** Returns whether the tilde pointed at by str should be substitued.
+*/
+
+int		is_valid_tilde(const char *str);
 
 #endif
