@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 16:50:23 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/24 15:46:41 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/24 18:31:12 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	turn_into_array(const t_entry *vars, char ***out)
 
 /*
 ** Does the job of choosing what to execute and how.
+** FIXME: Mmm ... That looks real nasty, eh?
 **  Returns 0 on success, or NONZERO on failure.
 */
 
@@ -138,10 +139,12 @@ int			process_input(char *line)
 	tmp = substitute_input(line);
 	if (tmp == NULL)
 		return (1);
-	argv = parse_input_string(tmp);
-	free(tmp);
-	if (argv == NULL)
+	if (parse_input_string(tmp, &argv))
+	{
+		free(tmp);
 		return (1);
+	}
+	free(tmp);
 	argc = 0;
 	while (argv[argc])
 		++argc;
