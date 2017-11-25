@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:43:33 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/25 10:45:27 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/25 11:43:30 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define ERR_WAITFAILED    "failed to wait for child process"
 # define ERR_NOPERMISSION  "permission denied: %s"
 # define ERR_FILENOTFOUND  "no such file or directory: %s"
-# define ERR_VARNOTFOUND   "no such variable: %s"
 # define ERR_CMDNOTFOUND   "command not found: %s"
 # define ERR_UNKNOWNFLAG   "unrecognized flag"
 # define ERR_BADFLAGSTX    "bad flag syntax"

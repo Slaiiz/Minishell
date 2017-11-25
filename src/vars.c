@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:58:08 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 16:02:15 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/25 11:38:16 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int				delete_var(const char *key)
 		curr = &(*curr)->next;
 	}
 	if (*curr == NULL)
-		return (set_error(ERR_VARNOTFOUND, key));
+		return (0);
 	next = &(*curr)->next;
 	free((*curr)->value);
 	free((*curr)->key);
