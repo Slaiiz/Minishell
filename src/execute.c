@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/23 16:50:56 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/25 11:16:22 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 		}
 		++index;
 	}
-	if (search_in_path(argv[0], &path))
+	if (!ft_strlen(argv[0]) || search_in_path(argv[0], &path))
 		return (set_error(ERR_CMDNOTFOUND, argv[0]));
 	free(argv[0]);
 	argv[0] = path;
