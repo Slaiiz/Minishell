@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 16:56:25 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/25 11:16:22 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/29 14:18:21 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int					execute_builtin(int argc, char **argv, char **envp)
 	index = 0;
 	while (index < 8)
 	{
-		if (ft_strequ(argv[0], g_builtins[index].name))
+		if (!ft_strcmpcase(argv[0], g_builtins[index].name))
 		{
 			g_builtins[index].func(argc, argv);
 			return (0);
