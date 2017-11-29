@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 17:11:31 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/25 10:56:07 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/29 14:20:49 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,15 @@ void		builtin_cd(int argc, char **argv)
 	if (argc < 2)
 		target = get_var("HOME");
 	else if (ft_strequ(argv[1], "-"))
+	{
 		target = get_var("OLDPWD");
+		if (!ft_strlen(target))
+		{
+			ft_printf("#!fd=2^%s: %s\n",
+				argv[0], ERR_OLDPWDNOTSET);
+			return ;
+		}
+	}
 	else
 		target = argv[1];
 	if (transition(target))

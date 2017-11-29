@@ -6,7 +6,7 @@
 /*   By: vchesnea <vchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:43:33 by vchesnea          #+#    #+#             */
-/*   Updated: 2017/11/25 11:43:30 by vchesnea         ###   ########.fr       */
+/*   Updated: 2017/11/29 14:17:11 by vchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define ERR_CHDIRFAILED   "could not chdir()"
 # define ERR_NOTDIRECTORY  "not a directory: %s"
 # define ERR_GETCWDFAILED  "could not getcwd()"
+# define ERR_OLDPWDNOTSET  "OLDPWD not set"
 
 /*
 ** Returns the last error in the form on a string.
